@@ -1,0 +1,56 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+    <persistence-unit name="org.hibernate.tfm.servidor">
+        <description>
+           Ejemplo con hibernate
+        </description>
+
+        <class>util.db.modelos.Archivo</class>
+        <class>util.db.modelos.Canal</class>
+        <class>util.db.modelos.Subscripcion</class>
+        <class>util.db.modelos.Usuario</class>
+
+        <properties>
+            <!-- Database connection settings -->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:appDB" />
+            <property name="jakarta.persistence.jdbc.user" value="sa" />
+            <property name="jakarta.persistence.jdbc.password" value="" />
+
+            <!-- Automatically export the schema -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="update" />
+
+            <!-- Echo all executed SQL to console -->
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.highlight_sql" value="true" />
+        </properties>
+
+    </persistence-unit>    
+    
+    <persistence-unit name="org.hibernate.tfm.credenciales">
+        <description>
+           Manejo de credenciales
+        </description>
+
+        <class>util.db.modelos.UsuarioCredenciales</class>
+
+        <properties>
+            <!-- Database connection settings -->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:credentialDB" />
+            <property name="jakarta.persistence.jdbc.user" value="sa2" />
+            <property name="jakarta.persistence.jdbc.password" value="" />
+
+            <!-- Automatically export the schema -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="update" />
+
+            <!-- Echo all executed SQL to console -->
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.highlight_sql" value="true" />
+        </properties>
+
+    </persistence-unit>      
+             
+</persistence>

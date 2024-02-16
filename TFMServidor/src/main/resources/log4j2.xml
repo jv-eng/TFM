@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="MyApp">
+    <Appenders>
+        <!-- Definición del appender para logs de login -->
+        <File name="LoginFile" fileName="logs/sesiones.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+        
+        <!-- Definición del appender para logs de firma digital -->
+        <File name="DigitalSignatureFile" fileName="logs/digital_signature.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+        
+         <!-- Definición del appender para logs de la aplicación -->
+        <File name="App" fileName="logs/app.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+    </Appenders>
+    
+    <Loggers>
+        <!-- Logger específico para logs de login -->
+        <Logger name="com.example.sesiones" level="info" additivity="false">
+            <AppenderRef ref="LoginFile" />
+        </Logger>
+        
+        <!-- Logger específico para logs de firma digital -->
+        <Logger name="com.example.digital_signature" level="info" additivity="false">
+            <AppenderRef ref="DigitalSignatureFile" />
+        </Logger>
+        
+        <!-- Logger específico para logs de la aplicación -->
+        <Logger name="com.example.app" level="info" additivity="false">
+            <AppenderRef ref="App" />
+        </Logger>   
+    </Loggers>
+</Configuration>
