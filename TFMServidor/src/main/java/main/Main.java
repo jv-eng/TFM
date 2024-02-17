@@ -1,25 +1,28 @@
 package main;
 
 import static jakarta.persistence.Persistence.createEntityManagerFactory;
-import static java.time.LocalDateTime.now;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.function.Consumer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import util.db.modelos.*;
 
 //iniciar cosas tls, iniciar hibernate
 
 public class Main {
-	public static void main (String [] args) {
+	
+	//logger
+	private static final Logger logg = (Logger) LogManager.getLogger("com.example.app");
+	
+	public static void main (String [] args) {		
 		
 		//configurar seguridad
+		
+		
 		//configurar manejador base de datos hibernate
 		EntityManagerFactory entityManagerFactoryCredenciales = createEntityManagerFactory("org.hibernate.tfm.credenciales");
 		EntityManagerFactory entityManagerFactoryApp = createEntityManagerFactory("org.hibernate.tfm.servidor");
@@ -54,33 +57,16 @@ public class Main {
 		                System.out.println("La opción está entre 0 y 10.");
 		                break;
 		            default:
+		            	logg.error("Error, código de operación no válido.");
 		                System.out.println("La opción está fuera del rango de 0 a 10.");
 	        }
 				
 				//siguiente petición
-				System.out.println();
+				System.out.println("Fin tratamiento");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}System.out.println("fin");
 	}
 	
-	static void inTransaction(Consumer<EntityManager> work, EntityManagerFactory entityManagerFactory) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		EntityTransaction transaction = entityManager.getTransaction();
-		try {
-			transaction.begin();
-			work.accept(entityManager);
-			transaction.commit();
-		}
-		catch (Exception e) {
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-			throw e;
-		}
-		finally {
-			entityManager.close();
-		}
-	}
 }
