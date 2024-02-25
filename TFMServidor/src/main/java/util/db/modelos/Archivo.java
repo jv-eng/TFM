@@ -2,8 +2,6 @@ package util.db.modelos;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -16,15 +14,11 @@ import java.time.LocalDateTime;
 public class Archivo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ArchivoID")
-    private Long archivoID;
-
-    @Column(name = "RutaSistemaArchivos")
-    private String rutaSistemaArchivos;
-
     @Column(name = "NombreArchivo")
     private String nombreArchivo;
+    
+    @Column(name = "RutaSistemaArchivos")
+    private String rutaSistemaArchivos;
 
     @ManyToOne
     @JoinColumn(name = "UsuarioID")
@@ -51,13 +45,6 @@ public class Archivo {
         // Inicializar otros atributos según sea necesario
     }
 
-	public Long getArchivoID() {
-		return archivoID;
-	}
-
-	public void setArchivoID(Long archivoID) {
-		this.archivoID = archivoID;
-	}
 
 	public String getRutaSistemaArchivos() {
 		return rutaSistemaArchivos;

@@ -31,14 +31,18 @@ public class Subscripcion {
     @Column(name = "FechaSuscripcion")
     private LocalDateTime fechaSuscripcion;
     
+    @Column(name = "Socket")
+    private int socket;
+    
     
     
     public Subscripcion() {}
 
-    public Subscripcion(Usuario usuario, Canal canal, LocalDateTime fechaSuscripcion) {
+    public Subscripcion(Usuario usuario, Canal canal, LocalDateTime fechaSuscripcion, int socket) {
         this.usuario = usuario;
         this.canal = canal;
         this.fechaSuscripcion = fechaSuscripcion;
+        this.socket = socket;
         // Inicializar otros atributos según sea necesario
     }
 
@@ -72,6 +76,14 @@ public class Subscripcion {
 
 	public void setFechaSuscripcion(LocalDateTime fechaSuscripcion) {
 		this.fechaSuscripcion = fechaSuscripcion;
+	}
+
+	public int getSocket() {
+		return socket;
+	}
+
+	public void setSocket(int socket) {
+		this.socket = socket;
 	}
     
 

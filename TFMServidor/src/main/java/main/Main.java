@@ -3,20 +3,25 @@ package main;
 import static jakarta.persistence.Persistence.createEntityManagerFactory;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
+import canales.Canal;
+import ficheros.Fichero;
 import jakarta.persistence.EntityManagerFactory;
+import usuarios.Sesion;
+import usuarios.UsuarioCredenciales;
 
 //iniciar cosas tls, iniciar hibernate
 
 public class Main {
 	
 	//logger
-	private static final Logger logg = (Logger) LogManager.getLogger("com.example.app");
+	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
 	
 	public static void main (String [] args) {		
 		
@@ -33,33 +38,62 @@ public class Main {
 		try {
 			socket_servidor = new ServerSocket(12345);
 			while (true) {
-				System.out.println("Esperando conexiones en puerto 9999");
+				System.out.println("Esperando conexiones en puerto 12345");
+				logg.info("Esperando conexiones en puerto 12345");
 				
 				//aceptar conexión
 				Socket socket_sr = socket_servidor.accept();
 				
 				//recibir operador
 				int op = (new DataInputStream(socket_sr.getInputStream())).readInt();
+				int res = 0;
 				
 				//revisar operador recibido
 				switch (op) {
-		            case 0:
-		            case 1:
-		            case 2:
-		            case 3:
-		            case 4:
-		            case 5:
-		            case 6:
-		            case 7:
-		            case 8:
-		            case 9:
-		            case 10:
-		                System.out.println("La opción está entre 0 y 10.");
-		                break;
+		            case 0: //crear usuario
+		            	UsuarioCredenciales u = new UsuarioCredenciales(entityManagerFactoryCredenciales, entityManagerFactoryApp, socket_sr);
+		            	res = u.crearUsuario();
+		            	break;
+		            case 1: //iniciar sesión
+		            	Sesion sesion = new Sesion(entityManagerFactoryCredenciales, socket_sr);
+		            	res = sesion.iniciarSesion();
+		            	break;
+		            case 2: //cerrar sesión
+		            	Sesion sesionCerrar = new Sesion(entityManagerFactoryCredenciales, socket_sr);
+		            	res = sesionCerrar.cerrarrSesion();
+		            	break;
+		            case 3: //crear canal
+		            	Canal crearCanal = new Canal(entityManagerFactoryApp, socket_sr);
+		            	crearCanal.crearCanal();
+		            	break;
+		            case 4: //subscribirse
+		            	Canal subscribirse = new Canal(entityManagerFactoryApp, socket_sr);
+		            	subscribirse.subscribirse();
+		            	break;
+		            case 5: //desubscribirse
+		            	Canal desubscribirse = new Canal(entityManagerFactoryApp, socket_sr);
+		            	desubscribirse.subscribirse();
+		            	break;
+		            case 6: //enviar fichero
+		            	Fichero fichEnviar = new Fichero(entityManagerFactoryApp, socket_sr);
+		            	fichEnviar.enviarFichero();
+		            	break;
+		            case 7: //recibir fichero
+		            	Fichero fichRecibir = new Fichero(entityManagerFactoryApp, socket_sr);
+		            	fichRecibir.recibirFichero();
+		            	break;
+		            case 8: //descargar fichero
+		            	Fichero fichDescargar = new Fichero(entityManagerFactoryApp, socket_sr);
+		            	fichDescargar.descargarFichero();
+		            	break;
 		            default:
 		            	logg.error("Error, código de operación no válido.");
 		                System.out.println("La opción está fuera del rango de 0 a 10.");
-	        }
+		                res = -1;
+				}
+				
+				//responder al cliente
+				(new DataOutputStream(socket_sr.getOutputStream())).writeInt(res);
 				
 				//siguiente petición
 				System.out.println("Fin tratamiento");

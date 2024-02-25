@@ -2,8 +2,6 @@ package util.db.modelos;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -15,13 +13,9 @@ import java.util.Set;
 @Table(name = "Usuarios")
 public class Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "UsuarioID")
-    private Long usuarioID;
-
+	@Id
     @Column(name = "NombreUsuario")
-    private String nombreUsuario;
+    private String nombreUsuario;  // Clave primaria
 
     @Column(name = "CorreoElectronico")
     private String correoElectronico;
@@ -38,7 +32,6 @@ public class Usuario {
     private Set<Archivo> archivos;
     
     
-    
     public Usuario() {}
 
     public Usuario(String nombreUsuario, String correoElectronico, LocalDateTime localDateTime) {
@@ -47,14 +40,6 @@ public class Usuario {
         this.fechaRegistro = localDateTime;
         // Inicializar otros atributos según sea necesario
     }
-
-	public Long getUsuarioID() {
-		return usuarioID;
-	}
-
-	public void setUsuarioID(Long usuarioID) {
-		this.usuarioID = usuarioID;
-	}
 
 	public String getNombreUsuario() {
 		return nombreUsuario;

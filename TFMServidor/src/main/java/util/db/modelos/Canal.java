@@ -2,8 +2,6 @@ package util.db.modelos;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,10 +15,6 @@ import java.util.Set;
 public class Canal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CanalID")
-    private Long canalID;
-
     @Column(name = "NombreCanal")
     private String nombreCanal;
 
@@ -46,13 +40,6 @@ public class Canal {
         // Inicializar otros atributos según sea necesario
     }
 
-	public Long getCanalID() {
-		return canalID;
-	}
-
-	public void setCanalID(Long canalID) {
-		this.canalID = canalID;
-	}
 
 	public String getNombreCanal() {
 		return nombreCanal;
