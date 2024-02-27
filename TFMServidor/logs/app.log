@@ -1,0 +1,21 @@
+2
+2024-02-27 19:13:40.701 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:13:42.298 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:13:42.329 [main] ERROR com.tfm.app - Error, el canal "canal de prueba" ya existe.
+2024-02-27 19:13:42.329 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:14:51.446 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:14:52.951 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:14:52.980 [main] ERROR com.tfm.app - Error, el canal "canal de prueba" ya existe.
+2024-02-27 19:14:52.980 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:15:51.311 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:15:52.983 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:15:53.013 [main] ERROR com.tfm.app - Error, el canal "canal de prueba" ya existe.
+2024-02-27 19:15:53.013 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:16:21.522 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:16:22.688 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:16:43.633 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:16:46.831 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:17:31.996 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:17:33.819 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-02-27 19:17:33.865 [main] INFO  com.tfm.app - El canal "canal de prueba" ha sido creado por el usuario "miUsuario_123".
+2024-02-27 19:17:33.866 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345

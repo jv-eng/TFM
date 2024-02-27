@@ -64,27 +64,27 @@ public class Main {
 		            	break;
 		            case 3: //crear canal
 		            	Canal crearCanal = new Canal(entityManagerFactoryApp, socket_sr);
-		            	crearCanal.crearCanal();
+		            	res = crearCanal.crearCanal();
 		            	break;
 		            case 4: //subscribirse
 		            	Canal subscribirse = new Canal(entityManagerFactoryApp, socket_sr);
-		            	subscribirse.subscribirse();
+		            	res = subscribirse.subscribirse();
 		            	break;
 		            case 5: //desubscribirse
 		            	Canal desubscribirse = new Canal(entityManagerFactoryApp, socket_sr);
-		            	desubscribirse.subscribirse();
+		            	res = desubscribirse.subscribirse();
 		            	break;
 		            case 6: //enviar fichero
 		            	Fichero fichEnviar = new Fichero(entityManagerFactoryApp, socket_sr);
-		            	fichEnviar.enviarFichero();
+		            	res = fichEnviar.enviarFichero();
 		            	break;
 		            case 7: //recibir fichero
 		            	Fichero fichRecibir = new Fichero(entityManagerFactoryApp, socket_sr);
-		            	fichRecibir.recibirFichero();
+		            	res = fichRecibir.recibirFichero();
 		            	break;
 		            case 8: //descargar fichero
 		            	Fichero fichDescargar = new Fichero(entityManagerFactoryApp, socket_sr);
-		            	fichDescargar.descargarFichero();
+		            	res = fichDescargar.descargarFichero();
 		            	break;
 		            default:
 		            	logg.error("Error, código de operación no válido.");

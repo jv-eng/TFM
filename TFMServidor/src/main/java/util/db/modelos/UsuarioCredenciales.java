@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "UsuariosCredenciales")
+@Table(name = "UsuarioCredenciales")
 public class UsuarioCredenciales {
 	
 	@Id
@@ -19,7 +19,7 @@ public class UsuarioCredenciales {
 	@Column(name = "Password")
 	private String pass;
 	
-	@Column(name = "Clave")
+	@Column(name = "Clave", length=500)
 	private String clave;
 	
 	

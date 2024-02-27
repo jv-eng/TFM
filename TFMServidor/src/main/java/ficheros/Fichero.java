@@ -17,17 +17,20 @@ public class Fichero {
 		
 	}
 
-	public void enviarFichero() {
+	public int enviarFichero() {
+		return 0;
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void recibirFichero() {
+	public int recibirFichero() {
+		return 0;
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void descargarFichero() {
+	public int descargarFichero() {
+		return 0;
 		// TODO Auto-generated method stub
 		
 	}

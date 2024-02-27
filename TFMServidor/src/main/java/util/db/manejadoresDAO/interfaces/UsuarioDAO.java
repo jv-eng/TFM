@@ -7,5 +7,7 @@ public interface UsuarioDAO {
 	void guardarUsuario(Usuario usuario);
     Usuario obtenerUsuarioPorId(Long id);
 	void crearUsuario(String usuario, String correo, String pass);
+	boolean comprobarUsuario(String correo);
+	Usuario getUsuario(String correo);
 
 }

@@ -6,11 +6,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name = "Usuarios")
+@Table(name = "Usuario")
 public class Usuario {
 
 	@Id
@@ -19,9 +20,10 @@ public class Usuario {
 
     @Column(name = "CorreoElectronico")
     private String correoElectronico;
+    
+    @Column(name = "Socket")
+    private String socket;
 
-    @Column(name = "FechaRegistro")
-    private LocalDateTime fechaRegistro;
 
     // Otros atributos según sea necesario
 
@@ -34,10 +36,10 @@ public class Usuario {
     
     public Usuario() {}
 
-    public Usuario(String nombreUsuario, String correoElectronico, LocalDateTime localDateTime) {
+    public Usuario(String nombreUsuario, String correoElectronico, String socket) {
         this.nombreUsuario = nombreUsuario;
         this.correoElectronico = correoElectronico;
-        this.fechaRegistro = localDateTime;
+        this.socket = socket;
         // Inicializar otros atributos según sea necesario
     }
 
@@ -57,12 +59,12 @@ public class Usuario {
 		this.correoElectronico = correoElectronico;
 	}
 
-	public LocalDateTime getFechaRegistro() {
-		return fechaRegistro;
+	public String getSocket() {
+		return socket;
 	}
 
-	public void setFechaRegistro(LocalDateTime fechaRegistro) {
-		this.fechaRegistro = fechaRegistro;
+	public void setSocket(String socket) {
+		this.socket = socket;
 	}
 
 	public Set<Subscripcion> getSuscripciones() {

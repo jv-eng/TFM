@@ -1,6 +1,79 @@
 package cliente.usuario;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.util.Base64;
 
 public class InicioSesion {
 	
+	public static void iniciarSesion() {
+		Registro.crearUsuario();
+		
+		String server_ip = "localhost";
+		String server_port = "12345";
+
+		try {
+			//crear socket
+			Socket sock = new Socket(server_ip, Integer.parseInt(server_port));
+			
+			//streams
+			OutputStream output_stream = sock.getOutputStream();
+			InputStream input_stream = sock.getInputStream();
+			//flujos para comunicar
+			DataInputStream flujo_in = new DataInputStream(input_stream);
+			DataOutputStream flujo_out = new DataOutputStream(output_stream);
+			
+			//generar claves
+			KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+	        keyPairGenerator.initialize(2048); // Tamaño de clave, ajusta según tus requisitos
+	        KeyPair claves = keyPairGenerator.generateKeyPair();
+	        System.out.println("clave pública: " + claves.getPublic());
+	        System.out.println("clave privada: " + claves.getPrivate());
+			
+			//datos
+			int op = 1;
+			byte [] nombre = "pepe@mail.com".getBytes();
+			byte [] pass = "MiContrasena123".getBytes();
+			byte [] clave = claveString(claves.getPublic()).getBytes();
+			
+			//enviar
+			//enviar cod
+			flujo_out.writeInt(op);
+			//enviar nombre
+			flujo_out.writeInt(nombre.length);
+			flujo_out.write(nombre);
+			//enviar contraseña
+			flujo_out.writeInt(pass.length);
+			flujo_out.write(pass);
+			//enviar correo
+			flujo_out.writeInt(clave.length);
+			flujo_out.write(clave);
+			//recibir y procesar respuesta
+			int res = flujo_in.readInt();
+			System.out.println("Resultado de la operación: " + res);
+			
+			
+		} catch (NumberFormatException | IOException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static String claveString(PublicKey key) {
+		byte[] keyBytes = key.getEncoded();
+        return Base64.getEncoder().encodeToString(keyBytes);
+	}
+	
+	public static void main(String [] args) {
+		iniciarSesion();
+	}
 }

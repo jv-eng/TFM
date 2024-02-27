@@ -40,10 +40,11 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 	@Override
 	public void insertarClave(String correo, String clave) {
 		AuxiliarDB.inTransaction(entityManager -> {
-		    TypedQuery<UsuarioCredenciales> query = entityManager.createQuery("SELECT u FROM UsuarioCredenciales u WHERE u.Correo = :correo", UsuarioCredenciales.class);
-		    query.setParameter("correo", correo);
+		    TypedQuery<UsuarioCredenciales> query = entityManager.createQuery("FROM UsuarioCredenciales u WHERE u.correo = :mail", UsuarioCredenciales.class);
+		    query.setParameter("mail", correo);
 
 		    List<UsuarioCredenciales> usuarios = query.getResultList();
+		    System.out.println(usuarios.size());
 
 		    if (!usuarios.isEmpty()) {
 		        // El usuario ya existe, actualiza la clave
@@ -51,9 +52,6 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 
 		        // Actualizar la entidad con la nueva clave
 		        usuarioCredenciales.setClave(clave);
-
-		        // No olvides hacer el commit de la transacción después de realizar los cambios
-		        entityManager.getTransaction().commit();
 		    }
 
 		}, this.managerUsuario);
@@ -64,7 +62,7 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 	public boolean comprobarCredenciales(String correo, String contraseña) {
 		boolean [] test = {false};
 		AuxiliarDB.inTransaction(entityManager -> {
-			TypedQuery<UsuarioCredenciales> query = entityManager.createQuery("SELECT u FROM UsuarioCredenciales u WHERE u.Correo = :correo", UsuarioCredenciales.class);
+			TypedQuery<UsuarioCredenciales> query = entityManager.createQuery("FROM UsuarioCredenciales as u WHERE u.correo = :correo", UsuarioCredenciales.class);
 		    query.setParameter("correo", correo);
 
 		    List<UsuarioCredenciales> usuarios = query.getResultList();
@@ -79,6 +77,22 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 		    
 		}, this.managerUsuario);
 		return test[0];
+	}
+	
+	@Override
+	public void borrarClave(String correo) {
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<UsuarioCredenciales> query = entityManager.createQuery("FROM UsuarioCredenciales as u WHERE u.correo = :correo", UsuarioCredenciales.class);
+		    query.setParameter("correo", correo);
+
+		    List<UsuarioCredenciales> usuarios = query.getResultList();
+		    
+		    if (!usuarios.isEmpty()) {
+		    	//existe el usuario
+		    	usuarios.get(0).setClave("null");
+			}
+		    
+		}, this.managerUsuario);
 	}
 
 }

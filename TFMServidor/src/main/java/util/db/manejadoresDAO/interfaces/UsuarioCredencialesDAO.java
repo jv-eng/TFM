@@ -10,4 +10,6 @@ public interface UsuarioCredencialesDAO {
 	
 	boolean comprobarCredenciales(String correo, String contraseña);
 	
+	void borrarClave(String correo);
+	
 }

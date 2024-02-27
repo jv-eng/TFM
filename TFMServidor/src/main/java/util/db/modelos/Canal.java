@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 import java.util.Set;
 
 @Entity
-@Table(name = "Canales")
+@Table(name = "Canal")
 public class Canal {
 
     @Id
