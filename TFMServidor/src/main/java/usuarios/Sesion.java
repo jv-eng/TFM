@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import jakarta.persistence.EntityManagerFactory;
-import util.Auxiliar;
+import util.Serializar;
 import util.db.manejadoresDAO.interfaces.UsuarioCredencialesDAO;
 import util.db.manejadoresDAO.manejadores.HibernateUsuarioCredencialesDAO;
 
@@ -50,10 +50,10 @@ public class Sesion {
 	        tam = flujo_e.readInt();
 			buff = new byte[tam];
 			flujo_e.read(buff);
-			PublicKey key = Auxiliar.stringClave(new String(buff, 0, tam, "UTF-8"));
+			PublicKey key = Serializar.stringClave(new String(buff, 0, tam, "UTF-8"));
 	        
 	        System.out.println("clave del cliente:\t" + key);
-	        String clave = Auxiliar.claveString(key);
+	        String clave = Serializar.claveString(key);
 	        
 	        //comprobar si el usuario existe y las credenciales son correctas
 	        UsuarioCredencialesDAO usuarioCDAO = new HibernateUsuarioCredencialesDAO(this.managerUsuario);

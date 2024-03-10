@@ -8,7 +8,7 @@ import java.util.Base64;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Auxiliar {
+public class Serializar {
 	
 	public static String claveString(PublicKey key) {
 		byte[] keyBytes = key.getEncoded();

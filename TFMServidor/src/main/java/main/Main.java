@@ -10,7 +10,7 @@ import java.net.Socket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import canales.Canal;
+import canales.ManejadorCanal;
 import ficheros.Fichero;
 import jakarta.persistence.EntityManagerFactory;
 import usuarios.Sesion;
@@ -31,7 +31,6 @@ public class Main {
 		//configurar manejador base de datos hibernate
 		EntityManagerFactory entityManagerFactoryCredenciales = createEntityManagerFactory("org.hibernate.tfm.credenciales");
 		EntityManagerFactory entityManagerFactoryApp = createEntityManagerFactory("org.hibernate.tfm.servidor");
-		
 		
 		//bucle de servidor
 		ServerSocket socket_servidor;
@@ -63,16 +62,16 @@ public class Main {
 		            	res = sesionCerrar.cerrarrSesion();
 		            	break;
 		            case 3: //crear canal
-		            	Canal crearCanal = new Canal(entityManagerFactoryApp, socket_sr);
+		            	ManejadorCanal crearCanal = new ManejadorCanal(entityManagerFactoryApp, socket_sr);
 		            	res = crearCanal.crearCanal();
 		            	break;
 		            case 4: //subscribirse
-		            	Canal subscribirse = new Canal(entityManagerFactoryApp, socket_sr);
-		            	res = subscribirse.subscribirse();
+		            	ManejadorCanal subscribirse = new ManejadorCanal(entityManagerFactoryApp, socket_sr);
+		            	res = subscribirse.suscribirse();
 		            	break;
 		            case 5: //desubscribirse
-		            	Canal desubscribirse = new Canal(entityManagerFactoryApp, socket_sr);
-		            	res = desubscribirse.subscribirse();
+		            	ManejadorCanal desubscribirse = new ManejadorCanal(entityManagerFactoryApp, socket_sr);
+		            	res = desubscribirse.desuscribirse();
 		            	break;
 		            case 6: //enviar fichero
 		            	Fichero fichEnviar = new Fichero(entityManagerFactoryApp, socket_sr);
@@ -99,8 +98,9 @@ public class Main {
 				System.out.println("Fin tratamiento");
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
-		}System.out.println("fin");
+			logg.error("Error recibiendo el código de operación.");
+		}
+		System.out.println("fin");
 	}
 	
 }

@@ -10,17 +10,17 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
-import cliente.usuario.Registro;
+import usuario.Registro;
 
 public class Canal {
 	public static void main(String [] args) {
-		crearCanal();
-		subscribirse();
-		desubscribirse();
+		crearCanal("canal de prueba");
+		subscribirse("canal de prueba");
+		desubscribirse("canal de prueba");
 	}
 	
-	public static void crearCanal() {
-		Registro.crearUsuario();
+	public static void crearCanal(String canal) {
+		//Registro.crearUsuario("miUsuario_123", "MiContrasena123", "pepe@mail.com");
 		
 		String server_ip = "localhost";
 		String server_port = "12345";
@@ -38,8 +38,8 @@ public class Canal {
 			
 			//datos
 			int op = 3;
-			byte [] nombre = "pepe@mail.com".getBytes();
-			byte [] pass = "canal de prueba".getBytes();
+			byte [] nombre = "miUsuario_123@mail.com".getBytes();
+			byte [] pass = canal.getBytes();
 			
 			//enviar
 			//enviar cod
@@ -47,7 +47,7 @@ public class Canal {
 			//enviar nombre
 			flujo_out.writeInt(nombre.length);
 			flujo_out.write(nombre);
-			//enviar contraseña
+			//enviar canal
 			flujo_out.writeInt(pass.length);
 			flujo_out.write(pass);
 
@@ -61,11 +61,85 @@ public class Canal {
 		}
 	}
 	
-	public static void subscribirse() {
-		
+	public static void subscribirse(String canal) {
+		Registro.crearUsuario("miUsuario_1234", "MiContrasena123", "pepe2@mail.com");
+		String server_ip = "localhost";
+		String server_port = "12345";
+
+		try {
+			//crear socket
+			Socket sock = new Socket(server_ip, Integer.parseInt(server_port));
+			
+			//streams
+			OutputStream output_stream = sock.getOutputStream();
+			InputStream input_stream = sock.getInputStream();
+			//flujos para comunicar
+			DataInputStream flujo_in = new DataInputStream(input_stream);
+			DataOutputStream flujo_out = new DataOutputStream(output_stream);
+			
+			//datos
+			int op = 4;
+			byte [] nombre = "miUsuario_1234".getBytes();
+			byte [] pass = canal.getBytes();
+			
+			//enviar
+			//enviar cod
+			flujo_out.writeInt(op);
+			//enviar nombre
+			flujo_out.writeInt(nombre.length);
+			flujo_out.write(nombre);
+			//enviar canal
+			flujo_out.writeInt(pass.length);
+			flujo_out.write(pass);
+
+			//recibir y procesar respuesta
+			int res = flujo_in.readInt();
+			System.out.println("Resultado de la operación 'suscribir a canal': " + res);
+			
+			
+		} catch (NumberFormatException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public static void desubscribirse() {
-		
+	public static void desubscribirse(String canal) {
+		//Registro.crearUsuario("miUsuario_1234", "MiContrasena123", "pepe2@mail.com");
+		String server_ip = "localhost";
+		String server_port = "12345";
+
+		try {
+			//crear socket
+			Socket sock = new Socket(server_ip, Integer.parseInt(server_port));
+			
+			//streams
+			OutputStream output_stream = sock.getOutputStream();
+			InputStream input_stream = sock.getInputStream();
+			//flujos para comunicar
+			DataInputStream flujo_in = new DataInputStream(input_stream);
+			DataOutputStream flujo_out = new DataOutputStream(output_stream);
+			
+			//datos
+			int op = 5;
+			byte [] nombre = "miUsuario_1234".getBytes();
+			byte [] pass = canal.getBytes();
+			
+			//enviar
+			//enviar cod
+			flujo_out.writeInt(op);
+			//enviar nombre
+			flujo_out.writeInt(nombre.length);
+			flujo_out.write(nombre);
+			//enviar canal
+			flujo_out.writeInt(pass.length);
+			flujo_out.write(pass);
+
+			//recibir y procesar respuesta
+			int res = flujo_in.readInt();
+			System.out.println("Resultado de la operación 'desuscribir a canal': " + res);
+			
+			
+		} catch (NumberFormatException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

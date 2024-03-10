@@ -1,4 +1,4 @@
-package cliente.usuario;
+package usuario;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -15,7 +15,7 @@ import java.util.Base64;
 public class InicioSesion {
 	
 	public static void iniciarSesion() {
-		Registro.crearUsuario();
+		Registro.crearUsuario("miUsuario_123", "MiContrasena123", "pepe@mail.com");
 		
 		String server_ip = "localhost";
 		String server_port = "12345";

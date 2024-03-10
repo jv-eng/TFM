@@ -6,8 +6,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import java.net.Socket;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -28,7 +26,7 @@ public class Usuario {
     // Otros atributos según sea necesario
 
     @OneToMany(mappedBy = "usuario")
-    private Set<Subscripcion> suscripciones;
+    private Set<Suscripcion> suscripciones;
 
     @OneToMany(mappedBy = "usuario")
     private Set<Archivo> archivos;
@@ -67,11 +65,11 @@ public class Usuario {
 		this.socket = socket;
 	}
 
-	public Set<Subscripcion> getSuscripciones() {
+	public Set<Suscripcion> getSuscripciones() {
 		return suscripciones;
 	}
 
-	public void setSuscripciones(Set<Subscripcion> suscripciones) {
+	public void setSuscripciones(Set<Suscripcion> suscripciones) {
 		this.suscripciones = suscripciones;
 	}
 

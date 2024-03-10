@@ -25,7 +25,7 @@ public class Canal {
     // Otros atributos según sea necesario
 
     @OneToMany(mappedBy = "canal")
-    private Set<Subscripcion> suscripciones;
+    private Set<Suscripcion> suscripciones;
 
     @OneToMany(mappedBy = "canal")
     private Set<Archivo> archivos;
@@ -57,11 +57,11 @@ public class Canal {
 		this.creador = creador;
 	}
 
-	public Set<Subscripcion> getSuscripciones() {
+	public Set<Suscripcion> getSuscripciones() {
 		return suscripciones;
 	}
 
-	public void setSuscripciones(Set<Subscripcion> suscripciones) {
+	public void setSuscripciones(Set<Suscripcion> suscripciones) {
 		this.suscripciones = suscripciones;
 	}
 

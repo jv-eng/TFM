@@ -36,9 +36,9 @@ public class Archivo {
     
     public Archivo() {}
 
-    public Archivo(String rutaSistemaArchivos, String nombreArchivo, LocalDateTime fechaEnvio, Usuario usuario, Canal canal) {
-        this.rutaSistemaArchivos = rutaSistemaArchivos;
-        this.nombreArchivo = nombreArchivo;
+    public Archivo(String nombreArchivo, String rutaSistemaArchivos, LocalDateTime fechaEnvio, Usuario usuario, Canal canal) {
+    	this.nombreArchivo = nombreArchivo;
+    	this.rutaSistemaArchivos = rutaSistemaArchivos;
         this.fechaEnvio = fechaEnvio;
         this.usuario = usuario;
         this.canal = canal;

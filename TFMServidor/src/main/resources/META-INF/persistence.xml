@@ -10,7 +10,7 @@
 
         <class>util.db.modelos.Archivo</class>
         <class>util.db.modelos.Canal</class>
-        <class>util.db.modelos.Subscripcion</class>
+        <class>util.db.modelos.Suscripcion</class>
         <class>util.db.modelos.Usuario</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
@@ -31,7 +31,7 @@
             <property name="jakarta.persistence.schema-generation.database.action" value="update" />
 
             <!-- Echo all executed SQL to console -->
-            <property name="hibernate.show_sql" value="true" />
+            <!--<property name="hibernate.show_sql" value="true" />-->
             <property name="hibernate.format_sql" value="true" />
             <property name="hibernate.highlight_sql" value="true" />
         </properties>
