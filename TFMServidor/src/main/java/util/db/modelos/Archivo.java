@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Archivo {
 
     @Id
-    @Column(name = "NombreArchivo")
+    @Column(name = "nombreArchivo")
     private String nombreArchivo;
     
     @Column(name = "RutaSistemaArchivos")

@@ -66,17 +66,21 @@ public class Fichero {
 			ArchivoDAO archivoDAO = new HibernateArchivoDAO(this.managerApp);
 			
 			//comprobar que existen usuario y canal
-			if (usuarioDAO.comprobarUsuarioId(usuario)) {
-				if (!canalDAO.comprobarCanal(canal)) {
+			if (usuarioDAO.existeUsuario(usuario)) {
+				if (canalDAO.existeCanal(canal)) {
 					Canal c = canalDAO.getCanal(canal);
-					Usuario u = usuarioDAO.getUsuarioId(usuario);
+					Usuario u = usuarioDAO.getUsuario(usuario);
+					System.out.println("usuario --> " + u.getCorreoElectronico());
+					System.out.println("canal --> " + c.getNombreCanal());
+					
 					//comprobar que el usuario es el creador del canal
-					if (c.getCreador().getNombreUsuario().compareToIgnoreCase(usuario) == 0) {
+					if (c.getCreador().getCorreoElectronico().compareToIgnoreCase(usuario) == 0) {
 						//recibir fichero
 						String fileName = this.recibirFicheroCompleto(socket, flujo_e);
 						System.out.println("Fichero recibido");
 						//guardar datos
 						archivoDAO.guardarFichero(fileName, ruta + fileName, u, c);
+						System.out.println(">>>>>>>" + fileName + "\t" +  ruta + fileName + "\t" + u.getCorreoElectronico() + "\t" + c.getNombreCanal());
 						
 						//notificar usuarios
 						this.notificarUsuarios(c, fileName, archivoDAO);
@@ -125,7 +129,7 @@ public class Fichero {
 			String canal = new String(buff, 0, tam, "UTF-8");
 			System.out.println("canal: " + canal);
 			
-			//nombre del canal
+			//nombre del fichero
 			tam = flujo_e.readInt();
 			buff = new byte[tam];
 			flujo_e.read(buff);
@@ -139,16 +143,19 @@ public class Fichero {
 			SuscripcionDAO suscripcionDAO = new HibernateSuscripcionDAO(this.managerApp);
 			
 			//comprobar que existen canal y usuario
-			if (canalDAO.comprobarCanal(canal) && usuarioDAO.comprobarUsuarioId(usuario)) {
+			if (canalDAO.existeCanal(canal) && usuarioDAO.existeUsuario(usuario)) {
 				//obtener objetos
 				Canal c = canalDAO.getCanal(canal);
-				Usuario u = usuarioDAO.getUsuarioId(usuario);
+				Usuario u = usuarioDAO.getUsuario(usuario);
+				
+				System.out.println("usuario --> " + u.getCorreoElectronico());
+				System.out.println("canal --> " + c.getNombreCanal());
 				
 				//comprobar que el usuario esta suscrito al canal
 				if (suscripcionDAO.usuarioSuscrito(u, c)) {
 					//obtener fichero
 					Archivo a = archivoDAO.getFichero(nombreFich);
-					
+					System.out.println(a.getRutaSistemaArchivos());
 					//enviar fichero
 					File f = new File(a.getRutaSistemaArchivos());
 					this.enviarFicheroCompleto(socket, a.getRutaSistemaArchivos(), f.length());
@@ -177,7 +184,7 @@ public class Fichero {
 			flujo_e.read(buff);
 			String nombre = new String(buff, 0, tam, "UTF-8");
 			System.out.println("nombre fichero: " + nombre);
-			String rutaFichero = ruta  + nombre;
+			//String rutaFichero = ruta  + nombre;
 			
 			//recibir longitud
 			long num_recibido = flujo_e.readLong();
@@ -203,7 +210,7 @@ public class Fichero {
 			fich.close();
 			System.out.println("terminamos, volvemos");
 			
-			return rutaFichero;
+			return nombre;
 		} catch (IOException e) {
 			logg.error("Error al recibir el fichero.");
 			return null;
@@ -218,7 +225,7 @@ public class Fichero {
 			
 			//enviar longitud
 			flujo_out.writeLong(size);
-			
+			System.out.println("enviamos tamaño fichero");
 			//obtener nombre
 			if (size > 64000) buff = new byte[64000];
 			else buff = new byte[(int) size];
@@ -238,14 +245,13 @@ public class Fichero {
 			
 			//cerrar
 			fich_stream.close();
-			flujo_out.close();
-			flujo_out.close();
 		} catch (IOException e) {
 			logg.error("Error al recibir el fichero.");
 		}
 	}
 	
 	private void notificarUsuarios(Canal c, String fileName, ArchivoDAO archivoDAO) {
+		System.out.println("------hay ficheros: " + archivoDAO.getAll());
 		System.out.println("notificando a usuarios");
 	}
 }

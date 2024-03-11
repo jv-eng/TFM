@@ -14,8 +14,8 @@ import java.util.Base64;
 
 public class InicioSesion {
 	
-	public static void iniciarSesion() {
-		Registro.crearUsuario("miUsuario_123", "MiContrasena123", "pepe@mail.com");
+	public static void iniciarSesion(String mail, String password) {
+		//Registro.crearUsuario("miUsuario_123", "MiContrasena123", "pepe@mail.com");
 		
 		String server_ip = "localhost";
 		String server_port = "12345";
@@ -35,13 +35,13 @@ public class InicioSesion {
 			KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
 	        keyPairGenerator.initialize(2048); // Tamaño de clave, ajusta según tus requisitos
 	        KeyPair claves = keyPairGenerator.generateKeyPair();
-	        System.out.println("clave pública: " + claves.getPublic());
-	        System.out.println("clave privada: " + claves.getPrivate());
+	        //System.out.println("clave pública: " + claves.getPublic());
+	        //System.out.println("clave privada: " + claves.getPrivate());
 			
 			//datos
 			int op = 1;
-			byte [] nombre = "pepe@mail.com".getBytes();
-			byte [] pass = "MiContrasena123".getBytes();
+			byte [] nombre = mail.getBytes();
+			byte [] pass = password.getBytes();
 			byte [] clave = claveString(claves.getPublic()).getBytes();
 			
 			//enviar
@@ -58,7 +58,7 @@ public class InicioSesion {
 			flujo_out.write(clave);
 			//recibir y procesar respuesta
 			int res = flujo_in.readInt();
-			System.out.println("Resultado de la operación: " + res);
+			System.out.println("Resultado de la operación iniciar sesión: " + res);
 			
 			
 		} catch (NumberFormatException | IOException e) {
@@ -74,6 +74,6 @@ public class InicioSesion {
 	}
 	
 	public static void main(String [] args) {
-		iniciarSesion();
+		iniciarSesion("miUsuario_123", "MiContrasena123");
 	}
 }

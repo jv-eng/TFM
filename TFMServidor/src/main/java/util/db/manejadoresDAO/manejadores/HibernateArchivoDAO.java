@@ -1,6 +1,7 @@
 package util.db.manejadoresDAO.manejadores;
 
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 import util.db.AuxiliarDB;
 import util.db.manejadoresDAO.interfaces.ArchivoDAO;
 import util.db.modelos.Archivo;
@@ -18,14 +19,31 @@ public class HibernateArchivoDAO implements ArchivoDAO {
 	@Override
 	public void guardarFichero(String fileName, String ruta, Usuario u, Canal c) {
 		AuxiliarDB.inTransaction(entityManager -> {
-			entityManager.persist(new Archivo(ruta, fileName, null, u, c));
+			entityManager.persist(new Archivo(fileName, ruta, null, u, c));
 		}, this.managerApp);
 	}
 
 	@Override
 	public Archivo getFichero(String nombreFich) {
-		// TODO Auto-generated method stub
-		return null;
+		Archivo [] c = new Archivo[1];
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<Archivo> query = entityManager.createQuery("SELECT a FROM Archivo a WHERE a.nombreArchivo = :id", Archivo.class);
+		    query.setParameter("id", nombreFich);
+
+		    c[0] = query.getResultList().get(0);
+		}, this.managerApp);
+		return c[0];
+	}
+	
+	@Override
+	public boolean getAll() {
+		boolean [] c = {false};
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<Archivo> query = entityManager.createQuery("SELECT a FROM Archivo a", Archivo.class);
+
+			c[0] = query.getResultList().isEmpty();
+		}, this.managerApp);
+		return c[0];
 	}
 
 }

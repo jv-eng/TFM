@@ -17,12 +17,6 @@ public class HibernateUsuarioDAO implements UsuarioDAO {
 	}
 
 	@Override
-	public void guardarUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void crearUsuario(String usuario, String correo, String pass) {
 		AuxiliarDB.inTransaction(entityManager -> {
 			entityManager.persist(new Usuario(usuario, correo, null));
@@ -30,7 +24,7 @@ public class HibernateUsuarioDAO implements UsuarioDAO {
 	}
 	
 	@Override
-	public boolean comprobarUsuario(String correo) {
+	public boolean existeUsuario(String correo) {
 		boolean [] test = {false};
 		AuxiliarDB.inTransaction(entityManager -> {
 			TypedQuery<Usuario> query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.correoElectronico = :id", Usuario.class);
@@ -64,47 +58,13 @@ public class HibernateUsuarioDAO implements UsuarioDAO {
 			TypedQuery<Usuario> query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.correoElectronico = :id", Usuario.class);
 		    query.setParameter("id", correo);
 
-		    usuario[0] = query.getResultList().get(0);
+		    if (query.getResultList().isEmpty()) {
+		    	usuario[0] = null;
+		    } else {
+		    	usuario[0] = query.getResultList().get(0);
+		    }
 		}, this.managerApp);
 		return usuario[0];
-	}
-	
-	@Override
-	public Usuario getUsuarioId(String usuarioId) {
-		Usuario [] usuario = new Usuario[1];
-		AuxiliarDB.inTransaction(entityManager -> {
-			TypedQuery<Usuario> query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = :id", Usuario.class);
-		    query.setParameter("id", usuarioId);
-
-		    usuario[0] = query.getResultList().get(0);
-		}, this.managerApp);
-		return usuario[0];
-	}
-
-	@Override
-	public boolean existeUsuario(String usuario) {
-		boolean [] test = {false};
-		AuxiliarDB.inTransaction(entityManager -> {
-			TypedQuery<Usuario> query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = :id", Usuario.class);
-		    query.setParameter("id", usuario);
-
-		    List<Usuario> usuarios = query.getResultList();
-
-		    test[0] = !usuarios.isEmpty();
-		}, this.managerApp);
-		return test[0];
-	}
-
-	@Override
-	public Usuario obtenerUsuarioPorId(String usuario) {
-		Usuario [] user = new Usuario[1];
-		AuxiliarDB.inTransaction(entityManager -> {
-			TypedQuery<Usuario> query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = :id", Usuario.class);
-		    query.setParameter("id", usuario);
-
-		    user[0] = query.getResultList().get(0);
-		}, this.managerApp);
-		return user[0];
 	}
 
 }

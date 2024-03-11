@@ -9,7 +9,7 @@ import java.net.Socket;
 
 public class CerrarSesion {
 	public static void main(String[] args) {
-		InicioSesion.iniciarSesion();
+		InicioSesion.iniciarSesion("miUsuario_123", "MiContrasena123");
 		
 		String server_ip = "localhost";
 		String server_port = "12345";

@@ -28,18 +28,22 @@ public class Suscripcion {
     @Column(name = "FechaSuscripcion")
     private LocalDateTime fechaSuscripcion;
     
-    @Column(name = "Socket")
-    private String socket;
+    @Column(name = "ip")
+    private String ip;
+    
+    @Column(name = "puerto")
+    private int puerto;
     
     
     
     public Suscripcion() {}
 
-    public Suscripcion(String suscripcionID, Usuario usuario, Canal canal, LocalDateTime fechaSuscripcion, String socket) {
+    public Suscripcion(String suscripcionID, Usuario usuario, Canal canal, LocalDateTime fechaSuscripcion, String ip, int puerto) {
         this.usuario = usuario;
         this.canal = canal;
         this.fechaSuscripcion = fechaSuscripcion;
-        this.socket = socket;
+        this.ip = ip;
+        this.puerto = puerto;
         this.suscripcionID = suscripcionID;
         // Inicializar otros atributos según sea necesario
     }
@@ -76,13 +80,20 @@ public class Suscripcion {
 		this.fechaSuscripcion = fechaSuscripcion;
 	}
 
-	public String getSocket() {
-		return socket;
+	public String getIp() {
+		return ip;
 	}
 
-	public void setSocket(String socket) {
-		this.socket = socket;
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
-    
+
+	public int getPuerto() {
+		return puerto;
+	}
+
+	public void setPuerto(int puerto) {
+		this.puerto = puerto;
+	}
 
 }

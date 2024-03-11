@@ -6,8 +6,10 @@ import util.db.modelos.Usuario;
 
 public interface ArchivoDAO {
 
-	void guardarFichero(String fileName, String string, Usuario u, Canal c);
+	void guardarFichero(String fileName, String path, Usuario u, Canal c);
 
 	Archivo getFichero(String nombreFich);
+
+	boolean getAll();
 
 }

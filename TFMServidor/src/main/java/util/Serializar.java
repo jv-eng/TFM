@@ -27,7 +27,7 @@ public class Serializar {
         }
 	}
 	
-	public static String socketString(Socket socket) {
+	/*public static String socketString(Socket socket) {
 		try {
             // Convierte el objeto Socket a JSON
             return new ObjectMapper().writeValueAsString(socket);
@@ -35,7 +35,7 @@ public class Serializar {
             e.printStackTrace();
             return null;
         }
-	}
+	}*/
 	
 	public static Socket stringSocket(String str) {
 		try {

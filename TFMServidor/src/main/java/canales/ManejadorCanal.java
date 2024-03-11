@@ -56,9 +56,9 @@ public class ManejadorCanal {
 			CanalDAO canalDAO = new HibernateCanalDAO(this.managerApp);
 			
 			//comprobar si existe el usuario
-			if (usuarioDAO.comprobarUsuario(correo)) {
+			if (usuarioDAO.existeUsuario(correo)) {
 				//comprobar si existe el canal
-				if (canalDAO.comprobarCanal(canal)) {
+				if (!canalDAO.existeCanal(canal)) {
 					//crear canal
 					Usuario usuario = usuarioDAO.getUsuario(correo);
 					canalDAO.crearCanal(usuario, canal);
@@ -106,18 +106,18 @@ public class ManejadorCanal {
 			UsuarioDAO usuarioDAO = new HibernateUsuarioDAO(this.managerApp);
 			CanalDAO canalDAO = new HibernateCanalDAO(this.managerApp);
 			SuscripcionDAO suscripcionDAO = new HibernateSuscripcionDAO(this.managerApp);
-			Usuario usuarioObj = usuarioDAO.getUsuarioId(usuario);
+			Usuario usuarioObj = usuarioDAO.getUsuario(usuario);
 			
 			//comprobar si existe el canal
-			if (!canalDAO.comprobarCanal(canal)) {
+			if (canalDAO.existeCanal(canal)) {
 				//comprobar si el usuario esta suscrito al canal
 				Canal c = canalDAO.getCanal(canal);
 				if (usuarioDAO.existeUsuario(usuario) && !suscripcionDAO.usuarioSuscrito(usuarioObj, c)) {
 					//obtener datos para la suscripcion
-					Usuario u = usuarioDAO.obtenerUsuarioPorId(usuario);
-					String sock = Serializar.socketString(socket);
+					Usuario u = usuarioDAO.getUsuario(usuario);
+					
 					//suscribir usuario
-					suscripcionDAO.suscribir(u, c, sock);
+					suscripcionDAO.suscribir(u, c, socket.getInetAddress().getHostAddress(), socket.getPort());
 				} else {
 					logg.error("Error, el usuario \"" + usuario + "\" ya está suscrito al canal \"" + canal + "\".");
 					res = 3;
@@ -161,14 +161,14 @@ public class ManejadorCanal {
 			SuscripcionDAO suscripcionDAO = new HibernateSuscripcionDAO(this.managerApp);
 			
 			//comprobar si existe el canal
-			if (!canalDAO.comprobarCanal(canal)) {
+			if (!canalDAO.existeCanal(canal)) {
 				//comprobar si el usuario esta suscrito al canal
 				Canal c = canalDAO.getCanal(canal);
-				System.out.println(usuarioDAO.existeUsuario(usuario));
-				System.out.println(suscripcionDAO.usuarioSuscrito(usuarioDAO.obtenerUsuarioPorId(usuario), c));
-				if (usuarioDAO.existeUsuario(usuario) && suscripcionDAO.usuarioSuscrito(usuarioDAO.obtenerUsuarioPorId(usuario), c)) {
+				//System.out.println(usuarioDAO.existeUsuario(usuario));
+				//System.out.println(suscripcionDAO.usuarioSuscrito(usuarioDAO.obtenerUsuarioPorId(usuario), c));
+				if (usuarioDAO.existeUsuario(usuario) && suscripcionDAO.usuarioSuscrito(usuarioDAO.getUsuario(usuario), c)) {
 					//obtener datos para la suscripcion
-					Usuario u = usuarioDAO.obtenerUsuarioPorId(usuario);
+					Usuario u = usuarioDAO.getUsuario(usuario);
 					Suscripcion s = suscripcionDAO.getSuscripcion(u, c);
 					System.out.println(s.getSuscripcionID());
 					//suscribir usuario

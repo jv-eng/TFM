@@ -19,7 +19,7 @@ public class HibernateCanalDAO implements CanalDAO {
 
 	//comprobar si existe canal
 	@Override
-	public boolean comprobarCanal(String canal) {
+	public boolean existeCanal(String canal) {
 		boolean [] test = {false};
 		AuxiliarDB.inTransaction(entityManager -> {
 			TypedQuery<Canal> query = entityManager.createQuery("FROM Canal as c WHERE c.nombreCanal = :nombre", Canal.class);
@@ -27,7 +27,7 @@ public class HibernateCanalDAO implements CanalDAO {
 
 		    List<Canal> canales = query.getResultList();
 		    
-		    test[0] = canales.isEmpty();	    
+		    test[0] = !canales.isEmpty();	    
 		}, this.managerApp);
 		return test[0];
 	}
@@ -46,7 +46,8 @@ public class HibernateCanalDAO implements CanalDAO {
 			TypedQuery<Canal> query = entityManager.createQuery("SELECT u FROM Canal u WHERE u.nombreCanal = :id", Canal.class);
 		    query.setParameter("id", canal);
 
-		    c[0] = query.getResultList().get(0);
+		    if (query.getResultList().isEmpty()) c[0] = null;
+		    else c[0] = query.getResultList().get(0);
 		}, this.managerApp);
 		return c[0];
 	}

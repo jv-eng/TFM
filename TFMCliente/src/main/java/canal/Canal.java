@@ -10,13 +10,19 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
+import usuario.InicioSesion;
 import usuario.Registro;
 
 public class Canal {
 	public static void main(String [] args) {
+		Registro.crearUsuario("miUsuario_123", "MiContrasena123", "miUsuario_123@mail.com");
+		InicioSesion.iniciarSesion("miUsuario_123@mail.com", "MiContrasena123");
 		crearCanal("canal de prueba");
+		
+		Registro.crearUsuario("miUsuario_1234", "MiContrasena1234", "miUsuario_1234@mail.com");
+		InicioSesion.iniciarSesion("miUsuario_1234@mail.com", "MiContrasena1234");
 		subscribirse("canal de prueba");
-		desubscribirse("canal de prueba");
+		//desubscribirse("canal de prueba");
 	}
 	
 	public static void crearCanal(String canal) {
@@ -62,7 +68,7 @@ public class Canal {
 	}
 	
 	public static void subscribirse(String canal) {
-		Registro.crearUsuario("miUsuario_1234", "MiContrasena123", "pepe2@mail.com");
+		//Registro.crearUsuario("miUsuario_1234", "MiContrasena123", "pepe2@mail.com");
 		String server_ip = "localhost";
 		String server_port = "12345";
 
@@ -79,7 +85,7 @@ public class Canal {
 			
 			//datos
 			int op = 4;
-			byte [] nombre = "miUsuario_1234".getBytes();
+			byte [] nombre = "miUsuario_1234@mail.com".getBytes();
 			byte [] pass = canal.getBytes();
 			
 			//enviar
@@ -120,7 +126,7 @@ public class Canal {
 			
 			//datos
 			int op = 5;
-			byte [] nombre = "miUsuario_1234".getBytes();
+			byte [] nombre = "miUsuario_1234@mail.com".getBytes();
 			byte [] pass = canal.getBytes();
 			
 			//enviar

@@ -39,7 +39,7 @@ public class Main {
 			while (true) {
 				System.out.println("Esperando conexiones en puerto 12345");
 				logg.info("Esperando conexiones en puerto 12345");
-				
+				System.out.println(); System.out.println();
 				//aceptar conexión
 				Socket socket_sr = socket_servidor.accept();
 				

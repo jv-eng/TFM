@@ -34,9 +34,9 @@ public class HibernateSuscripcionDAO implements SuscripcionDAO {
 	}
 
 	@Override
-	public void suscribir(Usuario usuario, Canal canal, String socket) {
+	public void suscribir(Usuario usuario, Canal canal, String ip, int puerto) {
 		AuxiliarDB.inTransaction(entityManager -> {
-			entityManager.persist(new Suscripcion(usuario.getNombreUsuario() + "__" + canal.getNombreCanal(), usuario, canal, null, socket));
+			entityManager.persist(new Suscripcion(usuario.getNombreUsuario() + "__" + canal.getNombreCanal(), usuario, canal, null, ip, puerto));
 		}, this.managerApp);
 	}
 

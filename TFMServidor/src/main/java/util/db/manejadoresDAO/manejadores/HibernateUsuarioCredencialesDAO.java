@@ -71,8 +71,9 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 		    	//existe el usuario
 		    	String pass = usuarios.get(0).getPass();
 		    	//hay que descrifrar o algo
+		    	System.out.println(pass);
 		    	//comprobamos
-		    	test[0] = (pass.compareToIgnoreCase(contraseña)==0)?true:false;
+		    	test[0] = pass.compareToIgnoreCase(contraseña)==0;
 			}
 		    
 		}, this.managerUsuario);

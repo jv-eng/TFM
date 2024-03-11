@@ -8,7 +8,7 @@ public interface SuscripcionDAO {
 
 	boolean usuarioSuscrito(Usuario usuarioObj, Canal canalObj);
 
-	void suscribir(Usuario u, Canal c, String sock);
+	void suscribir(Usuario u, Canal c, String ip, int puerto);
 
 	void desuscribir(Suscripcion s);
 
