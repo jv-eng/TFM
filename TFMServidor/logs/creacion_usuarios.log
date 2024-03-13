@@ -1,0 +1,10 @@
+2024-03-12 20:16:56.438 [main] INFO  com.tfm.creacion_usuarios - Usuario "miUsuario_123" creado correctamente.
+2024-03-12 20:16:56.445 [main] ERROR com.tfm.creacion_usuarios - Usuario miUsuario_123 ya existe.
+2024-03-12 20:16:56.447 [main] ERROR com.tfm.creacion_usuarios - Error en el formato de los datos recibidos.
+2024-03-12 20:16:56.448 [main] ERROR com.tfm.creacion_usuarios - Error en el formato de los datos recibidos.
+2024-03-12 20:16:56.450 [main] ERROR com.tfm.creacion_usuarios - Error en el formato de los datos recibidos.
+2024-03-13 17:47:00.320 [main] INFO  com.tfm.creacion_usuarios - Usuario "miUsuario_123" creado correctamente.
+2024-03-13 18:08:31.389 [main] INFO  com.tfm.creacion_usuarios - Usuario "miUsuario_123" creado correctamente.
+2024-03-13 18:08:32.148 [main] INFO  com.tfm.creacion_usuarios - Usuario "miUsuario_1234" creado correctamente.
+2024-03-13 18:08:53.206 [main] INFO  com.tfm.creacion_usuarios - Usuario "miUsuario_123" creado correctamente.
+2024-03-13 18:08:54.091 [main] INFO  com.tfm.creacion_usuarios - Usuario "miUsuario_1234" creado correctamente.

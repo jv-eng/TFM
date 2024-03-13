@@ -67,6 +67,7 @@ public class UsuarioCredenciales {
 				if (usuarioCDAO.comprobarUsuario(usuario)) {
 					//usuario existe
 					logg.error("Usuario " + usuario + " ya existe.");
+					res = 3;
 				} else {
 					//almacenar en base de datos credenciales
 					usuarioCDAO.crearUsuario(usuario, correo, pass);

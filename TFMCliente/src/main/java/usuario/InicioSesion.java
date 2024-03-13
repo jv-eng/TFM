@@ -14,9 +14,8 @@ import java.util.Base64;
 
 public class InicioSesion {
 	
+	//formato correcto
 	public static void iniciarSesion(String mail, String password) {
-		//Registro.crearUsuario("miUsuario_123", "MiContrasena123", "pepe@mail.com");
-		
 		String server_ip = "localhost";
 		String server_port = "12345";
 
@@ -68,12 +67,22 @@ public class InicioSesion {
 		}
 	}
 	
+	//usuario no creado
+	public static void inicioSesionUsuarioNoCreado() {
+		iniciarSesion("miUsuario_123", "MiContrasena123");
+	}
+	
 	public static String claveString(PublicKey key) {
 		byte[] keyBytes = key.getEncoded();
         return Base64.getEncoder().encodeToString(keyBytes);
 	}
 	
 	public static void main(String [] args) {
-		iniciarSesion("miUsuario_123", "MiContrasena123");
+		//registro e inicio de sesion correcto
+		Registro.crearUsuario("miUsuario_123", "MiContrasena123", "miUsuario_123@mail.com");
+		iniciarSesion("miUsuario_123@mail.com", "MiContrasena123");
+		
+		//inicio de sesion con usuario no creado
+		iniciarSesion("miUsuario@mail.com", "MiContrasena123");
 	}
 }
