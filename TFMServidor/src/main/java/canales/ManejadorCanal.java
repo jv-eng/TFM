@@ -3,12 +3,13 @@ package canales;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.LinkedList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import jakarta.persistence.EntityManagerFactory;
-import util.Serializar;
+import main.Main;
 import util.db.manejadoresDAO.interfaces.CanalDAO;
 import util.db.manejadoresDAO.interfaces.SuscripcionDAO;
 import util.db.manejadoresDAO.interfaces.UsuarioDAO;
@@ -115,9 +116,17 @@ public class ManejadorCanal {
 				if (usuarioDAO.existeUsuario(usuario) && !suscripcionDAO.usuarioSuscrito(usuarioObj, c)) {
 					//obtener datos para la suscripcion
 					Usuario u = usuarioDAO.getUsuario(usuario);
-					
+
 					//suscribir usuario
 					suscripcionDAO.suscribir(u, c, socket.getInetAddress().getHostAddress(), socket.getPort());
+					
+					if (Main.mapa.get(canal) != null) {
+						Main.mapa.get(canal).add(socket);
+					} else {
+						Main.mapa.put(canal, new LinkedList<Socket>());
+						Main.mapa.get(canal).add(socket);
+					}
+					System.out.println("numero de usuarios esperando: " + Main.mapa.get(canal).size());
 				} else {
 					logg.error("Error, el usuario \"" + usuario + "\" ya está suscrito al canal \"" + canal + "\".");
 					res = 3;

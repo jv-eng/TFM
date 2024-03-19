@@ -82,6 +82,7 @@ public class UsuarioCredenciales {
 				}
 			} else {
 				//codigo para error de formato
+				System.out.println("error de formato");
 				logg.error("Error en el formato de los datos recibidos.");
 				res = 2;
 			}

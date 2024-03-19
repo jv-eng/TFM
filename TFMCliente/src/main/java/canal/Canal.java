@@ -21,7 +21,7 @@ public class Canal {
 		
 		Registro.crearUsuario("miUsuario_1234", "MiContrasena1234", "miUsuario_1234@mail.com");
 		InicioSesion.iniciarSesion("miUsuario_1234@mail.com", "MiContrasena1234");
-		subscribirse("canal de prueba");
+		subscribirse("miUsuario_1234", "canal de prueba");
 		//desubscribirse("canal de prueba");
 	}
 	
@@ -67,7 +67,7 @@ public class Canal {
 		}
 	}
 	
-	public static void subscribirse(String canal) {
+	public static void subscribirse(String mail, String canal) {
 		//Registro.crearUsuario("miUsuario_1234", "MiContrasena123", "pepe2@mail.com");
 		String server_ip = "localhost";
 		String server_port = "12345";
@@ -85,7 +85,7 @@ public class Canal {
 			
 			//datos
 			int op = 4;
-			byte [] nombre = "miUsuario_1234@mail.com".getBytes();
+			byte [] nombre = mail.getBytes();
 			byte [] pass = canal.getBytes();
 			
 			//enviar
@@ -101,6 +101,22 @@ public class Canal {
 			//recibir y procesar respuesta
 			int res = flujo_in.readInt();
 			System.out.println("Resultado de la operación 'suscribir a canal': " + res);
+			
+			System.out.println("Esperar por fichero");
+			
+			//nombre del canal
+			DataInputStream flujo_e = new DataInputStream(sock.getInputStream());
+			int tam = flujo_e.readInt();
+			byte [] buff = new byte[tam];
+			flujo_e.read(buff);
+			String c = new String(buff, 0, tam, "UTF-8");
+			System.out.println("canal: " + c);
+			//nombre del fichero
+			tam = flujo_e.readInt();
+			buff = new byte[tam];
+			flujo_e.read(buff);
+			String fich = new String(buff, 0, tam, "UTF-8");
+			System.out.println("fichero: " + fich);
 			
 			
 		} catch (NumberFormatException | IOException e) {

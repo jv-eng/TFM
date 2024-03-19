@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Scanner;
 
 import canal.Canal;
 
@@ -19,18 +20,19 @@ public class Fichero {
 	public static void main(String [] args) {
 		//crear usuario
 		Registro.crearUsuario("miUsuario_123", "MiContrasena123", "miUsuario_123@mail.com");
-		Registro.crearUsuario("miUsuario_1234", "MiContrasena1234", "miUsuario_1234@mail.com");
 		//iniciar sesion
 		InicioSesion.iniciarSesion("miUsuario_123@mail.com", "MiContrasena123");
-		InicioSesion.iniciarSesion("miUsuario_1234@mail.com", "MiContrasena1234");
 		//crear canal
 		Canal.crearCanal("canal de prueba");
+		
+		Scanner scanner = new Scanner(System.in);
+		char caracter = scanner.next().charAt(0);
+		scanner.close();
+		
 		//enviar fichero
 		enviarFichero("hibernate-tutorials.zip");
-		//suscribir canal
-		Canal.subscribirse("canal de prueba");
 		//descargar fichero
-		descargarrFichero("hibernate-tutorials.zip");
+		//descargarrFichero("hibernate-tutorials.zip");
 	}
 	
 	public static void enviarFichero(String fichero) {

@@ -7,6 +7,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -22,6 +26,7 @@ public class Main {
 	
 	//logger
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
+	public static Map<String, List<Socket>> mapa = new HashMap<String, List<Socket>>();
 	
 	public static void main (String [] args) {		
 		
@@ -93,6 +98,7 @@ public class Main {
 				
 				//responder al cliente
 				(new DataOutputStream(socket_sr.getOutputStream())).writeInt(res);
+				//socket_sr.close();
 				
 				//siguiente petición
 				System.out.println("Fin tratamiento");

@@ -1,6 +1,1 @@
-2024-03-13 17:47:00.726 [main] INFO  com.tfm.sesiones - El usuario "miUsuario_123@mail.com" ha iniciado sesión correctamente
-2024-03-13 17:47:00.837 [main] ERROR com.tfm.sesiones - Error cuando el usuario "miUsuario@mail.com" ha intentado iniciar sesión.
-2024-03-13 18:08:32.105 [main] INFO  com.tfm.sesiones - El usuario "miUsuario_123@mail.com" ha iniciado sesión correctamente
-2024-03-13 18:08:32.562 [main] INFO  com.tfm.sesiones - El usuario "miUsuario_1234@mail.com" ha iniciado sesión correctamente
-2024-03-13 18:08:54.042 [main] INFO  com.tfm.sesiones - El usuario "miUsuario_123@mail.com" ha iniciado sesión correctamente
-2024-03-13 18:08:54.437 [main] INFO  com.tfm.sesiones - El usuario "miUsuario_1234@mail.com" ha iniciado sesión correctamente
+2024-03-18 17:29:46.562 [main] INFO  com.tfm.sesiones - El usuario "Pepe@mail.com" ha iniciado sesión correctamente

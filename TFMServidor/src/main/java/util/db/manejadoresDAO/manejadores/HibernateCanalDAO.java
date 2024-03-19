@@ -1,5 +1,6 @@
 package util.db.manejadoresDAO.manejadores;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import jakarta.persistence.EntityManagerFactory;
@@ -7,6 +8,7 @@ import jakarta.persistence.TypedQuery;
 import util.db.AuxiliarDB;
 import util.db.manejadoresDAO.interfaces.CanalDAO;
 import util.db.modelos.Canal;
+import util.db.modelos.Suscripcion;
 import util.db.modelos.Usuario;
 
 public class HibernateCanalDAO implements CanalDAO {
@@ -51,5 +53,21 @@ public class HibernateCanalDAO implements CanalDAO {
 		}, this.managerApp);
 		return c[0];
 	}
+
+	@Override
+	public List<Suscripcion> getUsuariosSuscritos(Canal c) {
+		List<Suscripcion> res = new LinkedList<Suscripcion>();
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<Suscripcion> query = entityManager.createQuery("SELECT u FROM Suscripcion u", Suscripcion.class);
+		    //query.setParameter("id", c);
+			System.out.println("tamaño lista " + query.getResultList().size());
+		    for (Suscripcion s: query.getResultList()) {
+		    	res.add(s);
+		    }
+		}, this.managerApp);
+		return res;
+	}
+	
+
 
 }

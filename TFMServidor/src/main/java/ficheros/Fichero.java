@@ -7,11 +7,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import jakarta.persistence.EntityManagerFactory;
+import main.Main;
 import util.db.manejadoresDAO.interfaces.ArchivoDAO;
 import util.db.manejadoresDAO.interfaces.CanalDAO;
 import util.db.manejadoresDAO.interfaces.SuscripcionDAO;
@@ -22,6 +24,7 @@ import util.db.manejadoresDAO.manejadores.HibernateSuscripcionDAO;
 import util.db.manejadoresDAO.manejadores.HibernateUsuarioDAO;
 import util.db.modelos.Archivo;
 import util.db.modelos.Canal;
+import util.db.modelos.Suscripcion;
 import util.db.modelos.Usuario;
 
 //gestionar el tema de almacenamiento en esta clase o en otras
@@ -83,7 +86,7 @@ public class Fichero {
 						System.out.println(">>>>>>>" + fileName + "\t" +  ruta + fileName + "\t" + u.getCorreoElectronico() + "\t" + c.getNombreCanal());
 						
 						//notificar usuarios
-						this.notificarUsuarios(c, fileName, archivoDAO);
+						this.notificarUsuarios(c, fileName, canalDAO);
 					} else {
 						logg.error("Error, el usuario \"" + usuario + "\" no es el creador del canal \"" + canal + "\".");
 						res = 4;
@@ -250,8 +253,40 @@ public class Fichero {
 		}
 	}
 	
-	private void notificarUsuarios(Canal c, String fileName, ArchivoDAO archivoDAO) {
-		System.out.println("------hay ficheros: " + archivoDAO.getAll());
+	private void notificarUsuarios(Canal c, String fileName, CanalDAO canalDAO) {
 		System.out.println("notificando a usuarios");
+		
+		try {
+			//obtener lista de usuarios suscritos al canal
+			List<Suscripcion> usuariosSuscritos = canalDAO.getUsuariosSuscritos(c);
+			System.out.println(usuariosSuscritos.size());
+			
+			//notificar canal y nombre del fichero
+			/*for (Suscripcion s: usuariosSuscritos) {
+				System.out.println("Usuario: " + s.getUsuario().getCorreoElectronico() + "\trecibe fichero con suscripcion: " + s.getSuscripcionID());
+				//obtener socket y flujo
+				Socket sock = new Socket(s.getIp(), s.getPuerto());
+				DataOutputStream flujo_out = new DataOutputStream(sock.getOutputStream());
+				//enviar canal
+				flujo_out.writeInt(c.getNombreCanal().getBytes().length);
+				flujo_out.write(c.getNombreCanal().getBytes());
+				//enviar nombre del fichero
+				flujo_out.writeInt(fileName.getBytes().length);
+				flujo_out.write(fileName.getBytes());
+			}*/
+			for (Socket sock: Main.mapa.get(c.getNombreCanal())) {
+				DataOutputStream flujo_out = new DataOutputStream(sock.getOutputStream());
+				//enviar canal
+				flujo_out.writeInt(c.getNombreCanal().getBytes().length);
+				flujo_out.write(c.getNombreCanal().getBytes());
+				//enviar nombre del fichero
+				flujo_out.writeInt(fileName.getBytes().length);
+				flujo_out.write(fileName.getBytes());
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
