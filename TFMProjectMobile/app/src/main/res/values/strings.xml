@@ -24,7 +24,11 @@
     <string name="register_msg_1">There was an error while sending the data.</string>
     <string name="register_msg_2">There was an error in a data format.</string>
 
+    <!--Fragmentos-->
+    <string name="todo">TBD</string>
+
     <!--Menu-->
+
     <!--Register-->
     <!--Register-->
     <!--Register-->

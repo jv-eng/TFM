@@ -41,4 +41,6 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.google.android.gms:play-services-nearby:19.1.0")
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.0")
 }
