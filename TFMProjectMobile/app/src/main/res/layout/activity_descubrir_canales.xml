@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MenuActivity">
+    tools:context=".activities.DescubrirCanalesActivity">
 
     <!-- Contenedor principal de la actividad -->
     <RelativeLayout
@@ -42,48 +42,51 @@
                 android:layout_height="match_parent">
 
                 <Button
-                    android:id="@+id/menu_btn_crear_canal"
+                    android:id="@+id/descubrir_canales_btn_buscar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/menu_btn_crear_canal"
+                    android:text="descubrir_canales_btn_buscar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.163" />
+                    app:layout_constraintVertical_bias="0.6" />
 
                 <Button
-                    android:id="@+id/menu_btn_ver_canales_cercanos"
+                    android:id="@+id/descubrir_canales_btn_fin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/menu_btn_ver_canales_cercanos"
+                    android:text="descubrir_canales_btn_fin"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.321" />
+                    app:layout_constraintVertical_bias="0.736" />
 
-                <Button
-                    android:id="@+id/menu_btn_enviar_fichero"
+                <TextView
+                    android:id="@+id/descubrir_canales_tv_usuario"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/menu_btn_enviar_fichero"
+                    android:text="descubrir_canales_tv_usuario"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.499" />
+                    app:layout_constraintVertical_bias="0.134" />
 
-                <Button
-                    android:id="@+id/menu_btn_ficheros_canal"
+                <TextView
+                    android:id="@+id/descubrir_canales_tv_msg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/menu_btn_ficheros_canal"
+                    android:text="descubrir_canales_tv_msg"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.657" />
+                    app:layout_constraintVertical_bias="0.28" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>
 

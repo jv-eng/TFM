@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MenuActivity">
+    tools:context=".activities.CreateChannelActivity">
 
     <!-- Contenedor principal de la actividad -->
     <RelativeLayout
@@ -42,48 +42,67 @@
                 android:layout_height="match_parent">
 
                 <Button
-                    android:id="@+id/menu_btn_crear_canal"
+                    android:id="@+id/create_channel_btn_anounce"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/menu_btn_crear_canal"
+                    android:text="create_channel_btn_anounce"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.163" />
+                    app:layout_constraintVertical_bias="0.759" />
 
                 <Button
-                    android:id="@+id/menu_btn_ver_canales_cercanos"
+                    android:id="@+id/create_channel_btn_create"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/menu_btn_ver_canales_cercanos"
+                    android:text="create_channel_btn_create"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.321" />
+                    app:layout_constraintVertical_bias="0.639" />
 
                 <Button
-                    android:id="@+id/menu_btn_enviar_fichero"
+                    android:id="@+id/create_channel_btn_disconnect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/menu_btn_enviar_fichero"
+                    android:text="create_channel_btn_disconnect"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.499" />
+                    app:layout_constraintVertical_bias="0.88" />
 
-                <Button
-                    android:id="@+id/menu_btn_ficheros_canal"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout"
+                    android:layout_width="409dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/menu_btn_ficheros_canal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.657" />
+                    app:layout_constraintVertical_bias="0.407">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/create_channel_txt_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="hint" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/create_channel_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.214" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>
 

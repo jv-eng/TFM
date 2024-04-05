@@ -3,42 +3,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="News">
+    <item android:title="@string/drawer_perfil_titulo">
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/nav_latest_news"
+                    android:id="@+id/nav_profile"
                     android:icon="@drawable/ic_baseline_new_releases_24"
-                    android:title="ultimos" />
-
-                <item
-                    android:id="@+id/nav_offline"
-                    android:icon="@drawable/ic_baseline_download_for_offline_24"
-                    android:title="offline" />
-
+                    android:title="@string/drawer_perfil" />
             </group>
         </menu>
     </item>
 
-    <!--<item android:title="test">
+    <item android:title="@string/drawer_start_titulo">
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/test_1"
+                    android:id="@+id/nav_start"
                     android:icon="@drawable/ic_baseline_new_releases_24"
-                    android:title="test 1" />
-
+                    android:title="@string/drawer_start" />
                 <item
-                    android:id="@+id/test_2"
-                    android:icon="@drawable/ic_baseline_download_for_offline_24"
-                    android:title="test 2" />
+                    android:id="@+id/nav_subscriptions"
+                    android:icon="@drawable/ic_baseline_new_releases_24"
+                    android:title="@string/drawer_subscribed_channel" />
+                <item
+                    android:id="@+id/nav_files_downloaded"
+                    android:icon="@drawable/ic_baseline_new_releases_24"
+                    android:title="@string/drawer_downloaded_files" />
             </group>
         </menu>
-    </item>-->
+    </item>
 
     <item
         android:id="@+id/nav_logout"
         android:icon="@drawable/ic_baseline_exit_to_app_24"
-        android:title="logout" />
+        android:title="@string/drawer_logout" />
 
 </menu>

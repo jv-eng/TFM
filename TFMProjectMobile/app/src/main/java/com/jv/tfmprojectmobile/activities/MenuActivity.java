@@ -4,23 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.jv.tfmprojectmobile.R;
-import com.jv.tfmprojectmobile.fragments.Opciones;
+import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
 
-public class MenuActivity extends AppCompatActivity {
+import java.io.Serializable;
+
+public class MenuActivity extends AppCompatActivity implements Serializable {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -43,31 +43,42 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        int navLatestNews = R.id.nav_latest_news;
+        NavigationViewConfiguration.configurarNavView(drawerLayout, navigationView, this);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
+        //logica botones
+        Button btn_crear_canal = findViewById(R.id.menu_btn_crear_canal);
+        btn_crear_canal.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-                drawerLayout.closeDrawer(GravityCompat.START);
-
-                if (id == R.id.nav_latest_news) {
-                    aShortToast("Latest News");
-                } else if (id == R.id.nav_offline) {
-                    aShortToast("Latest News - Offline");
-                } else if (id == R.id.nav_logout) {
-                    aShortToast("logout");
-                }
-                return true;
+            public void onClick(View v) {
+                Intent i = new Intent(MenuActivity.this, CreateChannelActivity.class);
+                startActivity(i);
             }
         });
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        replaceFragment(new Opciones());
+        Button btn_ver_canales = findViewById(R.id.menu_btn_ver_canales_cercanos);
+        btn_ver_canales.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MenuActivity.this, DescubrirCanalesActivity.class);
+                startActivity(i);
+            }
+        });
+
+        Button btn_enviar_fichero = findViewById(R.id.menu_btn_enviar_fichero);
+        btn_enviar_fichero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aShortToast("enviar fichero");
+            }
+        });
+
+        Button btn_ficheros_recibidos = findViewById(R.id.menu_btn_ficheros_canal);
+        btn_ficheros_recibidos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aShortToast("ficheros recibidos");
+            }
+        });
     }
 
     private void setUsernameIntoNavDrawer(){
@@ -83,12 +94,5 @@ public class MenuActivity extends AppCompatActivity {
 
     public void aShortToast(String msg){
         Toast.makeText(MenuActivity.this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    private void replaceFragment(Fragment newFragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_fragment_layout, newFragment);
-        fragmentTransaction.commit();
     }
 }

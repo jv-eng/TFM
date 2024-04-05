@@ -24,12 +24,56 @@
     <string name="register_msg_1">There was an error while sending the data.</string>
     <string name="register_msg_2">There was an error in a data format.</string>
 
-    <!--Fragmentos-->
-    <string name="todo">TBD</string>
+    <!--Drawer menu-->
+    <string name="todo">a hacer</string>
+    <string name="drawer_perfil_titulo">Profile</string>
+    <string name="drawer_perfil">Profile</string>
+    <string name="drawer_start_titulo">Start</string>
+    <string name="drawer_start">Start</string>
+    <string name="drawer_subscribed_channel">Subscribed channels</string>
+    <string name="drawer_downloaded_files">Downloaded Files</string>
+    <string name="drawer_logout">Logout</string>
 
     <!--Menu-->
+    <string name="menu_btn_crear_canal">Create channel</string>
+    <string name="menu_btn_ver_canales_cercanos">See near channels</string>
+    <string name="menu_btn_enviar_fichero">Send file</string>
+    <string name="menu_btn_ficheros_canal">Files received</string>
 
     <!--Register-->
     <!--Register-->
     <!--Register-->
+
+
+    <!--test nearby-->
+    <string name="error_missing_permissions">Cannot start without required permissions</string>
+
+    <string name="toast_connected">Connected to %s</string>
+    <string name="toast_disconnected">Disconnected from %s</string>
+
+    <string name="status_unknown">Please wait</string>
+    <string name="status_connected">Connected\nHold any of the volume keys to talk</string>
+
+
+    <string name="codename">Your codename: %s</string>
+    <string name="opponent_name">Opponent: %s</string>
+    <string name="no_opponent">none (yet)</string>
+
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_searching">Searching</string>
+
+    <string name="game_choice">You chose %s</string>
+
+    <string name="win_message">%1$s beats %2$s!</string>
+    <string name="tie_message">You both chose %s</string>
+    <string name="loss_message">%1$s loses to %2$s…</string>
+
+    <string name="action_find_opponents">Find opponent</string>
+    <string name="action_disconnect">Disconnect</string>
+
+    <string name="choice_rock">Rock</string>
+    <string name="choice_paper">Paper</string>
+    <string name="choice_scissors">Scissors</string>
+
+    <string name="game_score">%1$d : %2$d</string>
 </resources>
