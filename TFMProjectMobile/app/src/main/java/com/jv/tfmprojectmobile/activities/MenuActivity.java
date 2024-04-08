@@ -1,13 +1,11 @@
 package com.jv.tfmprojectmobile.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -34,7 +32,7 @@ public class MenuActivity extends AppCompatActivity implements Serializable {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
-        setUsernameIntoNavDrawer(); //metodo auxiliar
+        setUsernameIntoNavDrawer();
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +66,8 @@ public class MenuActivity extends AppCompatActivity implements Serializable {
         btn_enviar_fichero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                aShortToast("enviar fichero");
+                Intent i = new Intent(MenuActivity.this, SendFileActivity.class);
+                startActivity(i);
             }
         });
 
@@ -76,7 +75,8 @@ public class MenuActivity extends AppCompatActivity implements Serializable {
         btn_ficheros_recibidos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                aShortToast("ficheros recibidos");
+                Intent i = new Intent(MenuActivity.this, FicherosCanalActivity.class);
+                startActivity(i);
             }
         });
     }
