@@ -10,6 +10,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.connection.AdvertisingOptions;
 import com.google.android.gms.nearby.connection.ConnectionInfo;
 import com.google.android.gms.nearby.connection.ConnectionLifecycleCallback;
@@ -37,14 +39,17 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
+import com.jv.tfmprojectmobile.util.threads.CreateChannelThread;
 
 import java.nio.charset.StandardCharsets;
 
 public class CreateChannelActivity extends AppCompatActivity {
 
+    private ProgressDialog progressDialog;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private String codeName = "creador";
+    private String channel;
     private String opponentEndpointId;
     private static final String TAG = "CrearCanal";
     private ConnectionsClient connectionsClient;
@@ -58,6 +63,16 @@ public class CreateChannelActivity extends AppCompatActivity {
             };
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
     private static final Strategy STRATEGY = Strategy.P2P_STAR;
+
+    public void prepareUIForDownload() {
+        progressDialog  = new ProgressDialog(this);
+        progressDialog.setMessage("Comprobando usuario");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+    public void prepareUIAfterDownload() {
+        progressDialog.dismiss();
+    }
 
 
     @Override
@@ -82,6 +97,8 @@ public class CreateChannelActivity extends AppCompatActivity {
         NavigationViewConfiguration.configurarNavView(drawerLayout, navigationView, this);
         TextView nameView = findViewById(R.id.create_channel_tv);
         nameView.setText(getString(R.string.codename, codeName));
+
+        connectionsClient = Nearby.getConnectionsClient(this);
     }
 
     @Override
@@ -89,13 +106,14 @@ public class CreateChannelActivity extends AppCompatActivity {
         super.onStart();
 
         if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
+            aShortToast("revisando permisos");
             requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
         }
     }
 
     @Override
     protected void onStop() {
-        connectionsClient.stopAllEndpoints();
+        //connectionsClient.stopAllEndpoints();
         super.onStop();
     }
 
@@ -119,7 +137,13 @@ public class CreateChannelActivity extends AppCompatActivity {
         create_channel_btn_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String str = ((TextInputEditText)findViewById(R.id.create_channel_txt_name)).getText().toString();
                 aShortToast("canal creado");
+
+                if (!str.equals("hint")) {
+                    Thread th = new Thread(new CreateChannelThread(CreateChannelActivity.this, str));
+                    th.start();
+                } else aShortToast("indique un nombre");
             }
         });
 
@@ -167,8 +191,6 @@ public class CreateChannelActivity extends AppCompatActivity {
         for (int grantResult : grantResults) {
             if (grantResult == PackageManager.PERMISSION_DENIED) {
                 Toast.makeText(this, R.string.error_missing_permissions, Toast.LENGTH_LONG).show();
-                //finish();
-                //=return;
             }
         }
         recreate();
@@ -194,10 +216,11 @@ public class CreateChannelActivity extends AppCompatActivity {
                 @Override
                 public void onPayloadTransferUpdate(String endpointId, PayloadTransferUpdate update) {
                     //lo que queramos hacer
+                    Toast.makeText(CreateChannelActivity.this, "payloadCallback", Toast.LENGTH_SHORT).show();
                 }
             };
 
-    //en teoria este se podria quitar
+
     private final EndpointDiscoveryCallback endpointDiscoveryCallback =
             new EndpointDiscoveryCallback() {
                 @Override
@@ -244,6 +267,8 @@ public class CreateChannelActivity extends AppCompatActivity {
                         opponentEndpointId = endpointId;
 
                         //conexion exitosa
+                        Toast.makeText(CreateChannelActivity.this, "conexion correcta", Toast.LENGTH_SHORT).show();
+                        sendMSG();
                     } else {
                         Log.i(TAG, "onConnectionResult: connection failed");
                         Toast.makeText(CreateChannelActivity.this, "Error al conectar", Toast.LENGTH_SHORT).show();
@@ -267,8 +292,6 @@ public class CreateChannelActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void unusedResult) {
                                 Toast.makeText(CreateChannelActivity.this, "Anunciando", Toast.LENGTH_LONG).show();
-                                sendMSG();
-
                             }
                         })
                 .addOnFailureListener(
@@ -294,4 +317,5 @@ public class CreateChannelActivity extends AppCompatActivity {
                         });
 
     }
+
 }

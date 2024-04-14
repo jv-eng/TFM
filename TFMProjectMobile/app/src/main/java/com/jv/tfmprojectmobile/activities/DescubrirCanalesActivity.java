@@ -6,6 +6,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.connection.ConnectionInfo;
 import com.google.android.gms.nearby.connection.ConnectionLifecycleCallback;
 import com.google.android.gms.nearby.connection.ConnectionResolution;
@@ -30,6 +32,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
+import com.jv.tfmprojectmobile.util.threads.LoginThread;
+import com.jv.tfmprojectmobile.util.threads.SuscribirThread;
 
 import org.w3c.dom.Text;
 
@@ -37,11 +41,13 @@ import java.nio.charset.StandardCharsets;
 
 public class DescubrirCanalesActivity extends AppCompatActivity {
 
+    private ProgressDialog progressDialog;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private String codeName = "buscador";
     private String opponentEndpointId;
     private static final String TAG = "DescubrirCanal";
+    private String canal = "";
     private ConnectionsClient connectionsClient;
     private static final String[] REQUIRED_PERMISSIONS =
             new String[] {
@@ -76,6 +82,18 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
         NavigationViewConfiguration.configurarNavView(drawerLayout, navigationView, this);
         TextView nameView = findViewById(R.id.descubrir_canales_tv_usuario);
         nameView.setText(getString(R.string.codename, codeName));
+
+        connectionsClient = Nearby.getConnectionsClient(this);
+    }
+    public void prepareUIForDownload() {
+        progressDialog  = new ProgressDialog(this);
+        progressDialog.setMessage("Comprobando usuario");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    public void prepareUIAfterDownload() {
+        progressDialog.dismiss();
     }
 
     private void setButtonLogic() {
@@ -92,6 +110,19 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 disconnect();
+            }
+        });
+
+        Button descubrir_canales_btn_suscribir = findViewById(R.id.descubrir_canales_btn_suscribir);
+        descubrir_canales_btn_suscribir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!canal.equals("")) {
+                    Thread th = new Thread(new SuscribirThread(DescubrirCanalesActivity.this, canal));
+                    th.start();
+                } else {
+                    aShortToast("ningun canal encontrado");
+                }
             }
         });
     }
@@ -152,6 +183,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
                     String payloadMessage = new String(payload.asBytes(), StandardCharsets.UTF_8);
                     Toast.makeText(DescubrirCanalesActivity.this, String.format("onPayloadReceived(endpointId=%s, payload=%s)", endpointId, payloadMessage), Toast.LENGTH_SHORT).show();
                     ((TextView)findViewById(R.id.descubrir_canales_tv_msg)).setText(payloadMessage);
+                    canal = payloadMessage;
                 }
 
                 @Override
@@ -160,7 +192,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
                 }
             };
 
-    //en teoria este se podria quitar
+
     private final EndpointDiscoveryCallback endpointDiscoveryCallback =
             new EndpointDiscoveryCallback() {
                 @Override

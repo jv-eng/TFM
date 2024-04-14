@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class SendFileActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Uri selectedFileUri;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +72,8 @@ public class SendFileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (selectedFileUri != null) {
                     String txt = ((TextInputEditText)findViewById(R.id.send_file_te_channel)).getText().toString();
-                    //Thread th = new Thread(new SendFileThread(SendFileActivity.this, selectedFileUri, txt));
-                    //th.start();
+                    Thread th = new Thread(new SendFileThread(SendFileActivity.this, selectedFileUri, txt));
+                    th.start();
                     Log.e("nombre fich", AuxiliarUtil.getFileName(SendFileActivity.this,selectedFileUri));
                 } else {
                     aShortToast("selecciona algun fichero");
@@ -88,6 +90,17 @@ public class SendFileActivity extends AppCompatActivity {
             selectedFileUri = data.getData();
             ((TextView)findViewById(R.id.send_file_tv_file)).setText(AuxiliarUtil.getFileName(SendFileActivity.this,selectedFileUri));
         }
+    }
+
+    public void prepareUIForDownload() {
+        progressDialog  = new ProgressDialog(this);
+        progressDialog.setMessage("Comprobando usuario");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    public void prepareUIAfterDownload() {
+        progressDialog.dismiss();
     }
 
     private void setUsernameIntoNavDrawer(){

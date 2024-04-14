@@ -3,6 +3,7 @@ package com.jv.tfmprojectmobile.util;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import java.util.UUID;
 
 public class AuxiliarUtil {
     public static String getFileName(Context context, Uri uri) {
@@ -22,5 +23,9 @@ public class AuxiliarUtil {
             result = uri.getLastPathSegment();
         }
         return result;
+    }
+
+    public static String generateUUID() {
+        return UUID.randomUUID().toString();
     }
 }

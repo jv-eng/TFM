@@ -6,6 +6,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +14,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
+import com.jv.tfmprojectmobile.util.storage.FileStoreDB;
+import com.jv.tfmprojectmobile.util.storage.FileStoreHelper;
 
 public class FicherosCanalActivity extends AppCompatActivity {
 
@@ -38,6 +41,28 @@ public class FicherosCanalActivity extends AppCompatActivity {
         });
 
         NavigationViewConfiguration.configurarNavView(drawerLayout, navigationView, this);
+
+        Button btn = findViewById(R.id.ficheros_canal_btn_lista);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String canal = ((TextView)findViewById(R.id.ficheros_canal_et_txt)).getText().toString();
+
+                if (!canal.equals("")) {
+                    logicaBtn();
+                } else {
+                    aShortToast("No hay ningun fichero asociado a este canal");
+                }
+            }
+        });
+    }
+
+    private void logicaBtn() {
+        FileStoreHelper helper = new FileStoreHelper(FicherosCanalActivity.this);
+        FileStoreDB fileStoreDB = new FileStoreDB(helper);
+        //miListView.setEnabled(true);
+        //preguntar si descargar fichero (alert dialog)
+        //habilitar la lista
     }
 
     private void setUsernameIntoNavDrawer(){

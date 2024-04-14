@@ -1,10 +1,13 @@
 package com.jv.tfmprojectmobile.util.threads;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
 import com.jv.tfmprojectmobile.R;
+import com.jv.tfmprojectmobile.activities.CreateChannelActivity;
+import com.jv.tfmprojectmobile.activities.SendFileActivity;
 import com.jv.tfmprojectmobile.util.AuxiliarUtil;
 
 import java.io.BufferedInputStream;
@@ -30,6 +33,13 @@ public class SendFileThread implements Runnable {
 
     @Override
     public void run() {
+
+        ((Activity)ctx).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((SendFileActivity)ctx).prepareUIForDownload();
+            }
+        });
 
         Socket sock = null;
         DataInputStream flujo_in = null;
@@ -76,6 +86,13 @@ public class SendFileThread implements Runnable {
 
             // Cerrar el flujo de entrada del archivo
             bufferedInputStream.close();
+
+            ((Activity)ctx).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((SendFileActivity)ctx).prepareUIAfterDownload();
+                }
+            });
 
         } catch (Exception e) {
             e.printStackTrace();

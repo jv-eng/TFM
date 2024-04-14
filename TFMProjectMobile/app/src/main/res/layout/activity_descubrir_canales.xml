@@ -48,9 +48,10 @@
                     android:text="descubrir_canales_btn_buscar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.497"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.6" />
+                    app:layout_constraintVertical_bias="0.499" />
 
                 <Button
                     android:id="@+id/descubrir_canales_btn_fin"
@@ -86,6 +87,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.28" />
+
+                <Button
+                    android:id="@+id/descubrir_canales_btn_suscribir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="descubrir_canales_btn_suscribir"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.617" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>

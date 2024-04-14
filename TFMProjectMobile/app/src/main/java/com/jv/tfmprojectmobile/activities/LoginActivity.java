@@ -77,11 +77,12 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, msgRes, Toast.LENGTH_SHORT).show();
 
         //si está activo, guardar usuario y claves
+        String pubKey = ClavesUtil.claveString(claves.getPublic());
+        String privKey = ClavesUtil.claveString(claves.getPrivate());
+        PreferencesManage.storeUser(this, userModel.getEmail(), userModel.getEmail(), userModel.getPassword(),
+                pubKey, privKey);
         if (save_user_btn.isChecked()) {
-            String pubKey = ClavesUtil.claveString(claves.getPublic());
-            String privKey = ClavesUtil.claveString(claves.getPrivate());
-            PreferencesManage.storeUser(this, userModel.getEmail(), userModel.getEmail(), userModel.getPassword(),
-                    pubKey, privKey);
+            PreferencesManage.rememberUser(this);
         }
 
         Intent i = new Intent(LoginActivity.this, MenuActivity.class);
