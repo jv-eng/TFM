@@ -23,7 +23,7 @@ public class HibernateCanalDAO implements CanalDAO {
 	//comprobar si existe canal
 	@Override
 	public boolean existeCanal(String canal) {
-	    boolean[] exists = {false};
+	    boolean exists = false;
 	    String consulta = "SELECT COUNT(*) FROM Canal WHERE nombreCanal = ?";
 	    
 	    try {
@@ -34,7 +34,7 @@ public class HibernateCanalDAO implements CanalDAO {
 	        try (ResultSet rs = stmt.executeQuery()) {
 	            if (rs.next()) {
 	                int count = rs.getInt(1);
-	                exists[0] = count > 0;
+	                exists = count > 0;
 	            }
 	        }
 
@@ -42,7 +42,7 @@ public class HibernateCanalDAO implements CanalDAO {
 	        e.printStackTrace();
 	    }
 	    
-	    return exists[0];
+	    return exists;
 	}
 
 

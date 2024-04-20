@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--this.ctx.getResources().getString(R.string.ip)-->
 <resources>
-    <string name="ip">192.168.1.51</string>
+    <string name="ip">192.168.1.42</string> <!--192.168.1.42-->
     <integer name="puerto">12345</integer>
 </resources>

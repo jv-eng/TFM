@@ -21,19 +21,19 @@ public class HibernateSuscripcionDAO implements SuscripcionDAO {
 
 	@Override
 	public boolean usuarioSuscrito(Usuario usuarioObj, Canal canalObj) {
-	    boolean[] test = {false};
+	    boolean test = false;
 	    String consulta = "SELECT COUNT(*) FROM Suscripcion WHERE usuario_NombreUsuario = ? AND NombreCanal = ?";
 	    
 	    try {
 	        PreparedStatement stmt = conn.prepareStatement(consulta);
 
-	        stmt.setString(1, usuarioObj.getNombreUsuario());
+	        stmt.setString(1, usuarioObj.getCorreoElectronico());
 	        stmt.setString(2, canalObj.getNombreCanal());
 
 	        try (ResultSet rs = stmt.executeQuery()) {
 	            if (rs.next()) {
 	                int count = rs.getInt(1);
-	                test[0] = count > 0;
+	                test = count > 0;
 	            }
 	        }
 
@@ -41,7 +41,7 @@ public class HibernateSuscripcionDAO implements SuscripcionDAO {
 	        e.printStackTrace();
 	    }
 	    
-	    return test[0];
+	    return test;
 	}
 
 

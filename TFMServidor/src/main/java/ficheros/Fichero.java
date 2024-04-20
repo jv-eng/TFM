@@ -76,6 +76,7 @@ public class Fichero {
 				if (canalDAO.existeCanal(canal)) {
 					Canal c = canalDAO.getCanal(canal);
 					Usuario u = usuarioDAO.getUsuario(usuario);
+					c.setCreador(u);
 					System.out.println("usuario --> " + u.getCorreoElectronico());
 					System.out.println("canal --> " + c.getNombreCanal());
 					

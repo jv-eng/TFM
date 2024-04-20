@@ -27,7 +27,7 @@ public class HibernateArchivoDAO implements ArchivoDAO {
 
 	        stmt.setString(1, fileName);
 	        stmt.setString(2, ruta);
-	        stmt.setString(3, u.getNombreUsuario());
+	        stmt.setString(3, u.getCorreoElectronico());
 	        stmt.setString(4, c.getNombreCanal());
 
 	        stmt.executeUpdate();
@@ -53,6 +53,7 @@ public class HibernateArchivoDAO implements ArchivoDAO {
 	                // Crear un objeto Archivo con los datos del resultado
 	                archivo = new Archivo();
 	                archivo.setNombreArchivo(rs.getString("nombreArchivo"));
+	                archivo.setRutaSistemaArchivos(rs.getString("rutaSistemaArchivos"));
 	                // Otras asignaciones de atributos si es necesario
 	            }
 	        }

@@ -17,7 +17,7 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 
 	@Override
 	public boolean comprobarUsuario(String usuario) {
-	    boolean[] test = {false};
+	    boolean test = false;
 	    String consulta = "SELECT COUNT(*) FROM UsuarioCredenciales WHERE NombreUsuario = ?";
 	    
 	    try {
@@ -28,7 +28,7 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 	        try (ResultSet rs = stmt.executeQuery()) {
 	            if (rs.next()) {
 	                int count = rs.getInt(1);
-	                test[0] = count > 0;
+	                test = count > 0;
 	            }
 	        }
 
@@ -36,7 +36,7 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 	        e.printStackTrace();
 	    }
 	    
-	    return test[0];
+	    return test;
 	}
 
 
@@ -80,7 +80,7 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 
 	@Override
 	public boolean comprobarCredenciales(String correo, String contraseña) {
-	    boolean[] test = {false};
+	    boolean test = false;
 	    String consulta = "SELECT COUNT(*) FROM UsuarioCredenciales WHERE Correo = ? AND Password = ?";
 	    
 	    try {
@@ -92,7 +92,7 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 	        try (ResultSet rs = stmt.executeQuery()) {
 	            if (rs.next()) {
 	                int count = rs.getInt(1);
-	                test[0] = count > 0;
+	                test = count > 0;
 	            }
 	        }
 
@@ -100,7 +100,7 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 	        e.printStackTrace();
 	    }
 	    
-	    return test[0];
+	    return test;
 	}
 
 	
