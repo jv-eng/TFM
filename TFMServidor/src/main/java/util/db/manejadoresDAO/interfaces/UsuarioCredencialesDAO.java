@@ -12,4 +12,6 @@ public interface UsuarioCredencialesDAO {
 	
 	void borrarClave(String correo);
 	
+	String getNombreUsuario(String correo);
+	
 }

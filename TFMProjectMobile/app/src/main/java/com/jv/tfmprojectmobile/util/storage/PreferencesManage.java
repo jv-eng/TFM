@@ -5,10 +5,15 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.jv.tfmprojectmobile.util.AuxiliarUtil;
+
+import java.util.Calendar;
+import java.util.Date;
+
 public class PreferencesManage {
     private final static String PREFERENCES_FILE_NAME = "prefs", PREFERENCES_ATTR_1_NAME = "user_name", PREFERENCES_USR_EXISTS = "user_exists",
             PREFERENCES_ATTR_2_PASS = "user_pass", PREFERENCES_ATTR_3_MAIL = "user_mail", PREFERENCES_ATTR_4_PUBKEY = "user_pub_key",
-            PREFERENCES_ATTR_5_PRIVKEY = "user_priv_key";
+            PREFERENCES_ATTR_5_PRIVKEY = "user_priv_key", PREFERENCES_ATTR_6_DATE = "user_key_date";
 
     public static void rememberUser(Context ctx) {
         SharedPreferences pref = ctx.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
@@ -37,7 +42,22 @@ public class PreferencesManage {
         ed.putString(PREFERENCES_ATTR_3_MAIL, mail);
         ed.putString(PREFERENCES_ATTR_4_PUBKEY, pubKey);
         ed.putString(PREFERENCES_ATTR_5_PRIVKEY, privKey);
+        ed.putString(PREFERENCES_ATTR_6_DATE, AuxiliarUtil.dateString((Calendar.getInstance()).getTime()));
         ed.apply();
+    }
+
+    public static void storeUserName(Context ctx, String name) {
+        SharedPreferences pref = ctx.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor ed = pref.edit();
+        ed.putString(PREFERENCES_ATTR_1_NAME, name);
+        ed.apply();
+    }
+
+    public static boolean dateValid(Context ctx) {
+        SharedPreferences pref = ctx.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
+        String dateStr = pref.getString(PREFERENCES_ATTR_6_DATE, "");
+        Date date = AuxiliarUtil.stringDate(dateStr);
+        return date == null || !date.after((Calendar.getInstance()).getTime()); //true si es valida, false si no
     }
 
     public static void removeUser(Context ctx) {

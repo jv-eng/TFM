@@ -1,70 +1,115 @@
 package util.db.manejadoresDAO.manejadores;
 
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.TypedQuery;
-import util.db.AuxiliarDB;
 import util.db.manejadoresDAO.interfaces.UsuarioDAO;
 import util.db.modelos.Usuario;
 
 public class HibernateUsuarioDAO implements UsuarioDAO {
 	
-	private EntityManagerFactory managerApp;
+	private Connection conn;
 
-	public HibernateUsuarioDAO(EntityManagerFactory managerApp) {
-		this.managerApp = managerApp;
+	public HibernateUsuarioDAO(Connection conn) {
+		this.conn = conn;
 	}
 
 	@Override
 	public void crearUsuario(String usuario, String correo, String pass) {
-		AuxiliarDB.inTransaction(entityManager -> {
-			entityManager.persist(new Usuario(usuario, correo, null));
-		}, this.managerApp);
+	    String consulta = "INSERT INTO Usuario (NombreUsuario, CorreoElectronico) VALUES (?, ?)";
+	    
+	    try {
+	        PreparedStatement stmt = conn.prepareStatement(consulta);
+
+	        stmt.setString(1, usuario);
+	        stmt.setString(2, correo);
+
+	        stmt.executeUpdate();
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 	
 	@Override
 	public boolean existeUsuario(String correo) {
-		boolean [] test = {false};
-		AuxiliarDB.inTransaction(entityManager -> {
-			TypedQuery<Usuario> query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.correoElectronico = :id", Usuario.class);
-		    query.setParameter("id", correo);
+	    boolean[] test = {false};
+	    String consulta = "SELECT COUNT(*) FROM Usuario WHERE CorreoElectronico = ?";
+	    
+	    try {
+	        PreparedStatement stmt = conn.prepareStatement(consulta);
 
-		    List<Usuario> usuarios = query.getResultList();
+	        stmt.setString(1, correo);
 
-		    test[0] = !usuarios.isEmpty();
-		}, this.managerApp);
-		return test[0];
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            if (rs.next()) {
+	                int count = rs.getInt(1);
+	                test[0] = count > 0;
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return test[0];
 	}
+
 	
 	@Override
 	public boolean comprobarUsuarioId(String usuario) {
-		boolean [] test = {false};
-		AuxiliarDB.inTransaction(entityManager -> {
-			TypedQuery<Usuario> query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = :id", Usuario.class);
-		    query.setParameter("id", usuario);
+	    boolean[] test = {false};
+	    String consulta = "SELECT COUNT(*) FROM Usuario WHERE NombreUsuario = ?";
+	    
+	    try {
+	        PreparedStatement stmt = conn.prepareStatement(consulta);
 
-		    List<Usuario> usuarios = query.getResultList();
+	        stmt.setString(1, usuario);
 
-		    test[0] = !usuarios.isEmpty();
-		}, this.managerApp);
-		return test[0];
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            if (rs.next()) {
+	                int count = rs.getInt(1);
+	                test[0] = count > 0;
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return test[0];
 	}
+
 
 	@Override
 	public Usuario getUsuario(String correo) {
-		Usuario [] usuario = new Usuario[1];
-		AuxiliarDB.inTransaction(entityManager -> {
-			TypedQuery<Usuario> query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.correoElectronico = :id", Usuario.class);
-		    query.setParameter("id", correo);
+	    Usuario usuario = null;
+	    String consulta = "SELECT * FROM Usuario WHERE CorreoElectronico = ?";
+	    
+	    try {
+	        PreparedStatement stmt = conn.prepareStatement(consulta);
 
-		    if (query.getResultList().isEmpty()) {
-		    	usuario[0] = null;
-		    } else {
-		    	usuario[0] = query.getResultList().get(0);
-		    }
-		}, this.managerApp);
-		return usuario[0];
+	        stmt.setString(1, correo);
+
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            if (rs.next()) {
+	                // Crear un objeto Usuario con los datos del resultado
+	                usuario = new Usuario();
+	                usuario.setNombreUsuario(rs.getString("NombreUsuario"));
+	                usuario.setCorreoElectronico(rs.getString("CorreoElectronico"));
+	                // Otras asignaciones de atributos si es necesario
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return usuario;
 	}
+
 
 }

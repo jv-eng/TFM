@@ -32,11 +32,12 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 TextView txt_username = findViewById(R.id.register_username);
                 TextView txt_user = findViewById(R.id.register_email);
+                String strMail = txt_user.getText().toString().toLowerCase().trim();
                 TextView txt_pass_1 = findViewById(R.id.register_pass_1);
                 TextView txt_pass_2 = findViewById(R.id.register_pass_2);
 
                 //comprobar formato del email
-                if(!emailPattern.matcher(txt_user.getText().toString()).matches()){
+                if(!emailPattern.matcher(strMail).matches()){
                     Toast.makeText(RegisterActivity.this, "Please insert a valid Email", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -46,8 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 //lanzar thread
-                //tener en cuenta que es un API
-                UserModel user = new UserModel(txt_username.getText().toString(), txt_user.getText().toString(), txt_pass_1.getText().toString());
+                UserModel user = new UserModel(txt_username.getText().toString(), strMail, txt_pass_1.getText().toString());
                 Thread th = new Thread(new RegisterThread(RegisterActivity.this, user));
                 th.start();
             }

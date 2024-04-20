@@ -56,7 +56,7 @@ public class Fichero {
 			byte [] canal = "canal de prueba".getBytes();
 			byte [] fich = fichero.getBytes();
 			
-			File f = new File("C:\\Users\\Juan_\\Downloads\\"+fichero);
+			File f = new File("C:\\Users\\Juan_\\Downloads\\"+"img_20220715_121800.jpg");
 			long longitud_mensaje = f.length();
 			
 			//enviar
@@ -76,7 +76,7 @@ public class Fichero {
 			
 			//enviar fichero
 			byte [] envio = new byte[64000];
-			FileInputStream fich_stream = new FileInputStream("C:\\Users\\Juan_\\Downloads\\"+fichero);
+			FileInputStream fich_stream = new FileInputStream("C:\\Users\\Juan_\\Downloads\\"+"img_20220715_121800.jpg");
 			
 			long num_total = 0;
 			int bytes_leidos = 0;

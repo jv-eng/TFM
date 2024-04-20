@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FileStoreDB {
+
     private FileStoreHelper helper;
     public FileStoreDB(FileStoreHelper helper) {
         this.helper = helper;
@@ -26,12 +27,17 @@ public class FileStoreDB {
         });
     }
 
+    public void eliminarPorNombre(String nombreArchivo) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.delete("file", "name = ?", new String[]{nombreArchivo});
+    }
+
     public void descargaFichero(FileStoreModel model) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put("descargado", String.valueOf(1));
         valores.put("ruta", model.getRuta());
-        db.update("name", valores, "name=?", new String[] {model.getName()});
+        db.update("file", valores, "name = ?", new String[] {model.getName()});
     }
 
     public FileStoreModel getFile(String name) {
@@ -80,7 +86,7 @@ public class FileStoreDB {
             lista.add(new FileStoreModel(
                     cursor.getString(0), cursor.getString(1),
                     cursor.getInt(2), cursor.getString(3),
-                    cursor.getString(4)
+                    canal
             ));
         }
 

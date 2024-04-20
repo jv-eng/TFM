@@ -48,14 +48,14 @@
                     android:text="ficheros_canal_btn_lista"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintHorizontal_bias="0.076"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.182" />
+                    app:layout_constraintVertical_bias="0.185" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputLayout3"
-                    android:layout_width="409dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -73,15 +73,27 @@
 
                 <ListView
                     android:id="@+id/ficheros_canal_lv_lista_fich"
-                    android:enabled="false"
                     android:layout_width="318dp"
                     android:layout_height="420dp"
+                    android:enabled="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.494"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.777" />
+
+                <Button
+                    android:id="@+id/ficheros_canal_btn_sub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sub"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.903"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.185" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>

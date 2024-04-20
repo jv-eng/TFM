@@ -11,7 +11,7 @@ public class FileStoreModel {
     private String name;
 
     @SerializedName("descargado")
-    private int descargado;
+    private int descargado; //0 no descargado, 1 descargado
 
     @SerializedName("ruta")
     private String ruta;

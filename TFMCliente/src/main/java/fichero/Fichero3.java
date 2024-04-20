@@ -30,7 +30,7 @@ public class Fichero3 {
 		scanner.close();
 		
 		//descargar fichero
-		//descargarrFichero("hibernate-tutorials.zip");
+		descargarrFichero("hibernate-tutorials.zip");
 	}
 	
 	public static void enviarFichero(String fichero) {

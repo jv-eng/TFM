@@ -3,11 +3,11 @@ package usuarios;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.Connection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import jakarta.persistence.EntityManagerFactory;
 import util.db.manejadoresDAO.interfaces.UsuarioCredencialesDAO;
 import util.db.manejadoresDAO.interfaces.UsuarioDAO;
 import util.db.manejadoresDAO.manejadores.HibernateUsuarioCredencialesDAO;
@@ -19,14 +19,12 @@ public class UsuarioCredenciales {
 	//logger
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.creacion_usuarios");
 	
-	private EntityManagerFactory managerApp;
-	private EntityManagerFactory managerUsuario;
+	private Connection managerApp;
 	private Socket socket;
 
-	public UsuarioCredenciales(EntityManagerFactory entityManagerFactoryCredenciales, EntityManagerFactory entityManagerFactoryApp, Socket socket_sr) {
-		this.managerUsuario = entityManagerFactoryCredenciales;
-		this.managerApp = entityManagerFactoryApp;
+	public UsuarioCredenciales(Connection conn, Socket socket_sr) {
 		this.socket = socket_sr;
+		this.managerApp = conn;
 	}
 
 	public int crearUsuario() {
@@ -54,13 +52,19 @@ public class UsuarioCredenciales {
 			buff = new byte[tam];
 			flujo_e.read(buff);
 			String correo = new String(buff, 0, tam, "UTF-8");
+			correo = correo.toLowerCase();
+			correo = correo.trim();
 			System.out.println("mail: " + correo);
+			
+			System.out.println(correo.matches("^[a-zA-Z0-9_]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,}$"));
+			System.out.println(usuario.matches("^[a-zA-Z0-9_]{3,20}$"));
+			System.out.println(pass.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"));
 			
 			//comprobar formato nombre, correo y contraseña
 			if (correo.matches("^[a-zA-Z0-9_]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,}$") && 
 					usuario.matches("^[a-zA-Z0-9_]{3,20}$") && pass.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$")) {
 				//crear los DAO
-				UsuarioCredencialesDAO usuarioCDAO = new HibernateUsuarioCredencialesDAO(managerUsuario);
+				UsuarioCredencialesDAO usuarioCDAO = new HibernateUsuarioCredencialesDAO(managerApp);
 				UsuarioDAO usuarioDAO = new HibernateUsuarioDAO(managerApp);
 				
 				//comprobar si existe un usuario con ese nombre

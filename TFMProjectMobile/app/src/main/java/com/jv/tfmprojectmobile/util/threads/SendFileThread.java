@@ -9,6 +9,7 @@ import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.activities.CreateChannelActivity;
 import com.jv.tfmprojectmobile.activities.SendFileActivity;
 import com.jv.tfmprojectmobile.util.AuxiliarUtil;
+import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -55,8 +56,15 @@ public class SendFileThread implements Runnable {
             flujo_out.writeInt(6);
 
             //2-datos usuario
+            String mailUsuario = PreferencesManage.userMail(ctx);
+            byte [] mail = mailUsuario.getBytes();
+            flujo_out.writeInt(mail.length);
+            flujo_out.write(mail);
 
             //3-nombre canal
+            byte [] canal = channel.getBytes();
+            flujo_out.writeInt(canal.length);
+            flujo_out.write(canal);
 
             // Obtener el nombre del archivo
             String fileName = AuxiliarUtil.getFileName(ctx, selectedFileUri);
@@ -69,20 +77,24 @@ public class SendFileThread implements Runnable {
             // Obtener el contenido del archivo
             InputStream fileInputStream = ctx.getContentResolver().openInputStream(selectedFileUri);
             BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-            byte [] buffer = new byte[64000];
 
-            File f = new File(Objects.requireNonNull(selectedFileUri.getPath()));
-            long longitud_mensaje = f.length();
+
+            //File f = new File(selectedFileUri.getPath());
+            long longitud_mensaje = fileInputStream.available();
+            flujo_out.writeLong(longitud_mensaje);
+
+            byte [] buffer;
+            if (longitud_mensaje < 64000) buffer = new byte[(int)longitud_mensaje];
+            else buffer = new byte[64000];
 
             //5- enviar fichero
             long num_total = 0;
             int bytes_leidos = 0;
             do {
-                assert fileInputStream != null;
-                bytes_leidos = fileInputStream.read(buffer);
+                bytes_leidos = bufferedInputStream.read(buffer);
                 num_total += bytes_leidos;
                 flujo_out.write(buffer,0, bytes_leidos);
-            } while(num_total < longitud_mensaje);
+            } while (num_total < longitud_mensaje);
 
             // Cerrar el flujo de entrada del archivo
             bufferedInputStream.close();
@@ -90,13 +102,14 @@ public class SendFileThread implements Runnable {
             ((Activity)ctx).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    ((SendFileActivity)ctx).aShortToast(String.valueOf(longitud_mensaje));
                     ((SendFileActivity)ctx).prepareUIAfterDownload();
                 }
             });
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
+        } /*finally {
             try {
                 // Cerrar los flujos y la conexión
                 if (flujo_out != null) flujo_out.close();
@@ -105,6 +118,6 @@ public class SendFileThread implements Runnable {
             } catch (IOException e) {
                 Log.e("recibir fichero","error recibiendo el fichero");
             }
-        }
+        }*/
     }
 }

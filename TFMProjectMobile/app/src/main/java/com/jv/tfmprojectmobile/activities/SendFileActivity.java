@@ -55,11 +55,11 @@ public class SendFileActivity extends AppCompatActivity {
         buscarFich.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Crear un Intent para seleccionar el archivo
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                 // Iniciar el selector de archivos
                 startActivityForResult(Intent.createChooser(intent, "Seleccionar archivo"), 1);
@@ -74,6 +74,7 @@ public class SendFileActivity extends AppCompatActivity {
                     String txt = ((TextInputEditText)findViewById(R.id.send_file_te_channel)).getText().toString();
                     Thread th = new Thread(new SendFileThread(SendFileActivity.this, selectedFileUri, txt));
                     th.start();
+
                     Log.e("nombre fich", AuxiliarUtil.getFileName(SendFileActivity.this,selectedFileUri));
                 } else {
                     aShortToast("selecciona algun fichero");
@@ -88,7 +89,7 @@ public class SendFileActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             // Obtener la URI del archivo seleccionado
             selectedFileUri = data.getData();
-            ((TextView)findViewById(R.id.send_file_tv_file)).setText(AuxiliarUtil.getFileName(SendFileActivity.this,selectedFileUri));
+            ((TextView)findViewById(R.id.send_file_tv_file)).setText(AuxiliarUtil.getFileName(this, selectedFileUri));
         }
     }
 

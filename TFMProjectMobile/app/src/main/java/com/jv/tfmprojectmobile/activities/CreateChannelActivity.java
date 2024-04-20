@@ -107,7 +107,7 @@ public class CreateChannelActivity extends AppCompatActivity {
 
         if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
             aShortToast("revisando permisos");
-            requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
+            //requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
         }
     }
 
@@ -140,7 +140,7 @@ public class CreateChannelActivity extends AppCompatActivity {
                 String str = ((TextInputEditText)findViewById(R.id.create_channel_txt_name)).getText().toString();
                 aShortToast("canal creado");
 
-                if (!str.equals("hint")) {
+                if (!str.isEmpty()) {
                     Thread th = new Thread(new CreateChannelThread(CreateChannelActivity.this, str));
                     th.start();
                 } else aShortToast("indique un nombre");

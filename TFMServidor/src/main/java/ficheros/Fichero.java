@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.Connection;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,13 +34,13 @@ public class Fichero {
 	//logger
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
 	
-	private static final String ruta = "F:\\";
+	private static final String ruta = "F:\\descargas_tfm\\";
 	
-	private EntityManagerFactory managerApp;
+	private Connection managerApp;
 	private Socket socket;
 	
-	public Fichero(EntityManagerFactory entityManagerFactoryApp, Socket socket_sr) {
-		this.managerApp = entityManagerFactoryApp;
+	public Fichero(Connection conn, Socket socket_sr) {
+		this.managerApp = conn;
 		this.socket = socket_sr;
 	}
 
@@ -54,6 +55,7 @@ public class Fichero {
 			byte [] buff = new byte[tam];
 			flujo_e.read(buff);
 			String usuario = new String(buff, 0, tam, "UTF-8");
+			usuario = usuario.toLowerCase();
 			System.out.println("usuario: " + usuario);
 			
 			//nombre del canal
@@ -69,6 +71,7 @@ public class Fichero {
 			ArchivoDAO archivoDAO = new HibernateArchivoDAO(this.managerApp);
 			
 			//comprobar que existen usuario y canal
+			System.out.println("existe usuario: " + usuarioDAO.existeUsuario(usuario));
 			if (usuarioDAO.existeUsuario(usuario)) {
 				if (canalDAO.existeCanal(canal)) {
 					Canal c = canalDAO.getCanal(canal);
@@ -123,6 +126,7 @@ public class Fichero {
 			byte [] buff = new byte[tam];
 			flujo_e.read(buff);
 			String usuario = new String(buff, 0, tam, "UTF-8");
+			usuario = usuario.toLowerCase();
 			System.out.println("usuario: " + usuario);
 			
 			//nombre del canal
@@ -186,6 +190,7 @@ public class Fichero {
 			byte [] buff = new byte[tam];
 			flujo_e.read(buff);
 			String nombre = new String(buff, 0, tam, "UTF-8");
+			nombre = nombre.toLowerCase();
 			System.out.println("nombre fichero: " + nombre);
 			//String rutaFichero = ruta  + nombre;
 			
@@ -194,8 +199,7 @@ public class Fichero {
 			System.out.println("Tamaño fichero: " + num_recibido);
 			
 			//recibir mensaje
-			if (num_recibido > 64000) buff = new byte[64000];
-			else buff = new byte[(int) num_recibido];
+			buff = new byte[64000];
 			
 			FileOutputStream fich = new FileOutputStream(ruta + nombre);
 			int bytes_leidos = 0;
@@ -208,7 +212,7 @@ public class Fichero {
 				System.out.println("Recibiendo Fichero ...");
 				System.out.println("longitud enviada fich: " + bytes_acumulados);
 				System.out.println("NumBytesLeidos "+ bytes_leidos);
-			} while(bytes_acumulados < num_recibido);
+			} while (bytes_acumulados < num_recibido);
 			
 			fich.close();
 			System.out.println("terminamos, volvemos");
@@ -262,31 +266,22 @@ public class Fichero {
 			System.out.println(usuariosSuscritos.size());
 			
 			//notificar canal y nombre del fichero
-			/*for (Suscripcion s: usuariosSuscritos) {
-				System.out.println("Usuario: " + s.getUsuario().getCorreoElectronico() + "\trecibe fichero con suscripcion: " + s.getSuscripcionID());
-				//obtener socket y flujo
-				Socket sock = new Socket(s.getIp(), s.getPuerto());
-				DataOutputStream flujo_out = new DataOutputStream(sock.getOutputStream());
-				//enviar canal
-				flujo_out.writeInt(c.getNombreCanal().getBytes().length);
-				flujo_out.write(c.getNombreCanal().getBytes());
-				//enviar nombre del fichero
-				flujo_out.writeInt(fileName.getBytes().length);
-				flujo_out.write(fileName.getBytes());
-			}*/
-			for (Socket sock: Main.mapa.get(c.getNombreCanal())) {
-				DataOutputStream flujo_out = new DataOutputStream(sock.getOutputStream());
-				//enviar canal
-				flujo_out.writeInt(c.getNombreCanal().getBytes().length);
-				flujo_out.write(c.getNombreCanal().getBytes());
-				//enviar nombre del fichero
-				flujo_out.writeInt(fileName.getBytes().length);
-				flujo_out.write(fileName.getBytes());
+			if (!usuariosSuscritos.isEmpty()) {
+				for (Socket sock: Main.mapa.get(c.getNombreCanal())) {
+					DataOutputStream flujo_out = new DataOutputStream(sock.getOutputStream());
+					//enviar canal
+					flujo_out.writeInt(c.getNombreCanal().getBytes().length);
+					flujo_out.write(c.getNombreCanal().getBytes());
+					//enviar nombre del fichero
+					flujo_out.writeInt(fileName.getBytes().length);
+					flujo_out.write(fileName.getBytes());
+					System.out.println("fichero enviado");
+				}
 			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error, no hay cliente");
 		}
 	}
 }

@@ -8,6 +8,7 @@ import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.activities.LoginActivity;
 import com.jv.tfmprojectmobile.models.UserModel;
 import com.jv.tfmprojectmobile.util.ClavesUtil;
+import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -71,7 +72,15 @@ public class LoginThread implements Runnable {
             //ver resultado
             int res = flujo_in.readInt();
 
-            if (res == 0) {
+            if (res > 0) {
+                //recibimos nombre
+                byte [] buff = new byte[res];
+                flujo_in.read(buff);
+                String usuario= new String(buff, 0, res, "UTF-8");
+                userModel.setUserName(usuario);
+                PreferencesManage.storeUserName(ctx, usuario);
+                flujo_in.readInt();
+
                 msgRes = this.ctx.getResources().getString(R.string.login_msg_ok);
                 ((Activity)ctx).runOnUiThread(new Runnable() {
                     @Override
@@ -80,7 +89,7 @@ public class LoginThread implements Runnable {
                     }
                 });
             }
-            else if (res == 1) msgRes = this.ctx.getResources().getString(R.string.login_msg_1);
+            else if (res == -1) msgRes = this.ctx.getResources().getString(R.string.login_msg_1);
 
         } catch (IOException e) {
             Log.e("Login", "There was an error when login in an user");

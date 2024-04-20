@@ -76,8 +76,8 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputLayout"
-                    android:layout_width="409dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="360dp"
+                    android:layout_height="58dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

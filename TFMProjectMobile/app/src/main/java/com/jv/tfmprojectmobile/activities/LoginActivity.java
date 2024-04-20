@@ -37,14 +37,17 @@ public class LoginActivity extends AppCompatActivity {
                 TextView txt_user = findViewById(R.id.login_et_username);
                 TextView txt_pass = findViewById(R.id.login_et_password);
 
+                String strUser = txt_user.getText().toString().toLowerCase().trim();
+                String strPass = txt_pass.getText().toString().toLowerCase().trim();
+
                 //comprobar formato del email
-                if(!emailPattern.matcher(txt_user.getText().toString()).matches()){
+                if(!emailPattern.matcher(strUser).matches()){
                     Toast.makeText(LoginActivity.this, "Please insert a valid Email", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 //lanzar thread
-                UserModel user = new UserModel(null, txt_user.getText().toString(), txt_pass.getText().toString());
+                UserModel user = new UserModel(null, strUser, strPass);
                 Thread th = new Thread(new LoginThread(LoginActivity.this, user));
                 th.start();
             }
@@ -79,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         //si está activo, guardar usuario y claves
         String pubKey = ClavesUtil.claveString(claves.getPublic());
         String privKey = ClavesUtil.claveString(claves.getPrivate());
-        PreferencesManage.storeUser(this, userModel.getEmail(), userModel.getEmail(), userModel.getPassword(),
+        PreferencesManage.storeUser(this, userModel.getUserName(), userModel.getEmail(), userModel.getPassword(),
                 pubKey, privKey);
         if (save_user_btn.isChecked()) {
             PreferencesManage.rememberUser(this);

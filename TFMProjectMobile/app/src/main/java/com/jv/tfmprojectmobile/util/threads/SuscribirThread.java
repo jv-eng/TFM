@@ -2,9 +2,10 @@ package com.jv.tfmprojectmobile.util.threads;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.jv.tfmprojectmobile.R;
-import com.jv.tfmprojectmobile.activities.DescubrirCanalesActivity;
+import com.jv.tfmprojectmobile.activities.FicherosCanalActivity;
 import com.jv.tfmprojectmobile.models.FileStoreModel;
 import com.jv.tfmprojectmobile.util.AuxiliarUtil;
 import com.jv.tfmprojectmobile.util.storage.FileStoreDB;
@@ -34,42 +35,67 @@ public class SuscribirThread implements Runnable {
 
     @Override
     public void run() {
-        if (suscribirCanal()) {
-            //temporizador para parar el thread
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    stopListening();
-                }
-            }, timeout);
+        //crear flujos
+        try {
+            sock = new Socket(this.ctx.getResources().getString(R.string.ip), this.ctx.getResources().getInteger(R.integer.puerto));
+            DataInputStream flujo_in = new DataInputStream(sock.getInputStream());
+            DataOutputStream flujo_out = new DataOutputStream(sock.getOutputStream());
 
-            //esperar por ficheros
-            esperarFicheros();
+            //eliminar ficheros ya descargados
+            FileStoreHelper helper = new FileStoreHelper(ctx);
+            FileStoreDB fileStoreDB = new FileStoreDB(helper);
+            fileStoreDB.eliminarPorNombre(channel);
 
-            timer.cancel();
-        } else {
             ((Activity)ctx).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ((DescubrirCanalesActivity)ctx).aShortToast("Error al suscribir");
+                    ((FicherosCanalActivity)ctx).aShortToast("iniciamos proceso");
                 }
             });
+            Thread.sleep(3000);
+
+            if (suscribirCanal(flujo_in, flujo_out)) {
+                //temporizador para parar el thread
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        stopListening();
+                    }
+                }, timeout);
+
+                //esperar por ficheros
+                esperarFicheros(flujo_in);
+
+                timer.cancel();
+            } else {
+                ((Activity)ctx).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((FicherosCanalActivity)ctx).aShortToast("Error al suscribir");
+                    }
+                });
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private boolean suscribirCanal() {
+    private boolean suscribirCanal(DataInputStream flujo_in, DataOutputStream flujo_out) {
         try {
-            sock = new Socket(this.ctx.getResources().getString(R.string.ip), this.ctx.getResources().getInteger(R.integer.puerto));
+            ((Activity)ctx).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((FicherosCanalActivity)ctx).aShortToast("inicio suscripcion");
+                }
+            });
 
             //data
             int op = 4;
             byte [] mail = PreferencesManage.userMail(ctx).getBytes();
             byte [] channel = this.channel.getBytes();
-
-            //crear flujos
-            DataInputStream flujo_in = new DataInputStream(sock.getInputStream());
-            DataOutputStream flujo_out = new DataOutputStream(sock.getOutputStream());
 
             //enviar cod
             flujo_out.writeInt(op);
@@ -82,65 +108,77 @@ public class SuscribirThread implements Runnable {
 
             //ver resultado
             int res = flujo_in.readInt();
-            if (res == 0) msgRes = "canal suscrito correctamente";
-            else if (res == 1) msgRes = this.ctx.getResources().getString(R.string.login_msg_1);
+            if (res > 0) {
+                recibirFicherosEnviados(res, flujo_in); //recibir ficheros ya enviados a ese canal
+                msgRes = "canal suscrito correctamente";
+            }
+            else if (res == -1) msgRes = this.ctx.getResources().getString(R.string.login_msg_1);
 
+            //resultado operacion
+            flujo_in.readInt();
             ((Activity)ctx).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ((DescubrirCanalesActivity)ctx).aShortToast(msgRes);
+                    ((FicherosCanalActivity)ctx).aShortToast(msgRes);
                 }
             });
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.e("suscribir", "error");
         }
         return true;
     }
 
-    private void esperarFicheros() {
+    private void recibirFicherosEnviados(int tam, DataInputStream flujo_in) {
+        for (int i = 0; i < tam; i++) {
+            descargarFichero(flujo_in);
+        }
+    }
+
+    private void descargarFichero(DataInputStream flujo_e) {
+        try {
+            //esperar nombre fich, almacenar en base de datos
+            int tam = flujo_e.readInt();
+            byte[] buff = new byte[tam];
+            flujo_e.read(buff);
+            String fich = new String(buff, 0, tam, "UTF-8");
+
+            ((Activity)ctx).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((FicherosCanalActivity)ctx).aShortToast("fichero recibido ");
+                }
+            });
+
+            //guardar fichero
+            FileStoreHelper helper = new FileStoreHelper(ctx);
+            FileStoreDB fileStoreDB = new FileStoreDB(helper);
+            FileStoreModel model = new FileStoreModel(
+                    AuxiliarUtil.generateUUID(), fich, 0, "", channel
+            );
+
+            fileStoreDB.save(model);
+        } catch (IOException e) {
+            Log.e("suscribir", "error");
+        }
+    }
+
+    private void esperarFicheros(DataInputStream flujo_e) {
         ((Activity)ctx).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((DescubrirCanalesActivity)ctx).aShortToast("esperando para el canal " + channel);
+                ((FicherosCanalActivity)ctx).aShortToast("esperando para el canal " + channel);
             }
         });
 
-        //esperamos conexiones
-        try {
-            //leer datos
-            DataInputStream flujo_e = new DataInputStream(sock.getInputStream());
+        //esperar datos
+        while (isRunning) {
+           //descargar fichero
+            descargarFichero(flujo_e);
 
-            //esperar datos
-            while (isRunning) {
-                //esperar msg, almacenar en base de datos
-                int tam = flujo_e.readInt();
-                byte [] buff = new byte[tam];
-                flujo_e.read(buff);
-                String canal = new String(buff, 0, tam, "UTF-8");
-
-                //nombre del fichero
-                tam = flujo_e.readInt();
-                buff = new byte[tam];
-                flujo_e.read(buff);
-                String fich = new String(buff, 0, tam, "UTF-8");
-
-                //guardar fichero
-                FileStoreHelper helper = new FileStoreHelper(ctx);
-                FileStoreDB fileStoreDB = new FileStoreDB(helper);
-                FileStoreModel model = new FileStoreModel(
-                        AuxiliarUtil.generateUUID(), fich, 0, "", canal
-                );
-                fileStoreDB.save(model);
-            }
-
-            flujo_e.close();
-            sock.close();
-            
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            //lanzar notificacion
         }
-        
+
     }
 
     private void stopListening() {

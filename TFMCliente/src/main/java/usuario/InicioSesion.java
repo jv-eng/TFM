@@ -55,9 +55,20 @@ public class InicioSesion {
 			//enviar correo
 			flujo_out.writeInt(clave.length);
 			flujo_out.write(clave);
+			
 			//recibir y procesar respuesta
-			int res = flujo_in.readInt();
-			System.out.println("Resultado de la operación iniciar sesión: " + res);
+			int tam = flujo_in.readInt();
+			System.out.println("tamaño nombre: " + tam);
+			if (tam > 0) {
+				byte [] buff = new byte[tam];
+				flujo_in.read(buff);
+				String usuario= new String(buff, 0, tam, "UTF-8");
+				System.out.println("usuario: " + usuario);
+				tam = flujo_in.readInt();
+			}
+			
+			System.out.println(tam == 0);
+			System.out.println("Resultado de la operación iniciar sesión: " + tam);
 			
 			
 		} catch (NumberFormatException | IOException e) {
@@ -83,6 +94,6 @@ public class InicioSesion {
 		iniciarSesion("miUsuario_123@mail.com", "MiContrasena123");
 		
 		//inicio de sesion con usuario no creado
-		iniciarSesion("miUsuario@mail.com", "MiContrasena123");
+		//iniciarSesion("miUsuario@mail.com", "MiContrasena123");
 	}
 }

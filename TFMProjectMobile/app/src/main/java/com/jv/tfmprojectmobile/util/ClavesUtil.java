@@ -1,5 +1,7 @@
 package com.jv.tfmprojectmobile.util;
 
+import android.os.Build;
+
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -13,12 +15,18 @@ import java.util.Base64;
 public class ClavesUtil {
     public static String claveString(PublicKey key) {
         byte[] keyBytes = key.getEncoded();
-        return Base64.getEncoder().encodeToString(keyBytes);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return Base64.getEncoder().encodeToString(keyBytes);
+        }
+        return null;
     }
 
     public static String claveString(PrivateKey key) {
         byte[] keyBytes = key.getEncoded();
-        return Base64.getEncoder().encodeToString(keyBytes);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return Base64.getEncoder().encodeToString(keyBytes);
+        }
+        return null;
     }
 
     public static KeyPair generarClave() throws NoSuchAlgorithmException {
@@ -28,7 +36,10 @@ public class ClavesUtil {
     }
 
     public static PublicKey stringClave(String str) {
-        byte[] keyBytes = Base64.getDecoder().decode(str);
+        byte[] keyBytes = new byte[0];
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            keyBytes = Base64.getDecoder().decode(str);
+        }
 
         try {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -40,7 +51,10 @@ public class ClavesUtil {
     }
 
     public static PrivateKey stringToPrivateKey(String str) {
-        byte[] keyBytes = Base64.getDecoder().decode(str);
+        byte[] keyBytes = new byte[0];
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            keyBytes = Base64.getDecoder().decode(str);
+        }
 
         try {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");

@@ -26,6 +26,8 @@ public class Fichero2 {
 		Scanner scanner = new Scanner(System.in);
 		char caracter = scanner.next().charAt(0);
 		scanner.close();
+		//descargar fichero
+				descargarrFichero("hibernate-tutorials.zip");
 	}
 	
 	public static void enviarFichero(String fichero) {
@@ -49,7 +51,7 @@ public class Fichero2 {
 			byte [] canal = "canal de prueba".getBytes();
 			byte [] fich = fichero.getBytes();
 			
-			File f = new File("C:\\Users\\Juan_\\Downloads\\"+fichero);
+			File f = new File("C:\\Users\\Juan_\\Desktop\\"+fichero);
 			long longitud_mensaje = f.length();
 			
 			//enviar
@@ -140,7 +142,7 @@ public class Fichero2 {
 			System.out.println("tamaño: " + num_recibido);
 			System.out.println("nomrbe: " + fichero);
 			
-			FileOutputStream fich2 = new FileOutputStream("F:\\descargas_tfm\\v2\\" + fichero);
+			FileOutputStream fich2 = new FileOutputStream("F:\\descargas_tfm\\" + fichero);
 			int bytes_leidos = 0;
 			long bytes_acumulados = 0;
 			

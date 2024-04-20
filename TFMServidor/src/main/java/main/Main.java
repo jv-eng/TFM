@@ -1,12 +1,13 @@
 package main;
 
-import static jakarta.persistence.Persistence.createEntityManagerFactory;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,6 @@ import org.apache.logging.log4j.core.Logger;
 
 import canales.ManejadorCanal;
 import ficheros.Fichero;
-import jakarta.persistence.EntityManagerFactory;
 import usuarios.Sesion;
 import usuarios.UsuarioCredenciales;
 
@@ -33,13 +33,10 @@ public class Main {
 		//configurar seguridad
 		
 		
-		//configurar manejador base de datos hibernate
-		EntityManagerFactory entityManagerFactoryCredenciales = createEntityManagerFactory("org.hibernate.tfm.credenciales");
-		EntityManagerFactory entityManagerFactoryApp = createEntityManagerFactory("org.hibernate.tfm.servidor");
-		
 		//bucle de servidor
 		ServerSocket socket_servidor;
 		try {
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nombre_base_de_datos", "usuario_test", "123");
 			socket_servidor = new ServerSocket(12345);
 			while (true) {
 				System.out.println("Esperando conexiones en puerto 12345");
@@ -55,39 +52,40 @@ public class Main {
 				//revisar operador recibido
 				switch (op) {
 		            case 0: //crear usuario
-		            	UsuarioCredenciales u = new UsuarioCredenciales(entityManagerFactoryCredenciales, entityManagerFactoryApp, socket_sr);
+		            	UsuarioCredenciales u = new UsuarioCredenciales(conn, socket_sr);
 		            	res = u.crearUsuario();
 		            	break;
 		            case 1: //iniciar sesión
-		            	Sesion sesion = new Sesion(entityManagerFactoryCredenciales, socket_sr);
+		            	System.out.println("iniciamos sesion");
+		            	Sesion sesion = new Sesion(conn, socket_sr);
 		            	res = sesion.iniciarSesion();
 		            	break;
 		            case 2: //cerrar sesión
-		            	Sesion sesionCerrar = new Sesion(entityManagerFactoryCredenciales, socket_sr);
+		            	Sesion sesionCerrar = new Sesion(conn, socket_sr);
 		            	res = sesionCerrar.cerrarrSesion();
 		            	break;
 		            case 3: //crear canal
-		            	ManejadorCanal crearCanal = new ManejadorCanal(entityManagerFactoryApp, socket_sr);
+		            	ManejadorCanal crearCanal = new ManejadorCanal(conn, socket_sr);
 		            	res = crearCanal.crearCanal();
 		            	break;
 		            case 4: //subscribirse
-		            	ManejadorCanal subscribirse = new ManejadorCanal(entityManagerFactoryApp, socket_sr);
+		            	ManejadorCanal subscribirse = new ManejadorCanal(conn, socket_sr);
 		            	res = subscribirse.suscribirse();
 		            	break;
 		            case 5: //desubscribirse
-		            	ManejadorCanal desubscribirse = new ManejadorCanal(entityManagerFactoryApp, socket_sr);
+		            	ManejadorCanal desubscribirse = new ManejadorCanal(conn, socket_sr);
 		            	res = desubscribirse.desuscribirse();
 		            	break;
 		            case 6: //enviar fichero
-		            	Fichero fichEnviar = new Fichero(entityManagerFactoryApp, socket_sr);
+		            	Fichero fichEnviar = new Fichero(conn, socket_sr);
 		            	res = fichEnviar.enviarFichero();
 		            	break;
 		            case 7: //recibir fichero
-		            	Fichero fichRecibir = new Fichero(entityManagerFactoryApp, socket_sr);
+		            	Fichero fichRecibir = new Fichero(conn, socket_sr);
 		            	res = fichRecibir.recibirFichero();
 		            	break;
 		            case 8: //descargar fichero
-		            	Fichero fichDescargar = new Fichero(entityManagerFactoryApp, socket_sr);
+		            	Fichero fichDescargar = new Fichero(conn, socket_sr);
 		            	res = fichDescargar.descargarFichero();
 		            	break;
 		            default:
@@ -105,6 +103,10 @@ public class Main {
 			}
 		} catch (IOException e) {
 			logg.error("Error recibiendo el código de operación.");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		System.out.println("fin");
 	}

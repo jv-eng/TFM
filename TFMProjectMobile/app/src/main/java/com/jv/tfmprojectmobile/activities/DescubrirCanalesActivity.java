@@ -7,6 +7,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,10 +33,6 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
-import com.jv.tfmprojectmobile.util.threads.LoginThread;
-import com.jv.tfmprojectmobile.util.threads.SuscribirThread;
-
-import org.w3c.dom.Text;
 
 import java.nio.charset.StandardCharsets;
 
@@ -47,7 +44,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
     private String codeName = "buscador";
     private String opponentEndpointId;
     private static final String TAG = "DescubrirCanal";
-    private String canal = "";
+    private String canal = null;
     private ConnectionsClient connectionsClient;
     private static final String[] REQUIRED_PERMISSIONS =
             new String[] {
@@ -117,9 +114,10 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
         descubrir_canales_btn_suscribir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!canal.equals("")) {
-                    Thread th = new Thread(new SuscribirThread(DescubrirCanalesActivity.this, canal));
-                    th.start();
+                if (canal != null && !canal.isEmpty()) {
+                    Intent i = new Intent(DescubrirCanalesActivity.this, FicherosCanalActivity.class);
+                    i.putExtra("canal", canal);
+                    startActivity(i);
                 } else {
                     aShortToast("ningun canal encontrado");
                 }

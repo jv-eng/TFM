@@ -15,5 +15,7 @@ public interface CanalDAO {
 	Canal getCanal(String canal);
 
 	List<Suscripcion> getUsuariosSuscritos(Canal c);
+	
+	List<String> getArchivosCanal(String c);
 
 }

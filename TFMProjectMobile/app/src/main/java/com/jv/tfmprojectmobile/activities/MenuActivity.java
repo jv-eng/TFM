@@ -15,6 +15,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
+import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 
 import java.io.Serializable;
 
@@ -84,7 +85,7 @@ public class MenuActivity extends AppCompatActivity implements Serializable {
     private void setUsernameIntoNavDrawer(){
         // Get Username from LoginActivity.
         Bundle bundle = getIntent().getExtras();
-        String username = "Testing-User";
+        String username = PreferencesManage.userMail(this);
         // Get Header from navigationView
         View header = navigationView.getHeaderView(0);
         // Set Username into the header
