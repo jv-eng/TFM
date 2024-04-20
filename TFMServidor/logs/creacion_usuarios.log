@@ -1,0 +1,6 @@
+2024-04-20 18:55:25.991 [main] INFO  com.tfm.creacion_usuarios - Usuario "miUsuario_123" creado correctamente.
+2024-04-20 18:55:34.552 [main] INFO  com.tfm.creacion_usuarios - Usuario "miUsuario_12345" creado correctamente.
+2024-04-20 18:55:44.868 [main] INFO  com.tfm.creacion_usuarios - Usuario "miUsuario_1234" creado correctamente.
+2024-04-20 19:00:52.997 [main] ERROR com.tfm.creacion_usuarios - Usuario miUsuario_123 ya existe.
+2024-04-20 19:01:01.094 [main] ERROR com.tfm.creacion_usuarios - Usuario miUsuario_12345 ya existe.
+2024-04-20 19:01:10.761 [main] ERROR com.tfm.creacion_usuarios - Usuario miUsuario_1234 ya existe.

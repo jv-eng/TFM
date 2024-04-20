@@ -1,0 +1,25 @@
+2024-04-20 17:12:51.611 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 18:55:09.969 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 18:55:25.992 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 18:55:26.442 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 18:55:26.517 [main] INFO  com.tfm.app - El canal "canal de prueba" ha sido creado por el usuario "miUsuario_123".
+2024-04-20 18:55:26.518 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 18:55:34.552 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 18:55:34.971 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 18:55:35.051 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 18:55:44.868 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 18:55:45.382 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 18:55:45.429 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 19:00:50.195 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 19:00:52.998 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 19:00:53.642 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 19:00:53.659 [main] ERROR com.tfm.app - Error, el canal "canal de prueba" ya existe.
+2024-04-20 19:00:53.660 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 19:01:01.094 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 19:01:01.488 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 19:01:01.523 [main] ERROR com.tfm.app - Error, el usuario "miusuario_12345@mail.com" ya está suscrito al canal "canal de prueba".
+2024-04-20 19:01:01.523 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 19:01:10.770 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 19:01:11.348 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-20 19:01:11.366 [main] ERROR com.tfm.app - Error, el usuario "miusuario_1234@mail.com" ya está suscrito al canal "canal de prueba".
+2024-04-20 19:01:11.366 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345

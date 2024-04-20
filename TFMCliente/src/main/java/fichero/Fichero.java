@@ -30,7 +30,7 @@ public class Fichero {
 		scanner.close();
 		
 		//enviar fichero
-		enviarFichero("hibernate-tutorials.zip");
+		enviarFichero("libros.pdf");
 		//descargar fichero
 		//descargarrFichero("hibernate-tutorials.zip");
 	}
@@ -56,7 +56,7 @@ public class Fichero {
 			byte [] canal = "canal de prueba".getBytes();
 			byte [] fich = fichero.getBytes();
 			
-			File f = new File("C:\\Users\\Juan_\\Downloads\\"+"img_20220715_121800.jpg");
+			File f = new File("C:\\Users\\Juan_\\Descargas\\"+fichero);
 			long longitud_mensaje = f.length();
 			
 			//enviar
@@ -71,7 +71,7 @@ public class Fichero {
 			//enviar nombre del fichero
 			flujo_out.writeInt(fich.length);
 			flujo_out.write(fich);
-			//enviar tamaño
+			//enviar tamaï¿½o
 			flujo_out.writeLong(longitud_mensaje);
 			
 			//enviar fichero
@@ -94,7 +94,7 @@ public class Fichero {
 
 			//recibir y procesar respuesta
 			int res = flujo_in.readInt();
-			System.out.println("Resultado de la operación 'enviar fichero': " + res);
+			System.out.println("Resultado de la operaciï¿½n 'enviar fichero': " + res);
 			
 			
 		} catch (NumberFormatException | IOException e) {
@@ -139,12 +139,12 @@ public class Fichero {
 			System.out.println("datos enviados");
 			//recibir longitud
 			long num_recibido = flujo_in.readLong();
-			System.out.println("Tamaño fichero: " + num_recibido);
+			System.out.println("Tamaï¿½o fichero: " + num_recibido);
 			
 			//recibir mensaje
 			if (num_recibido > 64000) buff = new byte[64000];
 			else buff = new byte[(int) num_recibido];
-			System.out.println("tamaño: " + num_recibido);
+			System.out.println("tamaï¿½o: " + num_recibido);
 			System.out.println("nomrbe: " + fichero);
 			
 			FileOutputStream fich2 = new FileOutputStream("F:\\descargas_tfm\\" + fichero);
@@ -164,7 +164,7 @@ public class Fichero {
 
 			//recibir y procesar respuesta
 			int res = flujo_in.readInt();
-			System.out.println("Resultado de la operación 'cliente descarga fichero': " + res);
+			System.out.println("Resultado de la operaciï¿½n 'cliente descarga fichero': " + res);
 			
 			
 		} catch (NumberFormatException | IOException e) {

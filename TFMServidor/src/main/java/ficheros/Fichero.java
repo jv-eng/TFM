@@ -34,7 +34,7 @@ public class Fichero {
 	//logger
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
 	
-	private static final String ruta = "F:\\descargas_tfm\\";
+	private static final String ruta = "C:\\Users\\Juan_\\OneDrive\\Escritorio";
 	
 	private Connection managerApp;
 	private Socket socket;

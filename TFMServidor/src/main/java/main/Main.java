@@ -36,7 +36,7 @@ public class Main {
 		//bucle de servidor
 		ServerSocket socket_servidor;
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/nombre_base_de_datos", "usuario_test", "123");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tfmTest", "usuario_test", "123");
 			socket_servidor = new ServerSocket(12345);
 			while (true) {
 				System.out.println("Esperando conexiones en puerto 12345");
