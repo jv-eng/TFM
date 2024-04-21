@@ -39,6 +39,10 @@ public class FicherosAdapter extends BaseAdapter {
         return (long) hashCode & 0xffffffffL;
     }
 
+    public void setDatos(List<FileStoreModel> datos) {
+        this.datos = datos;
+    }
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         if (view == null) {

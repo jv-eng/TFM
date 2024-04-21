@@ -1,147 +1,117 @@
 package util.db.manejadoresDAO.manejadores;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
+import util.db.AuxiliarDB;
 import util.db.manejadoresDAO.interfaces.UsuarioCredencialesDAO;
+import util.db.modelos.UsuarioCredenciales;
 
 public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 	
-	private Connection conn;
+	private EntityManagerFactory managerUsuario;
 
-	public HibernateUsuarioCredencialesDAO(Connection conn) {
-		this.conn = conn;
+	public HibernateUsuarioCredencialesDAO(EntityManagerFactory managerUsuario) {
+		this.managerUsuario = managerUsuario;
 	}
 
 	@Override
 	public boolean comprobarUsuario(String usuario) {
-	    boolean test = false;
-	    String consulta = "SELECT COUNT(*) FROM UsuarioCredenciales WHERE NombreUsuario = ?";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
+		boolean [] test = {false};
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<UsuarioCredenciales> query = entityManager.createQuery("SELECT u FROM UsuarioCredenciales u WHERE u.id = :id", UsuarioCredenciales.class);
+		    query.setParameter("id", usuario);
 
-	        stmt.setString(1, usuario);
+		    List<UsuarioCredenciales> usuarios = query.getResultList();
 
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            if (rs.next()) {
-	                int count = rs.getInt(1);
-	                test = count > 0;
-	            }
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return test;
+		    test[0] = !usuarios.isEmpty();
+		}, this.managerUsuario);
+		return test[0];
 	}
-
 
 	@Override
 	public void crearUsuario(String usuario, String correo, String pass) {
-	    String consulta = "INSERT INTO UsuarioCredenciales (NombreUsuario, Correo, Password, Clave) VALUES (?, ?, ?, ?)";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
-
-	        stmt.setString(1, usuario);
-	        stmt.setString(2, correo);
-	        stmt.setString(3, pass);
-	        stmt.setString(4, pass); // Aquí se está usando el mismo valor de pass para la clave
-
-	        stmt.executeUpdate();
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+		AuxiliarDB.inTransaction(entityManager -> {
+			entityManager.persist(new UsuarioCredenciales(usuario, pass, pass, correo));
+		}, this.managerUsuario);
 	}
-
 
 	@Override
 	public void insertarClave(String correo, String clave) {
-	    String consulta = "UPDATE UsuarioCredenciales SET Clave = ? WHERE Correo = ?";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
+		AuxiliarDB.inTransaction(entityManager -> {
+		    TypedQuery<UsuarioCredenciales> query = entityManager.createQuery("FROM UsuarioCredenciales u WHERE u.correo = :mail", UsuarioCredenciales.class);
+		    query.setParameter("mail", correo);
 
-	        stmt.setString(1, clave);
-	        stmt.setString(2, correo);
+		    List<UsuarioCredenciales> usuarios = query.getResultList();
+		    System.out.println(usuarios.size());
 
-	        stmt.executeUpdate();
+		    if (!usuarios.isEmpty()) {
+		        // El usuario ya existe, actualiza la clave
+		        UsuarioCredenciales usuarioCredenciales = usuarios.get(0);
 
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+		        // Actualizar la entidad con la nueva clave
+		        usuarioCredenciales.setClave(clave);
+		    }
+
+		}, this.managerUsuario);
+		
 	}
-
 
 	@Override
 	public boolean comprobarCredenciales(String correo, String contraseña) {
-	    boolean test = false;
-	    String consulta = "SELECT COUNT(*) FROM UsuarioCredenciales WHERE Correo = ? AND Password = ?";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
+		boolean [] test = {false};
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<UsuarioCredenciales> query = entityManager.createQuery("FROM UsuarioCredenciales as u WHERE u.correo = :correo", UsuarioCredenciales.class);
+		    query.setParameter("correo", correo);
 
-	        stmt.setString(1, correo);
-	        stmt.setString(2, contraseña);
-
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            if (rs.next()) {
-	                int count = rs.getInt(1);
-	                test = count > 0;
-	            }
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return test;
+		    List<UsuarioCredenciales> usuarios = query.getResultList();
+		    
+		    if (!usuarios.isEmpty()) {
+		    	//existe el usuario
+		    	String pass = usuarios.get(0).getPass();
+		    	//hay que descrifrar o algo
+		    	System.out.println(pass);
+		    	//comprobamos
+		    	test[0] = pass.compareToIgnoreCase(contraseña) == 0;
+			}
+		    
+		}, this.managerUsuario);
+		return test[0];
 	}
-
 	
 	@Override
 	public void borrarClave(String correo) {
-	    String consulta = "UPDATE UsuarioCredenciales SET Clave = NULL WHERE Correo = ?";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<UsuarioCredenciales> query = entityManager.createQuery("FROM UsuarioCredenciales as u WHERE u.correo = :correo", UsuarioCredenciales.class);
+		    query.setParameter("correo", correo);
 
-	        stmt.setString(1, correo);
-	        stmt.executeUpdate();
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+		    List<UsuarioCredenciales> usuarios = query.getResultList();
+		    
+		    if (!usuarios.isEmpty()) {
+		    	//existe el usuario
+		    	usuarios.get(0).setClave("null");
+			}
+		    
+		}, this.managerUsuario);
 	}
-
 
 	@Override
 	public String getNombreUsuario(String correo) {
-	    String nombreUsuario = "";
-	    String consulta = "SELECT NombreUsuario FROM UsuarioCredenciales WHERE Correo = ?";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
+		String [] res = {""};
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<UsuarioCredenciales> query = entityManager.createQuery("FROM UsuarioCredenciales as u WHERE u.correo = :correo", UsuarioCredenciales.class);
+		    query.setParameter("correo", correo);
 
-	        stmt.setString(1, correo);
-
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            if (rs.next()) {
-	                nombreUsuario = rs.getString("NombreUsuario");
-	            }
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return nombreUsuario;
+		    List<UsuarioCredenciales> usuarios = query.getResultList();
+		    
+		    if (!usuarios.isEmpty()) {
+		    	//existe el usuario
+		    	res[0] = usuarios.get(0).getNombreUsuario();
+			}
+		    
+		}, this.managerUsuario);
+		return res[0];
 	}
-
 
 }

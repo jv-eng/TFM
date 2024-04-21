@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.sql.Connection;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -34,13 +33,13 @@ public class Fichero {
 	//logger
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
 	
-	private static final String ruta = "C:\\Users\\Juan_\\OneDrive\\Escritorio";
+	private static final String ruta = "F:\\descargas_tfm\\";
 	
-	private Connection managerApp;
+	private EntityManagerFactory managerApp;
 	private Socket socket;
 	
-	public Fichero(Connection conn, Socket socket_sr) {
-		this.managerApp = conn;
+	public Fichero(EntityManagerFactory entityManagerFactoryApp, Socket socket_sr) {
+		this.managerApp = entityManagerFactoryApp;
 		this.socket = socket_sr;
 	}
 
@@ -76,7 +75,6 @@ public class Fichero {
 				if (canalDAO.existeCanal(canal)) {
 					Canal c = canalDAO.getCanal(canal);
 					Usuario u = usuarioDAO.getUsuario(usuario);
-					c.setCreador(u);
 					System.out.println("usuario --> " + u.getCorreoElectronico());
 					System.out.println("canal --> " + c.getNombreCanal());
 					

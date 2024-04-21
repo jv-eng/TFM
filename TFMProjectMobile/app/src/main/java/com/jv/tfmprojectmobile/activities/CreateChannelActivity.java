@@ -5,14 +5,17 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +45,8 @@ import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
 import com.jv.tfmprojectmobile.util.threads.CreateChannelThread;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateChannelActivity extends AppCompatActivity {
 
@@ -104,11 +109,23 @@ public class CreateChannelActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
-            aShortToast("revisando permisos");
-            //requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
+        if (!hasPermissions(this, getRequiredPermissions())) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(getRequiredPermissions(), REQUEST_CODE_REQUIRED_PERMISSIONS);
+            }
         }
+    }
+    protected String[] getRequiredPermissions() {
+        return REQUIRED_PERMISSIONS;
+    }
+    public static boolean hasPermissions(Context context, String... permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(context, permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -151,8 +168,6 @@ public class CreateChannelActivity extends AppCompatActivity {
         create_channel_btn_announce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView tv = findViewById(R.id.create_channel_txt_name);
-                String str = tv.getText().toString();
                 startAdvertising();
             }
         });
@@ -166,35 +181,7 @@ public class CreateChannelActivity extends AppCompatActivity {
         });
     }
 
-    /** Returns true if the app was granted all the permissions. Otherwise, returns false. */
-    private static boolean hasPermissions(Context context, String... permissions) {
-        for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(context, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
-    }
 
-    /** Handles user acceptance (or denial) of our permission request. */
-    @CallSuper
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode != REQUEST_CODE_REQUIRED_PERMISSIONS) {
-            return;
-        }
-
-        for (int grantResult : grantResults) {
-            if (grantResult == PackageManager.PERMISSION_DENIED) {
-                Toast.makeText(this, R.string.error_missing_permissions, Toast.LENGTH_LONG).show();
-            }
-        }
-        recreate();
-    }
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -218,20 +205,6 @@ public class CreateChannelActivity extends AppCompatActivity {
                     //lo que queramos hacer
                     Toast.makeText(CreateChannelActivity.this, "payloadCallback", Toast.LENGTH_SHORT).show();
                 }
-            };
-
-
-    private final EndpointDiscoveryCallback endpointDiscoveryCallback =
-            new EndpointDiscoveryCallback() {
-                @Override
-                public void onEndpointFound(String endpointId, DiscoveredEndpointInfo info) {
-                    Log.i(TAG, "onEndpointFound: endpoint found, connecting");
-                    connectionsClient.requestConnection(codeName, endpointId, connectionLifecycleCallback);
-                    Toast.makeText(CreateChannelActivity.this, "Endpoint descubierto", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onEndpointLost(String endpointId) {}
             };
 
     // Callbacks for connections to other devices
@@ -285,8 +258,8 @@ public class CreateChannelActivity extends AppCompatActivity {
         // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
         connectionsClient
                 .startAdvertising(
-                        codeName, getPackageName(), connectionLifecycleCallback,
-                        new AdvertisingOptions.Builder().setStrategy(STRATEGY).build())
+                        codeName, "com.jv.tfmprojectmobile.CreateChannelActivity.SERVICE_ID", connectionLifecycleCallback,
+                        new AdvertisingOptions(STRATEGY))
                 .addOnSuccessListener(
                         new OnSuccessListener<Void>() {
                             @Override

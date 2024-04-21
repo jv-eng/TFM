@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.sql.Connection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,11 +27,11 @@ public class ManejadorCanal {
 	//logger
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
 	
-	private Connection conn;
+	private EntityManagerFactory managerApp;
 	private Socket socket;
 
-	public ManejadorCanal(Connection conn, Socket socket_sr) {
-		this.conn = conn;
+	public ManejadorCanal(EntityManagerFactory entityManagerFactoryApp, Socket socket_sr) {
+		this.managerApp = entityManagerFactoryApp;
 		this.socket = socket_sr;
 	}
 
@@ -58,8 +57,8 @@ public class ManejadorCanal {
 			String canal = new String(buff, 0, tam, "UTF-8");
 			System.out.println("canal: " + canal);
 			
-			UsuarioDAO usuarioDAO = new HibernateUsuarioDAO(this.conn);
-			CanalDAO canalDAO = new HibernateCanalDAO(this.conn);
+			UsuarioDAO usuarioDAO = new HibernateUsuarioDAO(this.managerApp);
+			CanalDAO canalDAO = new HibernateCanalDAO(this.managerApp);
 			
 			//comprobar si existe el usuario
 			if (usuarioDAO.existeUsuario(correo)) {
@@ -112,22 +111,21 @@ public class ManejadorCanal {
 			System.out.println("canal: " + canal);
 			
 			//crear dao
-			UsuarioDAO usuarioDAO = new HibernateUsuarioDAO(this.conn);
-			CanalDAO canalDAO = new HibernateCanalDAO(this.conn);
-			SuscripcionDAO suscripcionDAO = new HibernateSuscripcionDAO(this.conn);
+			UsuarioDAO usuarioDAO = new HibernateUsuarioDAO(this.managerApp);
+			CanalDAO canalDAO = new HibernateCanalDAO(this.managerApp);
+			SuscripcionDAO suscripcionDAO = new HibernateSuscripcionDAO(this.managerApp);
 			Usuario usuarioObj = usuarioDAO.getUsuario(usuario);
 			System.out.println("canal existe: " + canalDAO.existeCanal(canal));
-			
 			//comprobar si existe el canal
 			if (canalDAO.existeCanal(canal)) {
 				//comprobar si el usuario esta suscrito al canal
 				Canal c = canalDAO.getCanal(canal);
-				if (usuarioDAO.existeUsuario(usuario) && !suscripcionDAO.usuarioSuscrito(usuarioObj, c)) {
+				if (usuarioDAO.existeUsuario(usuario)) {// && !suscripcionDAO.usuarioSuscrito(usuarioObj, c)) {
 					//obtener datos para la suscripcion
 					Usuario u = usuarioDAO.getUsuario(usuario);
 
 					//suscribir usuario
-					suscripcionDAO.suscribir(u, c, socket.getInetAddress().getHostAddress(), socket.getPort());
+					if (!suscripcionDAO.usuarioSuscrito(usuarioObj, c)) suscripcionDAO.suscribir(u, c, socket.getInetAddress().getHostAddress(), socket.getPort());
 					
 					if (Main.mapa.get(canal) != null) {
 						Main.mapa.get(canal).add(socket);
@@ -143,7 +141,7 @@ public class ManejadorCanal {
 					//enviar numero de ficheros
 					flujo_out.writeInt(ficheros.size());
 					System.out.println("numero de ficheros a enviar: " + ficheros.size());
-					if (ficheros.size() > 0) {
+					if (!ficheros.isEmpty() ) {
 						//enviar nombres de los ficheros
 						System.out.println("enviamos ficheros ya enviados");
 						for (String str: ficheros) {
@@ -191,9 +189,9 @@ public class ManejadorCanal {
 			System.out.println("canal: " + canal);
 			
 			//crear dao
-			UsuarioDAO usuarioDAO = new HibernateUsuarioDAO(this.conn);
-			CanalDAO canalDAO = new HibernateCanalDAO(this.conn);
-			SuscripcionDAO suscripcionDAO = new HibernateSuscripcionDAO(this.conn);
+			UsuarioDAO usuarioDAO = new HibernateUsuarioDAO(this.managerApp);
+			CanalDAO canalDAO = new HibernateCanalDAO(this.managerApp);
+			SuscripcionDAO suscripcionDAO = new HibernateSuscripcionDAO(this.managerApp);
 			
 			//comprobar si existe el canal
 			if (!canalDAO.existeCanal(canal)) {

@@ -7,7 +7,7 @@ public class Endpoint {
     private final String id;
     @NonNull private final String name;
 
-    private Endpoint(@NonNull String id, @NonNull String name) {
+    public Endpoint(@NonNull String id, @NonNull String name) {
         this.id = id;
         this.name = name;
     }

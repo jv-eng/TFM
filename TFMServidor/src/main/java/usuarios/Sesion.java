@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.security.PublicKey;
-import java.sql.Connection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
@@ -20,11 +19,11 @@ public class Sesion {
 	//logger
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.sesiones");
 	
-	private Connection managerUsuario;
+	private EntityManagerFactory managerUsuario;
 	private Socket socket;
 
-	public Sesion(Connection conn, Socket socket_sr) {
-		this.managerUsuario = conn;
+	public Sesion(EntityManagerFactory entityManagerFactoryCredenciales, Socket socket_sr) {
+		this.managerUsuario = entityManagerFactoryCredenciales;
 		this.socket = socket_sr;
 	}
 

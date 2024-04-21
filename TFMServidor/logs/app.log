@@ -1,25 +1,237 @@
-2024-04-20 17:12:51.611 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 18:55:09.969 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 18:55:25.992 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 18:55:26.442 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 18:55:26.517 [main] INFO  com.tfm.app - El canal "canal de prueba" ha sido creado por el usuario "miUsuario_123".
-2024-04-20 18:55:26.518 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 18:55:34.552 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 18:55:34.971 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 18:55:35.051 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 18:55:44.868 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 18:55:45.382 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 18:55:45.429 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 19:00:50.195 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 19:00:52.998 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 19:00:53.642 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 19:00:53.659 [main] ERROR com.tfm.app - Error, el canal "canal de prueba" ya existe.
-2024-04-20 19:00:53.660 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 19:01:01.094 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 19:01:01.488 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 19:01:01.523 [main] ERROR com.tfm.app - Error, el usuario "miusuario_12345@mail.com" ya está suscrito al canal "canal de prueba".
-2024-04-20 19:01:01.523 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 19:01:10.770 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 19:01:11.348 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
-2024-04-20 19:01:11.366 [main] ERROR com.tfm.app - Error, el usuario "miusuario_1234@mail.com" ya está suscrito al canal "canal de prueba".
-2024-04-20 19:01:11.366 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:47:33.075 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:48:43.137 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:48:43.142 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:51:13.718 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:51:43.680 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:51:50.010 [main] INFO  com.tfm.app - El canal "H" ha sido creado por el usuario "Pepe".
+2024-04-21 10:51:50.010 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:51:57.367 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:52:11.647 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "H".
+2024-04-21 10:52:11.647 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:52:16.576 [main] ERROR com.tfm.app - Error, el canal "" no existe.
+2024-04-21 10:52:16.576 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:52:22.830 [main] ERROR com.tfm.app - Error, el canal "" no existe.
+2024-04-21 10:52:22.831 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:52:27.213 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "H".
+2024-04-21 10:52:27.214 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:52:34.625 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "H".
+2024-04-21 10:52:34.625 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:52:34.627 [main] ERROR com.tfm.app - Error, el canal "" no existe.
+2024-04-21 10:52:34.627 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:52:38.815 [main] ERROR com.tfm.app - Error, el canal "" no existe.
+2024-04-21 10:52:38.815 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:53:35.312 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:53:47.515 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "H".
+2024-04-21 10:53:47.515 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:53:53.825 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:58:34.147 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:58:45.211 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:58:50.455 [main] INFO  com.tfm.app - El canal "T" ha sido creado por el usuario "Pepe".
+2024-04-21 10:58:50.455 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:59:03.302 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:59:18.156 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "T".
+2024-04-21 10:59:18.156 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:59:27.749 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:59:48.365 [main] INFO  com.tfm.app - El canal "U" ha sido creado por el usuario "Pepe".
+2024-04-21 10:59:48.366 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 10:59:58.784 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:07:21.707 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:07:39.432 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:07:56.290 [main] INFO  com.tfm.app - El canal "Y" ha sido creado por el usuario "Pepe".
+2024-04-21 11:07:56.290 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:15:04.916 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:15:14.251 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:15:27.269 [main] INFO  com.tfm.app - El canal "G" ha sido creado por el usuario "Pepe".
+2024-04-21 11:15:27.269 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:17:22.695 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:17:31.323 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:17:37.455 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:17:43.292 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:18:41.294 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:18:48.649 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "G".
+2024-04-21 11:18:48.650 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:18:52.990 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:19:03.932 [main] INFO  com.tfm.app - El canal "W" ha sido creado por el usuario "Pepe".
+2024-04-21 11:19:03.932 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:19:21.339 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:19:53.221 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:20:02.960 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "W".
+2024-04-21 11:20:02.960 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:20:14.301 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:20:23.808 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:20:33.533 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "W".
+2024-04-21 11:20:33.533 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:20:42.118 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:21:06.211 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "W".
+2024-04-21 11:21:06.211 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:21:13.434 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:21:52.032 [main] INFO  com.tfm.app - El canal "O" ha sido creado por el usuario "Pepe".
+2024-04-21 11:21:52.032 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:22:03.320 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:22:43.684 [main] INFO  com.tfm.app - El canal "N" ha sido creado por el usuario "Pepe".
+2024-04-21 11:22:43.684 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:23:23.373 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:23:42.016 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:24:33.821 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:24:37.259 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:24:43.323 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:25:20.087 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:25:21.017 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:25:21.023 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:53:20.731 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:54:13.345 [main] INFO  com.tfm.app - El canal "H" ha sido creado por el usuario "Pepe".
+2024-04-21 11:54:13.345 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:54:21.537 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:58:30.609 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 11:59:49.651 [main] INFO  com.tfm.app - El canal "W" ha sido creado por el usuario "Pepe".
+2024-04-21 11:59:49.652 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:00:04.682 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:00:25.163 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:00:55.601 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "W".
+2024-04-21 12:00:55.601 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:00:56.844 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:01:05.379 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:01:11.014 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "W".
+2024-04-21 12:01:11.015 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:01:21.297 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:01:28.383 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "W".
+2024-04-21 12:01:28.383 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:01:37.633 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:01:43.702 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:01:50.587 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "W".
+2024-04-21 12:01:50.588 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:01:52.736 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:01:57.342 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "W".
+2024-04-21 12:01:57.342 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:02:02.225 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:07:28.307 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:07:34.585 [main] INFO  com.tfm.app - El canal "T" ha sido creado por el usuario "Pepe".
+2024-04-21 12:07:34.585 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:07:46.020 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:08:09.830 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:09:11.884 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:09:21.300 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:09:35.801 [main] ERROR com.tfm.app - Error, el usuario "pepe2@mail.com" ya está suscrito al canal "T".
+2024-04-21 12:09:35.801 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:09:42.522 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:10:08.538 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:10:09.307 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:10:09.312 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:10:13.673 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:10:14.098 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:10:19.896 [main] INFO  com.tfm.app - El canal "T" ha sido creado por el usuario "Pepe".
+2024-04-21 12:10:19.897 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:10:53.695 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:10:57.377 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:11:05.374 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:12:13.373 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:18:50.008 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:18:50.386 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:18:50.392 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:19:11.376 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:19:32.186 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:19:42.467 [main] INFO  com.tfm.app - El canal "R" ha sido creado por el usuario "Pepe".
+2024-04-21 12:19:42.468 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:20:06.429 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:20:14.885 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:20:20.987 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:20:46.654 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:24:42.559 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:24:43.108 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:24:43.114 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:25:19.512 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:25:35.890 [main] INFO  com.tfm.app - El canal "T" ha sido creado por el usuario "Pepe".
+2024-04-21 12:25:35.890 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:26:09.699 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:26:34.131 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:26:54.919 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:34:57.797 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:35:40.429 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:36:38.496 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:41:01.110 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:41:01.932 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:41:01.936 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:41:17.735 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:41:24.387 [main] INFO  com.tfm.app - El canal "T" ha sido creado por el usuario "Pepe".
+2024-04-21 12:41:24.387 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:44:39.464 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:50:52.865 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 12:52:17.026 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:03:14.421 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:03:56.100 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:04:25.021 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:05:03.662 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:05:13.381 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:05:31.697 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:05:36.913 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:05:46.295 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:07:11.220 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:07:22.271 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:07:32.357 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:07:46.533 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:10:53.217 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:11:20.537 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:11:45.645 [main] INFO  com.tfm.app - El canal "H" ha sido creado por el usuario "Pepe".
+2024-04-21 13:11:45.646 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:12:25.654 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:12:53.985 [main] ERROR com.tfm.app - Error, el canal "" no existe.
+2024-04-21 13:12:53.986 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:12:59.325 [main] ERROR com.tfm.app - Error, el canal "R" no existe.
+2024-04-21 13:12:59.325 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:13:05.798 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:16:30.756 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:16:54.024 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:26:14.044 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:26:35.550 [main] INFO  com.tfm.app - El canal "Y" ha sido creado por el usuario "Pepe".
+2024-04-21 13:26:35.550 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:31:18.242 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:32:33.169 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:33:30.086 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:34:32.020 [main] ERROR com.tfm.app - Error, el canal "T" ya existe.
+2024-04-21 13:34:32.020 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:34:41.082 [main] INFO  com.tfm.app - El canal "R" ha sido creado por el usuario "Pepe".
+2024-04-21 13:34:41.082 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:38:49.235 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:39:50.464 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:44:55.484 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:45:09.965 [main] INFO  com.tfm.app - El canal "K" ha sido creado por el usuario "Pepe".
+2024-04-21 13:45:09.965 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:50:58.083 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 13:51:42.088 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:41:29.833 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:41:30.554 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:41:36.450 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:41:36.457 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:42:19.471 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:42:24.965 [main] INFO  com.tfm.app - El canal "Y" ha sido creado por el usuario "Pepe".
+2024-04-21 15:42:24.966 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:43:33.799 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:43:44.294 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:43:51.461 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:43:56.561 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:48:15.878 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:48:22.799 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:48:25.513 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:51:06.068 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:51:14.240 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:51:17.725 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:52:30.312 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:52:57.369 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:53:02.514 [main] INFO  com.tfm.app - El canal "T" ha sido creado por el usuario "Pepe2".
+2024-04-21 15:53:02.514 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:53:07.625 [main] ERROR com.tfm.app - Error, el canal "" no existe.
+2024-04-21 15:53:07.625 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:53:13.177 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:53:22.532 [main] ERROR com.tfm.app - Error, el canal "" no existe.
+2024-04-21 15:53:22.532 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:53:29.450 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:53:29.943 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:53:35.796 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:54:27.792 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:54:33.610 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:55:52.987 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:56:01.246 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:56:05.092 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:56:48.731 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:56:56.006 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345
+2024-04-21 15:57:06.011 [main] INFO  com.tfm.app - Esperando conexiones en puerto 12345

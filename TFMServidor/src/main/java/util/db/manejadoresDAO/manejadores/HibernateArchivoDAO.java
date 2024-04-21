@@ -1,10 +1,8 @@
 package util.db.manejadoresDAO.manejadores;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
+import util.db.AuxiliarDB;
 import util.db.manejadoresDAO.interfaces.ArchivoDAO;
 import util.db.modelos.Archivo;
 import util.db.modelos.Canal;
@@ -12,80 +10,40 @@ import util.db.modelos.Usuario;
 
 public class HibernateArchivoDAO implements ArchivoDAO {
 	
-	private Connection conn;
+	private EntityManagerFactory managerApp;
 
-	public HibernateArchivoDAO(Connection conn) {
-		this.conn = conn;
+	public HibernateArchivoDAO(EntityManagerFactory managerApp) {
+		this.managerApp = managerApp;
 	}
 
 	@Override
 	public void guardarFichero(String fileName, String ruta, Usuario u, Canal c) {
-	    String consulta = "INSERT INTO Archivos (nombreArchivo, RutaSistemaArchivos, UsuarioID, CanalID) VALUES (?, ?, ?, ?)";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
-
-	        stmt.setString(1, fileName);
-	        stmt.setString(2, ruta);
-	        stmt.setString(3, u.getCorreoElectronico());
-	        stmt.setString(4, c.getNombreCanal());
-
-	        stmt.executeUpdate();
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+		AuxiliarDB.inTransaction(entityManager -> {
+			entityManager.persist(new Archivo(fileName, ruta, null, u, c));
+		}, this.managerApp);
 	}
-
 
 	@Override
 	public Archivo getFichero(String nombreFich) {
-	    Archivo archivo = null;
-	    String consulta = "SELECT * FROM Archivos WHERE nombreArchivo = ?";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
+		Archivo [] c = new Archivo[1];
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<Archivo> query = entityManager.createQuery("SELECT a FROM Archivo a WHERE a.nombreArchivo = :id", Archivo.class);
+		    query.setParameter("id", nombreFich);
 
-	        stmt.setString(1, nombreFich);
-
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            if (rs.next()) {
-	                // Crear un objeto Archivo con los datos del resultado
-	                archivo = new Archivo();
-	                archivo.setNombreArchivo(rs.getString("nombreArchivo"));
-	                archivo.setRutaSistemaArchivos(rs.getString("rutaSistemaArchivos"));
-	                // Otras asignaciones de atributos si es necesario
-	            }
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return archivo;
+		    c[0] = query.getResultList().get(0);
+		}, this.managerApp);
+		return c[0];
 	}
-
 	
 	@Override
 	public boolean getAll() {
-	    boolean isEmpty = true;
-	    String consulta = "SELECT COUNT(*) FROM Archivos";
-	    
-	    try {
-	         PreparedStatement stmt = conn.prepareStatement(consulta);
-	         ResultSet rs = stmt.executeQuery();
+		boolean [] c = {false};
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<Archivo> query = entityManager.createQuery("SELECT a FROM Archivo a", Archivo.class);
 
-	        if (rs.next()) {
-	            int count = rs.getInt(1);
-	            isEmpty = count == 0;
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return isEmpty;
+			c[0] = query.getResultList().isEmpty();
+		}, this.managerApp);
+		return c[0];
 	}
-
 	
 }

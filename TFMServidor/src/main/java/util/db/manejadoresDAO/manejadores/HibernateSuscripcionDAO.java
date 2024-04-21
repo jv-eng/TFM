@@ -1,11 +1,10 @@
 package util.db.manejadoresDAO.manejadores;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.util.List;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
+import util.db.AuxiliarDB;
 import util.db.manejadoresDAO.interfaces.SuscripcionDAO;
 import util.db.modelos.Suscripcion;
 import util.db.modelos.Usuario;
@@ -13,104 +12,56 @@ import util.db.modelos.Canal;
 
 public class HibernateSuscripcionDAO implements SuscripcionDAO {
 	
-	private Connection conn;
+	private EntityManagerFactory managerApp;
 
-	public HibernateSuscripcionDAO(Connection conn) {
-		this.conn = conn;
+	public HibernateSuscripcionDAO(EntityManagerFactory managerApp) {
+		this.managerApp = managerApp;
 	}
 
 	@Override
 	public boolean usuarioSuscrito(Usuario usuarioObj, Canal canalObj) {
-	    boolean test = false;
-	    String consulta = "SELECT COUNT(*) FROM Suscripcion WHERE usuario_NombreUsuario = ? AND NombreCanal = ?";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
+		boolean [] test = {false};
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<Suscripcion> query = entityManager.createQuery("FROM Suscripcion as s WHERE s.usuario = :nombre AND s.canal = :canal", Suscripcion.class);
+		    query.setParameter("nombre", usuarioObj);
+		    query.setParameter("canal", canalObj);
 
-	        stmt.setString(1, usuarioObj.getCorreoElectronico());
-	        stmt.setString(2, canalObj.getNombreCanal());
-
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            if (rs.next()) {
-	                int count = rs.getInt(1);
-	                test = count > 0;
-	            }
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return test;
+		    List<Suscripcion> canales = query.getResultList();
+		    
+		    test[0] = !canales.isEmpty();	    
+		}, this.managerApp);
+		return test[0];
 	}
-
 
 	@Override
 	public void suscribir(Usuario usuario, Canal canal, String ip, int puerto) {
-	    String consulta = "INSERT INTO Suscripcion (SuscripcionID, usuario_NombreUsuario, NombreCanal, FechaSuscripcion, ip, puerto) VALUES (?, ?, ?, ?, ?, ?)";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
-
-	        String suscripcionID = usuario.getNombreUsuario() + "__" + canal.getNombreCanal();
-	        Timestamp fechaSuscripcion = new Timestamp(System.currentTimeMillis());
-
-	        stmt.setString(1, suscripcionID);
-	        stmt.setString(2, usuario.getNombreUsuario());
-	        stmt.setString(3, canal.getNombreCanal());
-	        stmt.setTimestamp(4, fechaSuscripcion);
-	        stmt.setString(5, ip);
-	        stmt.setInt(6, puerto);
-
-	        stmt.executeUpdate();
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+		AuxiliarDB.inTransaction(entityManager -> {
+			entityManager.persist(new Suscripcion(usuario.getNombreUsuario() + "__" + canal.getNombreCanal(), usuario, canal, null, ip, puerto));
+		}, this.managerApp);
 	}
-
 
 	@Override
 	public void desuscribir(Suscripcion s) {
-	    String consulta = "DELETE FROM Suscripcion WHERE SuscripcionID = ?";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
-
-	        stmt.setString(1, s.getSuscripcionID());
-	        stmt.executeUpdate();
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+		AuxiliarDB.inTransaction(entityManager -> {
+	        Suscripcion suscripcion = entityManager.find(Suscripcion.class, s.getSuscripcionID()); // Suponiendo que tienes un campo id en la clase Suscripcion
+	        if (suscripcion != null) {
+	            entityManager.remove(suscripcion);
+	        }
+	    }, this.managerApp);
 	}
-
 
 	@Override
 	public Suscripcion getSuscripcion(Usuario u, Canal c) {
-	    Suscripcion suscripcion = null;
-	    String consulta = "SELECT * FROM Suscripcion WHERE usuario_NombreUsuario = ? AND NombreCanal = ?";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
+		Suscripcion [] test = new Suscripcion[1];
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<Suscripcion> query = entityManager.createQuery("FROM Suscripcion as s WHERE s.usuario = :nombre AND s.canal = :canal", Suscripcion.class);
+		    query.setParameter("nombre", u);
+		    query.setParameter("canal", c);
 
-	        stmt.setString(1, u.getNombreUsuario());
-	        stmt.setString(2, c.getNombreCanal());
-
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            if (rs.next()) {
-	                // Crear un objeto Suscripcion con los datos del resultado
-	                suscripcion = new Suscripcion();
-	                // Asignar valores a suscripcion según los campos en la tabla
-	            }
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return suscripcion;
+		    test[0] = query.getResultList().get(0);
+		    
+		}, this.managerApp);
+		return test[0];
 	}
-
 
 }

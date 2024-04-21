@@ -2,6 +2,7 @@ package com.jv.tfmprojectmobile.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -61,6 +62,9 @@ public class FicherosCanalActivity extends AppCompatActivity {
 
         NavigationViewConfiguration.configurarNavView(drawerLayout, navigationView, this);
 
+        aShortToast("empezamos");
+
+
         //comprobar si es un intent desde descubrir canales
         String msgIntent = getIntent().getStringExtra("canal");
         if (msgIntent != null) {
@@ -81,11 +85,10 @@ public class FicherosCanalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 canal = ((TextView)findViewById(R.id.ficheros_canal_et_txt)).getText().toString();
-                Log.e("aqui", canal);
-
                 if (!canal.isEmpty()) {
                     Thread th = new Thread(new SuscribirThread(FicherosCanalActivity.this, canal));
                     th.start();
+                    activarTV();
                 } else {
                     aShortToast("indique algún canal");
                 }
@@ -158,24 +161,22 @@ public class FicherosCanalActivity extends AppCompatActivity {
                                             String filePath = model.getRuta(); // Ruta de tu archivo
 
                                             File file = new File(filePath);
-                                            Uri uri = Uri.fromFile(file);
+                                            //Uri uri = Uri.fromFile(file);
+                                            Uri uri = FileProvider.getUriForFile(FicherosCanalActivity.this,
+                                                    getApplicationContext().getPackageName() + ".fileprovider", file);
 
                                             int indicePunto = model.getName().lastIndexOf('.');
                                             String extension = model.getName().substring(indicePunto + 1);
 
-                                            aShortToast(extension + "\t" + uri.getPath());
-
-                                            Intent intent = new Intent();
-                                            intent.setAction(Intent.ACTION_VIEW);
-                                            //intent.addCategory(Intent.CATEGORY_OPENABLE);
-                                            intent.setDataAndType(uri,  obtenerTipoMIME(extension));
-                                            intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                                            intent.addFlags( Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                            intent.setDataAndType(uri, "*/*");
 
                                             if (intent.resolveActivity(getPackageManager()) != null) {
                                                 startActivity(intent);
                                             } else {
                                                 aShortToast("Error, no hay app para manejar este fichero");
-                                                aShortToast(obtenerTipoMIME(extension));
+                                                //aShortToast(obtenerTipoMIME(extension));
                                             }
 
                                             break;
@@ -227,6 +228,9 @@ public class FicherosCanalActivity extends AppCompatActivity {
         FileStoreDB fileStoreDB = new FileStoreDB(helper);
         model.setRuta(ruta);
         fileStoreDB.descargaFichero(model);
+
+        adapter.setDatos(fileStoreDB.getFilesChannel(canal));
+        adapter.notifyDataSetChanged();
 
         //quitar barra de progreso
         progressDialog.dismiss();

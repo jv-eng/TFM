@@ -1,145 +1,91 @@
 package util.db.manejadoresDAO.manejadores;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
+import util.db.AuxiliarDB;
 import util.db.manejadoresDAO.interfaces.CanalDAO;
+import util.db.modelos.Archivo;
 import util.db.modelos.Canal;
 import util.db.modelos.Suscripcion;
 import util.db.modelos.Usuario;
 
 public class HibernateCanalDAO implements CanalDAO {
 	
-	private Connection conn;
+	private EntityManagerFactory managerApp;
 
-	public HibernateCanalDAO(Connection conn) {
-		this.conn = conn;
+	public HibernateCanalDAO(EntityManagerFactory managerApp) {
+		this.managerApp = managerApp;
 	}
 
 	//comprobar si existe canal
 	@Override
 	public boolean existeCanal(String canal) {
-	    boolean exists = false;
-	    String consulta = "SELECT COUNT(*) FROM Canal WHERE nombreCanal = ?";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
-	        
-	        stmt.setString(1, canal);
+		boolean [] test = {false};
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<Canal> query = entityManager.createQuery("SELECT c FROM Canal c WHERE c.nombreCanal = :nombre", Canal.class);
+		    query.setParameter("nombre", canal);
 
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            if (rs.next()) {
-	                int count = rs.getInt(1);
-	                exists = count > 0;
-	            }
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return exists;
+		    List<Canal> canales = query.getResultList();
+		    
+		    test[0] = !canales.isEmpty();	    
+		}, this.managerApp);
+		return test[0];
 	}
-
 
 	@Override
 	public void crearCanal(Usuario usuario, String canal) {
-	    String consulta = "INSERT INTO Canal (nombreCanal, CreadorID) VALUES (?, ?)";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
-
-	        stmt.setString(1, canal);
-	        stmt.setString(2, usuario.getNombreUsuario());
-	        stmt.executeUpdate();
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+		AuxiliarDB.inTransaction(entityManager -> {
+			entityManager.persist(new Canal(canal, usuario));
+		}, this.managerApp);
 	}
-
 
 	@Override
 	public Canal getCanal(String canal) {
-	    Canal c = null;
-	    String consulta = "SELECT * FROM Canal WHERE nombreCanal = ?";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
+		Canal [] c = new Canal[1];
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<Canal> query = entityManager.createQuery("SELECT u FROM Canal u WHERE u.nombreCanal = :id", Canal.class);
+		    query.setParameter("id", canal);
 
-	        stmt.setString(1, canal);
-
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            if (rs.next()) {
-	                // Crear un objeto Canal con los datos del resultado
-	                c = new Canal();
-	                c.setNombreCanal(rs.getString("nombreCanal"));
-	                // Otras asignaciones de atributos si es necesario
-	            }
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return c;
+		    if (query.getResultList().isEmpty()) c[0] = null;
+		    else c[0] = query.getResultList().get(0);
+		}, this.managerApp);
+		return c[0];
 	}
-
 
 	@Override
 	public List<Suscripcion> getUsuariosSuscritos(Canal c) {
-	    List<Suscripcion> suscripciones = new ArrayList<>();
-	    String consulta = "SELECT * FROM Suscripcion WHERE NombreCanal = ?";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
-
-	        stmt.setString(1, c.getNombreCanal());
-
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            while (rs.next()) {
-	                // Crear objetos Suscripcion con los datos del resultado
-	                Suscripcion suscripcion = new Suscripcion();
-	                // Asignar valores a suscripcion según los campos en la tabla
-	                suscripciones.add(suscripcion);
-	            }
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return suscripciones;
+		List<Suscripcion> res = new LinkedList<Suscripcion>();
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<Suscripcion> query = entityManager.createQuery("SELECT u FROM Suscripcion u", Suscripcion.class);
+		    //query.setParameter("id", c);
+			System.out.println("tamaño lista " + query.getResultList().size());
+		    for (Suscripcion s: query.getResultList()) {
+		    	res.add(s);
+		    }
+		}, this.managerApp);
+		return res;
 	}
-
 
 	@Override
 	public List<String> getArchivosCanal(String nombreCanal) {
-	    List<String> nombresArchivos = new ArrayList<>();
-	    String consulta = "SELECT nombreArchivo FROM Archivos WHERE CanalID = (SELECT NombreCanal FROM Canal WHERE nombreCanal = ?)";
-	    
-	    try {
-	        PreparedStatement stmt = conn.prepareStatement(consulta);
+        List<String> nombresArchivos = new LinkedList<>();
 
-	        stmt.setString(1, nombreCanal);
+        AuxiliarDB.inTransaction(entityManager -> {
+            TypedQuery<Archivo> query = entityManager.createQuery(
+                    "SELECT a FROM Archivo a WHERE a.canal.nombreCanal = :nombreCanal", Archivo.class);
+            query.setParameter("nombreCanal", nombreCanal);
 
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            while (rs.next()) {
-	                nombresArchivos.add(rs.getString("nombreArchivo"));
-	            }
-	        }
+            List<Archivo> archivos = query.getResultList();
+            for (Archivo archivo : archivos) {
+                nombresArchivos.add(archivo.getNombreArchivo());
+            }
+        }, this.managerApp);
 
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return nombresArchivos;
-	}
-
+        return nombresArchivos;
+    }
 	
 
 
