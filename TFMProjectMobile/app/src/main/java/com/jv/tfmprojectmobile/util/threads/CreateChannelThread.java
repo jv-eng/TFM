@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.activities.CreateChannelActivity;
+import com.jv.tfmprojectmobile.util.AuxiliarUtil;
 import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 
 import java.io.DataInputStream;
@@ -33,7 +34,7 @@ public class CreateChannelThread implements Runnable {
         });
 
         try {
-            Socket sock = new Socket(this.ctx.getResources().getString(R.string.ip), this.ctx.getResources().getInteger(R.integer.puerto));
+            Socket sock = AuxiliarUtil.createSocket(ctx);
 
             //data
             int op = 3;

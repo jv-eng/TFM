@@ -7,6 +7,7 @@ import android.util.Log;
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.activities.LoginActivity;
 import com.jv.tfmprojectmobile.models.UserModel;
+import com.jv.tfmprojectmobile.util.AuxiliarUtil;
 import com.jv.tfmprojectmobile.util.ClavesUtil;
 import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 
@@ -42,7 +43,7 @@ public class LoginThread implements Runnable {
 
         //envio de datos
         try {
-            Socket sock = new Socket(this.ctx.getResources().getString(R.string.ip), this.ctx.getResources().getInteger(R.integer.puerto));
+            Socket sock = AuxiliarUtil.createSocket(ctx);
 
             //generar clave
             claves = ClavesUtil.generarClave();

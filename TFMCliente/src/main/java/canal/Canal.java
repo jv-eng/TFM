@@ -44,7 +44,7 @@ public class Canal {
 			
 			//datos
 			int op = 3;
-			byte [] nombre = "miUsuario_123@mail.com".getBytes();
+			byte [] nombre = "pepe@mail.com".getBytes();
 			byte [] pass = canal.getBytes();
 			
 			//enviar

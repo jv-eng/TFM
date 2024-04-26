@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.util.AuxiliarUtil;
 import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
+import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 import com.jv.tfmprojectmobile.util.threads.LoginThread;
 import com.jv.tfmprojectmobile.util.threads.SendFileThread;
 
@@ -107,7 +108,7 @@ public class SendFileActivity extends AppCompatActivity {
     private void setUsernameIntoNavDrawer(){
         // Get Username from LoginActivity.
         Bundle bundle = getIntent().getExtras();
-        String username = "Testing-User";
+        String username = PreferencesManage.userName(this);
         // Get Header from navigationView
         View header = navigationView.getHeaderView(0);
         // Set Username into the header

@@ -8,6 +8,8 @@ public interface UsuarioCredencialesDAO {
 	
 	void insertarClave(String correo, String clave);
 	
+	String getClave(String correo);
+	
 	boolean comprobarCredenciales(String correo, String contraseña);
 	
 	void borrarClave(String correo);

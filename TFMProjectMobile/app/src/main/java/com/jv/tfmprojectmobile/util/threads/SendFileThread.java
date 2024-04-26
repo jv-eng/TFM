@@ -9,6 +9,7 @@ import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.activities.CreateChannelActivity;
 import com.jv.tfmprojectmobile.activities.SendFileActivity;
 import com.jv.tfmprojectmobile.util.AuxiliarUtil;
+import com.jv.tfmprojectmobile.util.ClavesUtil;
 import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 
 import java.io.BufferedInputStream;
@@ -18,6 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
 import java.util.Objects;
 
 public class SendFileThread implements Runnable {
@@ -47,7 +51,7 @@ public class SendFileThread implements Runnable {
         DataOutputStream flujo_out = null;
 
         try {
-            sock = new Socket(this.ctx.getResources().getString(R.string.ip), this.ctx.getResources().getInteger(R.integer.puerto));
+            sock = AuxiliarUtil.createSocket(ctx);
 
             flujo_in = new DataInputStream(sock.getInputStream());
             flujo_out = new DataOutputStream(sock.getOutputStream());
@@ -78,7 +82,6 @@ public class SendFileThread implements Runnable {
             InputStream fileInputStream = ctx.getContentResolver().openInputStream(selectedFileUri);
             BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
 
-
             //File f = new File(selectedFileUri.getPath());
             long longitud_mensaje = fileInputStream.available();
             flujo_out.writeLong(longitud_mensaje);
@@ -87,6 +90,11 @@ public class SendFileThread implements Runnable {
             if (longitud_mensaje < 64000) buffer = new byte[(int)longitud_mensaje];
             else buffer = new byte[64000];
 
+            //activar firma
+            PrivateKey key = ClavesUtil.stringClavePriv(PreferencesManage.getPrivKey(ctx));
+            Signature sig = Signature.getInstance("SHA512withRSA");
+            sig.initSign(key);
+
             //5- enviar fichero
             long num_total = 0;
             int bytes_leidos = 0;
@@ -94,7 +102,20 @@ public class SendFileThread implements Runnable {
                 bytes_leidos = bufferedInputStream.read(buffer);
                 num_total += bytes_leidos;
                 flujo_out.write(buffer,0, bytes_leidos);
+                sig.update(buffer, 0, bytes_leidos); //actualizar firma
             } while (num_total < longitud_mensaje);
+
+            ((Activity)ctx).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((SendFileActivity)ctx).aShortToast("enviamos la firma");
+                }
+            });
+
+            //enviar firma
+            byte[] firma = sig.sign();
+            flujo_out.writeInt(firma.length);
+            flujo_out.write(firma);
 
             // Cerrar el flujo de entrada del archivo
             bufferedInputStream.close();
@@ -109,15 +130,6 @@ public class SendFileThread implements Runnable {
 
         } catch (Exception e) {
             e.printStackTrace();
-        } /*finally {
-            try {
-                // Cerrar los flujos y la conexión
-                if (flujo_out != null) flujo_out.close();
-                if (flujo_in != null) flujo_in.close();
-                if (sock != null) sock.close();
-            } catch (IOException e) {
-                Log.e("recibir fichero","error recibiendo el fichero");
-            }
-        }*/
+        }
     }
 }

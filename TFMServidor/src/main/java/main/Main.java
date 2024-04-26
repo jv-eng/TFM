@@ -42,6 +42,7 @@ public class Main {
 		try {
 			socket_servidor = new ServerSocket(12345);
 			while (true) {
+				System.out.println(); System.out.println();
 				System.out.println("Esperando conexiones en puerto 12345");
 				logg.info("Esperando conexiones en puerto 12345");
 				System.out.println(); System.out.println();
@@ -80,15 +81,15 @@ public class Main {
 		            	res = desubscribirse.desuscribirse();
 		            	break;
 		            case 6: //enviar fichero
-		            	Fichero fichEnviar = new Fichero(entityManagerFactoryApp, socket_sr);
+		            	Fichero fichEnviar = new Fichero(entityManagerFactoryApp, entityManagerFactoryCredenciales, socket_sr);
 		            	res = fichEnviar.enviarFichero();
 		            	break;
 		            case 7: //recibir fichero
-		            	Fichero fichRecibir = new Fichero(entityManagerFactoryApp, socket_sr);
+		            	Fichero fichRecibir = new Fichero(entityManagerFactoryApp, entityManagerFactoryCredenciales, socket_sr);
 		            	res = fichRecibir.recibirFichero();
 		            	break;
 		            case 8: //descargar fichero
-		            	Fichero fichDescargar = new Fichero(entityManagerFactoryApp, socket_sr);
+		            	Fichero fichDescargar = new Fichero(entityManagerFactoryApp, entityManagerFactoryCredenciales, socket_sr);
 		            	res = fichDescargar.descargarFichero();
 		            	break;
 		            default:
@@ -99,7 +100,6 @@ public class Main {
 				
 				//responder al cliente
 				(new DataOutputStream(socket_sr.getOutputStream())).writeInt(res);
-				//socket_sr.close();
 				
 				//siguiente petición
 				System.out.println("Fin tratamiento");

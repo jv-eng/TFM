@@ -40,23 +40,19 @@ public class UsuarioCredenciales {
 			byte [] buff = new byte[tam];
 			flujo_e.read(buff);
 			String usuario = new String(buff, 0, tam, "UTF-8");
-			System.out.println("Nombre: " + usuario);
 			
 			//obtener contraseña
 			tam = flujo_e.readInt();
 			buff = new byte[tam];
 			flujo_e.read(buff);
 			String pass = new String(buff, 0, tam, "UTF-8");
-			System.out.println("pass: " + pass);
 			
 			//obtener correo
 			tam = flujo_e.readInt();
 			buff = new byte[tam];
 			flujo_e.read(buff);
 			String correo = new String(buff, 0, tam, "UTF-8");
-			correo = correo.toLowerCase();
-			correo = correo.trim();
-			System.out.println("mail: " + correo);
+			correo = correo.toLowerCase().trim();
 			
 			//comprobar formato nombre, correo y contraseña
 			if (correo.matches("^[a-zA-Z0-9_]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,}$") && 

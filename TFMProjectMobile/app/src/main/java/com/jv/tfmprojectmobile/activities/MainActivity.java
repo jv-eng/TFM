@@ -30,9 +30,17 @@ public class MainActivity extends AppCompatActivity {
         fileStoreDB.save(model);*/
 
 
-        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+        //Intent i = new Intent(MainActivity.this, LoginActivity.class);
         //Intent i = new Intent(MainActivity.this, MenuActivity.class);
-        startActivity(i);
+        //startActivity(i);
+        if (PreferencesManage.userExists(this) && PreferencesManage.dateValid(this)) {
+            Intent i = new Intent(MainActivity.this, MenuActivity.class);
+            startActivity(i);
+        } else {
+            PreferencesManage.removeUser(this);
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(i);
+        }
     }
 
     private void test() {

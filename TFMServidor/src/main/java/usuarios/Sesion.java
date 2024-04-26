@@ -41,16 +41,13 @@ public class Sesion {
 			byte [] buff = new byte[tam];
 			flujo_e.read(buff);
 			correo = new String(buff, 0, tam, "UTF-8");
-			correo = correo.toLowerCase();
-			correo = correo.trim();
-			System.out.println("mail: " + correo);
+			correo = correo.toLowerCase().trim();
 			
 			//obtener contraseña
 			tam = flujo_e.readInt();
 			buff = new byte[tam];
 			flujo_e.read(buff);
 			String pass = new String(buff, 0, tam, "UTF-8");
-			System.out.println("pass: " + pass);
 			
 			//obtener clave publica firma
 	        tam = flujo_e.readInt();
@@ -58,12 +55,10 @@ public class Sesion {
 			flujo_e.read(buff);
 			PublicKey key = Serializar.stringClave(new String(buff, 0, tam, "UTF-8"));
 	        
-	        System.out.println("clave del cliente:\t" + key);
 	        String clave = Serializar.claveString(key);
 	        
 	        //comprobar si el usuario existe y las credenciales son correctas
 	        usuarioCDAO = new HibernateUsuarioCredencialesDAO(this.managerUsuario);
-	        System.out.println("existe: "+usuarioCDAO.comprobarCredenciales(correo, pass));
 	        
 	        //si hay error, cambiamos el resultado
 	        if (!usuarioCDAO.comprobarCredenciales(correo, pass)) {
@@ -100,7 +95,6 @@ public class Sesion {
 			byte [] buff = new byte[tam];
 			flujo_e.read(buff);
 			String correo = new String(buff, 0, tam, "UTF-8");
-			System.out.println("mail: " + correo);
 			
 			//comprobar si el usuario existe
 	        UsuarioCredencialesDAO usuarioCDAO = new HibernateUsuarioCredencialesDAO(this.managerUsuario);

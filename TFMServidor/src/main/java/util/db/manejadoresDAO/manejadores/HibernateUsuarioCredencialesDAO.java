@@ -57,6 +57,25 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 		}, this.managerUsuario);
 		
 	}
+	
+	@Override
+	public String getClave(String correo) {
+		String [] res = {""};
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<UsuarioCredenciales> query = entityManager.createQuery("FROM UsuarioCredenciales as u WHERE u.correo = :correo", UsuarioCredenciales.class);
+		    query.setParameter("correo", correo);
+
+		    List<UsuarioCredenciales> usuarios = query.getResultList();
+		    
+		    if (!usuarios.isEmpty()) {
+		    	//existe el usuario
+		    	res[0] = usuarios.get(0).getClave();
+			}
+		    
+		}, this.managerUsuario);
+		return res[0];
+	}
+	
 
 	@Override
 	public boolean comprobarCredenciales(String correo, String contraseña) {

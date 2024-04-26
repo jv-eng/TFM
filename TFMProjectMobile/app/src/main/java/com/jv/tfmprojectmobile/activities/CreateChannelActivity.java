@@ -42,6 +42,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
+import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 import com.jv.tfmprojectmobile.util.threads.CreateChannelThread;
 
 import java.nio.charset.StandardCharsets;
@@ -137,7 +138,7 @@ public class CreateChannelActivity extends AppCompatActivity {
     private void setUsernameIntoNavDrawer(){
         // Get Username from LoginActivity.
         Bundle bundle = getIntent().getExtras();
-        String username = "Testing-User";
+        String username = PreferencesManage.userName(this);
         // Get Header from navigationView
         View header = navigationView.getHeaderView(0);
         // Set Username into the header
@@ -197,13 +198,14 @@ public class CreateChannelActivity extends AppCompatActivity {
                 @Override
                 public void onPayloadReceived(String endpointId, Payload payload) {
                     String payloadMessage = new String(payload.asBytes(), StandardCharsets.UTF_8);
-                    Toast.makeText(CreateChannelActivity.this, String.format("onPayloadReceived(endpointId=%s, payload=%s)", endpointId, payloadMessage), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(CreateChannelActivity.this, String.format("onPayloadReceived(endpointId=%s, payload=%s)", endpointId, payloadMessage), Toast.LENGTH_SHORT).show();
+                    aShortToast("Payload recibido");
                 }
 
                 @Override
                 public void onPayloadTransferUpdate(String endpointId, PayloadTransferUpdate update) {
                     //lo que queramos hacer
-                    Toast.makeText(CreateChannelActivity.this, "payloadCallback", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(CreateChannelActivity.this, "payloadCallback", Toast.LENGTH_SHORT).show();
                 }
             };
 
@@ -215,10 +217,10 @@ public class CreateChannelActivity extends AppCompatActivity {
                     Log.i(TAG, "onConnectionInitiated: accepting connection");
                     connectionsClient.stopDiscovery();
                     connectionsClient.stopAdvertising();
-                    Toast.makeText(CreateChannelActivity.this,
+                    /*Toast.makeText(CreateChannelActivity.this,
                             String.format("onConnectionInitiated(endpointId=%s, endpointName=%s)",
                                     endpointId, connectionInfo.getEndpointName())
-                            , Toast.LENGTH_SHORT).show();
+                            , Toast.LENGTH_SHORT).show();*/
                     connectionsClient.acceptConnection(endpointId, payloadCallback)
                             .addOnFailureListener(
                                     new OnFailureListener() {

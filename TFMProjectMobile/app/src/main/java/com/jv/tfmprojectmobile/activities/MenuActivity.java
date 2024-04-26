@@ -85,7 +85,7 @@ public class MenuActivity extends AppCompatActivity implements Serializable {
     private void setUsernameIntoNavDrawer(){
         // Get Username from LoginActivity.
         Bundle bundle = getIntent().getExtras();
-        String username = PreferencesManage.userMail(this);
+        String username = PreferencesManage.userName(this);
         // Get Header from navigationView
         View header = navigationView.getHeaderView(0);
         // Set Username into the header

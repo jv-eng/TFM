@@ -28,6 +28,7 @@ import com.jv.tfmprojectmobile.util.FicherosAdapter;
 import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
 import com.jv.tfmprojectmobile.util.storage.FileStoreDB;
 import com.jv.tfmprojectmobile.util.storage.FileStoreHelper;
+import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 import com.jv.tfmprojectmobile.util.threads.DescargarFicheroThread;
 import com.jv.tfmprojectmobile.util.threads.SuscribirThread;
 
@@ -246,7 +247,7 @@ public class FicherosCanalActivity extends AppCompatActivity {
     private void setUsernameIntoNavDrawer(){
         // Get Username from LoginActivity.
         Bundle bundle = getIntent().getExtras();
-        String username = "Testing-User";
+        String username = PreferencesManage.userName(this);
         // Get Header from navigationView
         View header = navigationView.getHeaderView(0);
         // Set Username into the header

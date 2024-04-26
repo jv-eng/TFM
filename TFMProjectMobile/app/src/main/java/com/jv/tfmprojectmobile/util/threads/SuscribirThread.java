@@ -37,7 +37,7 @@ public class SuscribirThread implements Runnable {
     public void run() {
         //crear flujos
         try {
-            sock = new Socket(this.ctx.getResources().getString(R.string.ip), this.ctx.getResources().getInteger(R.integer.puerto));
+            sock = AuxiliarUtil.createSocket(ctx);
             DataInputStream flujo_in = new DataInputStream(sock.getInputStream());
             DataOutputStream flujo_out = new DataOutputStream(sock.getOutputStream());
 

@@ -36,6 +36,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
+import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 
 import java.nio.charset.StandardCharsets;
 
@@ -91,7 +92,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
         super.onStart();
 
         if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
-            aShortToast("revisando permisos");
+            //aShortToast("revisando permisos");
             requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
         }
     }
@@ -152,7 +153,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
     private void setUsernameIntoNavDrawer(){
         // Get Username from LoginActivity.
         Bundle bundle = getIntent().getExtras();
-        String username = "Testing-User";
+        String username = PreferencesManage.userName(this);
         // Get Header from navigationView
         View header = navigationView.getHeaderView(0);
         // Set Username into the header

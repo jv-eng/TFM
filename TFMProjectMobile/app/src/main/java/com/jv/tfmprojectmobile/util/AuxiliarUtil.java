@@ -8,6 +8,11 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
+import com.jv.tfmprojectmobile.R;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -65,5 +70,9 @@ public class AuxiliarUtil {
             Log.e("parse", "error al parsear fecha");
         }
         return res;
+    }
+
+    public static Socket createSocket(Context ctx) throws IOException {
+        return new Socket(ctx.getResources().getString(R.string.ip), ctx.getResources().getInteger(R.integer.puerto));
     }
 }

@@ -7,6 +7,7 @@ import android.util.Log;
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.activities.RegisterActivity;
 import com.jv.tfmprojectmobile.models.UserModel;
+import com.jv.tfmprojectmobile.util.AuxiliarUtil;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -42,7 +43,7 @@ public class RegisterThread implements Runnable {
 
         //envio de datos
         try {
-            Socket sock = new Socket(this.ctx.getResources().getString(R.string.ip), this.ctx.getResources().getInteger(R.integer.puerto));
+            Socket sock = AuxiliarUtil.createSocket(ctx);
 
             //data
             int op = 0;

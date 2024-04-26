@@ -26,6 +26,10 @@ public class PreferencesManage {
         SharedPreferences pref = ctx.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
         return pref.getString(PREFERENCES_ATTR_3_MAIL, "");
     }
+    public static String userName(Context ctx) {
+        SharedPreferences pref = ctx.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
+        return pref.getString(PREFERENCES_ATTR_1_NAME, "");
+    }
 
     public static boolean userExists(Context ctx) {
         SharedPreferences pref = ctx.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
@@ -42,7 +46,10 @@ public class PreferencesManage {
         ed.putString(PREFERENCES_ATTR_3_MAIL, mail);
         ed.putString(PREFERENCES_ATTR_4_PUBKEY, pubKey);
         ed.putString(PREFERENCES_ATTR_5_PRIVKEY, privKey);
-        ed.putString(PREFERENCES_ATTR_6_DATE, AuxiliarUtil.dateString((Calendar.getInstance()).getTime()));
+        Calendar c = Calendar.getInstance();
+        c.setTime((Calendar.getInstance()).getTime());
+        c.add(Calendar.MONTH, 1);
+        ed.putString(PREFERENCES_ATTR_6_DATE, AuxiliarUtil.dateString(c.getTime()));
         ed.apply();
     }
 
