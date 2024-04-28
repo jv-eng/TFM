@@ -75,7 +75,7 @@ public class RegisterThread implements Runnable {
             else msgRes = this.ctx.getResources().getString(R.string.register_msg_2);
 
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.e("Register", "There was an error when creating an user");
         }
 

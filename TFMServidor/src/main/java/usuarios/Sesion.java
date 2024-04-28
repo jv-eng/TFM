@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.security.PublicKey;
 
+import javax.net.ssl.SSLSocket;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -20,9 +22,9 @@ public class Sesion {
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.sesiones");
 	
 	private EntityManagerFactory managerUsuario;
-	private Socket socket;
+	private SSLSocket socket;
 
-	public Sesion(EntityManagerFactory entityManagerFactoryCredenciales, Socket socket_sr) {
+	public Sesion(EntityManagerFactory entityManagerFactoryCredenciales, SSLSocket socket_sr) {
 		this.managerUsuario = entityManagerFactoryCredenciales;
 		this.socket = socket_sr;
 	}

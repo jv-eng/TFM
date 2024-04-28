@@ -18,12 +18,15 @@ import java.net.Socket;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 
+import javax.net.ssl.SSLSocket;
+
 public class LoginThread implements Runnable {
 
     private Context ctx;
     private UserModel userModel;
     private String msgRes;
     private KeyPair claves;
+    private SSLSocket sock;
 
     public LoginThread(Context ctx, UserModel user) {this.ctx = ctx; this.userModel = user;}
 
@@ -43,7 +46,7 @@ public class LoginThread implements Runnable {
 
         //envio de datos
         try {
-            Socket sock = AuxiliarUtil.createSocket(ctx);
+            sock = AuxiliarUtil.createSocket(ctx);
 
             //generar clave
             claves = ClavesUtil.generarClave();
@@ -92,10 +95,26 @@ public class LoginThread implements Runnable {
             }
             else if (res == -1) msgRes = this.ctx.getResources().getString(R.string.login_msg_1);
 
+
+
         } catch (IOException e) {
             Log.e("Login", "There was an error when login in an user");
-        } catch (NoSuchAlgorithmException e) {
+        } catch (Exception e) {
             Log.e("Login", "Error al generar la clave");
+        } finally {
+            if (sock != null) {
+                try {
+                    sock.close();
+                    ((Activity)ctx).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((LoginActivity)ctx).aShortToast("socket cerrado");
+                        }
+                    });
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         ((Activity)ctx).runOnUiThread(new Runnable() {

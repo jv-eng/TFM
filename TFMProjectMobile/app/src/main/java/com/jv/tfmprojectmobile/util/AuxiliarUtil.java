@@ -1,21 +1,31 @@
 package com.jv.tfmprojectmobile.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
 import com.jv.tfmprojectmobile.R;
+import com.jv.tfmprojectmobile.activities.LoginActivity;
 
-import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.CertificateFactory;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
+
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
 
 public class AuxiliarUtil {
     public static String getFileName(Context context, Uri uri) {
@@ -72,7 +82,79 @@ public class AuxiliarUtil {
         return res;
     }
 
-    public static Socket createSocket(Context ctx) throws IOException {
+    /*public static Socket createSocket(Context ctx) throws IOException {
         return new Socket(ctx.getResources().getString(R.string.ip), ctx.getResources().getInteger(R.integer.puerto));
+    }*/
+    private static SSLSocketFactory sslSF = null;
+    public static SSLSocket createSocket(Context ctx) {
+        SSLSocket socket = null;
+        try {
+            if (sslSF == null) sslSF = createSocketContext(ctx);
+            Socket sock = new Socket(ctx.getResources().getString(R.string.ip), ctx.getResources().getInteger(R.integer.puerto));
+            socket = (SSLSocket) sslSF.createSocket(sock, null, sock.getPort(), false);
+            socket.setUseClientMode(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return socket;
+    }
+    private static SSLSocketFactory createSocketContext(Context ctx) throws Exception {
+        ((Activity)ctx).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((LoginActivity)ctx).aShortToast("revisamos");
+            }
+        });
+        SSLSocket socket = null;
+        String pass = "85dsRSG236";
+        char [] fraseclave = pass.toCharArray();
+
+        //mirar el codigo del visual studio
+        SSLContext sslContext;
+        KeyManagerFactory kmf;
+        KeyStore ks, keyStore;
+
+        sslContext = SSLContext.getInstance("TLS");
+
+        //cargar el cer
+        keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+
+        InputStream certificateStream = ctx.getResources().openRawResource(R.raw.ca); //el pem o cer
+
+        CertificateFactory certificateFactory = CertificateFactory.getInstance("X509");
+        java.security.cert.Certificate chain;
+        chain = certificateFactory.generateCertificate(certificateStream);
+        certificateStream.close();
+
+        keyStore.load(null, null);
+        keyStore.setEntry("cliente", new KeyStore.TrustedCertificateEntry(chain), null);
+
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        tmf.init(keyStore);
+
+        //ahora el p12
+        ks = KeyStore.getInstance("PKCS12");
+        ks.load(ctx.getResources().openRawResource(R.raw.almacen), fraseclave);
+
+        Key key = ks.getKey("cliente", fraseclave);
+        PrivateKey privateKey = (PrivateKey) key;
+
+        kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        kmf.init(ks, fraseclave);
+
+
+        //contexto y socket
+        sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+
+        SSLSocketFactory sslSF = sslContext.getSocketFactory();
+
+
+        ((Activity)ctx).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((LoginActivity)ctx).aShortToast("socket creado, volvemos");
+            }
+        });
+        return sslSF;
     }
 }

@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.net.ssl.SSLSocket;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -28,9 +30,9 @@ public class ManejadorCanal {
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
 	
 	private EntityManagerFactory managerApp;
-	private Socket socket;
+	private SSLSocket socket;
 
-	public ManejadorCanal(EntityManagerFactory entityManagerFactoryApp, Socket socket_sr) {
+	public ManejadorCanal(EntityManagerFactory entityManagerFactoryApp, SSLSocket socket_sr) {
 		this.managerApp = entityManagerFactoryApp;
 		this.socket = socket_sr;
 	}

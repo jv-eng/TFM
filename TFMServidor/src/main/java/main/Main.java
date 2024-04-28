@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocket;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -19,8 +23,7 @@ import ficheros.Fichero;
 import jakarta.persistence.EntityManagerFactory;
 import usuarios.Sesion;
 import usuarios.UsuarioCredenciales;
-
-//iniciar cosas tls, iniciar hibernate
+import util.Configuration;
 
 public class Main {
 	
@@ -30,24 +33,34 @@ public class Main {
 	
 	public static void main (String [] args) {		
 		
-		//configurar seguridad
-		
-		
 		//configurar manejador base de datos hibernate
 		EntityManagerFactory entityManagerFactoryCredenciales = createEntityManagerFactory("org.hibernate.tfm.credenciales");
 		EntityManagerFactory entityManagerFactoryApp = createEntityManagerFactory("org.hibernate.tfm.servidor");
 		
+		//configurar seguridad
+		System.setProperty("javax.net.ssl.trustStore", "AlmacenSRTrust");
+		System.setProperty("javax.net.ssl.keyStore", "AlmacenSR");
+		System.setProperty("javax.net.ssl.keyStorePassword", "dW716*h??Y");
+		System.setProperty("javax.net.debug","ssl");
+		SSLServerSocketFactory factory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+		SSLServerSocket socket_servidor = null;
+		SSLSocket socket_sr = null;
+		
 		//bucle de servidor
-		ServerSocket socket_servidor;
+		//ServerSocket socket_servidor;
 		try {
-			socket_servidor = new ServerSocket(12345);
+			//socket_servidor = new ServerSocket(Integer.parseInt(Configuration.obtenerConfiguracion("puerto")));
+			socket_servidor = (SSLServerSocket) factory.createServerSocket(Integer.parseInt(Configuration.obtenerConfiguracion("puerto")));
+			//socket_servidor.setNeedClientAuth(true);
+			
 			while (true) {
 				System.out.println(); System.out.println();
 				System.out.println("Esperando conexiones en puerto 12345");
 				logg.info("Esperando conexiones en puerto 12345");
 				System.out.println(); System.out.println();
 				//aceptar conexión
-				Socket socket_sr = socket_servidor.accept();
+				//Socket socket_sr = socket_servidor.accept();
+				socket_sr = (SSLSocket) socket_servidor.accept();
 				
 				//recibir operador
 				int op = (new DataInputStream(socket_sr.getInputStream())).readInt();

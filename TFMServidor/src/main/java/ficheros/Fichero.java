@@ -15,11 +15,14 @@ import java.security.Signature;
 import java.security.SignatureException;
 import java.util.List;
 
+import javax.net.ssl.SSLSocket;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import jakarta.persistence.EntityManagerFactory;
 import main.Main;
+import util.Configuration;
 import util.Serializar;
 import util.db.manejadoresDAO.interfaces.ArchivoDAO;
 import util.db.manejadoresDAO.interfaces.CanalDAO;
@@ -42,14 +45,15 @@ public class Fichero {
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
 	private static final Logger loggSig = (Logger) LogManager.getLogger("com.tfm.digital_signature");
 	
-	private static final String ruta = "F:\\descargas_tfm\\";
+	//private static final String ruta = Configuration.obtenerConfiguracion("dirDescargas");
+	private static final String ruta = "C:\\Users\\Juan_\\OneDrive\\Escritorio\\descargas_tfm\\";
 	
 	private EntityManagerFactory managerApp;
 	private EntityManagerFactory entityManagerFactoryCredenciales;
-	private Socket socket;
+	private SSLSocket socket;
 	
 	public Fichero(EntityManagerFactory entityManagerFactoryApp, EntityManagerFactory entityManagerFactoryCredenciales, 
-			Socket socket_sr) {
+			SSLSocket socket_sr) {
 		this.managerApp = entityManagerFactoryApp;
 		this.entityManagerFactoryCredenciales = entityManagerFactoryCredenciales;
 		this.socket = socket_sr;
@@ -197,7 +201,7 @@ public class Fichero {
 			flujo_e.read(buff);
 			String nombre = new String(buff, 0, tam, "UTF-8");
 			
-			System.out.println(nombre);
+			System.out.println("fichero: " + nombre);
 			
 			//recibir longitud
 			long num_recibido = flujo_e.readLong();

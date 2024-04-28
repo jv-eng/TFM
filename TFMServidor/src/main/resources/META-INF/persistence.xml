@@ -16,16 +16,24 @@
 
         <properties>
             <!-- Database connection settings -->
-            <!--<property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
-		      <property name="jakarta.persistence.jdbc.url"    value="jdbc:mysql://localhost:3306/hibernate_demo" />
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+		      <property name="jakarta.persistence.jdbc.url"    value="jdbc:mysql://localhost:3306/tfmtest" />
 		      <property name="jakarta.persistence.jdbc.user"   value="usuario_test" />
 		      <property name="jakarta.persistence.jdbc.password" value="123" />
 		      <property name="hibernate.dialect"    value="org.hibernate.dialect.MySQLDialect" />
-		      <property name="hibernate.show_sql"   value="true" />
-		      <property name="hibernate.format_sql" value="true" />-->
-		      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1" />
+		      <property name="hibernate.show_sql"   value="false" />
+		      <property name="hibernate.format_sql" value="true" />
+		      
+		      <property name="javax.persistence.jdbc.ssl" value="true" />
+			    <property name="javax.persistence.jdbc.sslFactory" value="com.mysql.cj.jdbc.MysqlSSLConnectionFactory" />
+			    <property name="javax.persistence.jdbc.sslKeyStore" value="AlmacenSR" />
+			    <property name="javax.persistence.jdbc.sslKeyStorePassword" value="dW716*h??Y" />
+			    <property name="javax.persistence.jdbc.sslTrustStore" value="AlmacenSRTrust" />
+			    <property name="javax.persistence.jdbc.sslTrustStorePassword" value="N45i2on[!%" />
+
+		      <!--<property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1" />
             <property name="jakarta.persistence.jdbc.user" value="sa" />
-            <property name="jakarta.persistence.jdbc.password" value="" />
+            <property name="jakarta.persistence.jdbc.password" value="" />-->
 
             <!-- Automatically export the schema -->
             <property name="jakarta.persistence.schema-generation.database.action" value="update" />
@@ -48,16 +56,23 @@
 
         <properties>
             <!-- Database connection settings -->
-            <!--<property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
-		      <property name="jakarta.persistence.jdbc.url"    value="jdbc:mysql://localhost:3306/hibernate_demo_v2" />
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+		      <property name="jakarta.persistence.jdbc.url"    value="jdbc:mysql://localhost:3306/tfmtest" />
 		      <property name="jakarta.persistence.jdbc.user"   value="usuario_test" />
 		      <property name="jakarta.persistence.jdbc.password" value="123" />
 		      <property name="hibernate.dialect"    value="org.hibernate.dialect.MySQLDialect" />
-		      <property name="hibernate.show_sql"   value="true" />
-		      <property name="hibernate.format_sql" value="true" />-->
-		      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1" />
+		      <property name="hibernate.show_sql"   value="false" />
+		      <property name="hibernate.format_sql" value="true" />
+		      
+		      <property name="javax.persistence.jdbc.ssl" value="true" />
+			    <property name="javax.persistence.jdbc.sslFactory" value="com.mysql.cj.jdbc.MysqlSSLConnectionFactory" />
+			    <property name="javax.persistence.jdbc.sslKeyStore" value="AlmacenSR" />
+			    <property name="javax.persistence.jdbc.sslKeyStorePassword" value="dW716*h??Y" />
+			    <property name="javax.persistence.jdbc.sslTrustStore" value="AlmacenSRTrust" />
+			    <property name="javax.persistence.jdbc.sslTrustStorePassword" value="N45i2on[!%" />
+		      <!--<property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1" />
             <property name="jakarta.persistence.jdbc.user" value="sa" />
-            <property name="jakarta.persistence.jdbc.password" value="" />
+            <property name="jakarta.persistence.jdbc.password" value="" />-->
 
             <!-- Automatically export the schema -->
             <property name="jakarta.persistence.schema-generation.database.action" value="update" />

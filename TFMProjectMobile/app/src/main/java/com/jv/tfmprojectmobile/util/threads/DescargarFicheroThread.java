@@ -131,6 +131,8 @@ public class DescargarFicheroThread implements Runnable {
             throw new RuntimeException(e);
         } catch (SignatureException e) {
             throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         ((Activity)ctx).runOnUiThread(new Runnable() {

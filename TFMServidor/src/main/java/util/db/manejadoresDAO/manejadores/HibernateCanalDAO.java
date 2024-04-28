@@ -59,8 +59,9 @@ public class HibernateCanalDAO implements CanalDAO {
 	public List<Suscripcion> getUsuariosSuscritos(Canal c) {
 		List<Suscripcion> res = new LinkedList<Suscripcion>();
 		AuxiliarDB.inTransaction(entityManager -> {
-			TypedQuery<Suscripcion> query = entityManager.createQuery("SELECT u FROM Suscripcion u", Suscripcion.class);
-		    //query.setParameter("id", c);
+			TypedQuery<Suscripcion> query = entityManager.createQuery(
+					"SELECT u FROM Suscripcion u where u.canal.nombreCanal = :nombreCanal", Suscripcion.class);
+		    query.setParameter("nombreCanal", c.getNombreCanal());
 			System.out.println("tamaño lista " + query.getResultList().size());
 		    for (Suscripcion s: query.getResultList()) {
 		    	res.add(s);

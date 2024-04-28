@@ -63,6 +63,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    public void aShortToast(String msg){
+        Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+    }
+
     public void prepareUIForDownload() {
         progressDialog  = new ProgressDialog(this);
         progressDialog.setMessage("Comprobando usuario");

@@ -78,7 +78,7 @@ public class SuscribirThread implements Runnable {
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

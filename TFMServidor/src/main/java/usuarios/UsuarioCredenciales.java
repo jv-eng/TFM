@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import javax.net.ssl.SSLSocket;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -21,9 +23,10 @@ public class UsuarioCredenciales {
 	
 	private EntityManagerFactory managerApp;
 	private EntityManagerFactory managerUsuario;
-	private Socket socket;
+	private SSLSocket socket;
 
-	public UsuarioCredenciales(EntityManagerFactory entityManagerFactoryCredenciales, EntityManagerFactory entityManagerFactoryApp, Socket socket_sr) {
+	public UsuarioCredenciales(EntityManagerFactory entityManagerFactoryCredenciales, EntityManagerFactory entityManagerFactoryApp, 
+			SSLSocket socket_sr) {
 		this.managerUsuario = entityManagerFactoryCredenciales;
 		this.managerApp = entityManagerFactoryApp;
 		this.socket = socket_sr;
