@@ -16,9 +16,12 @@ import java.net.Socket;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.UUID;
 
 import javax.net.ssl.KeyManagerFactory;
@@ -90,23 +93,18 @@ public class AuxiliarUtil {
         SSLSocket socket = null;
         try {
             if (sslSF == null) sslSF = createSocketContext(ctx);
-            Socket sock = new Socket(ctx.getResources().getString(R.string.ip), ctx.getResources().getInteger(R.integer.puerto));
+            /*Socket sock = new Socket(ctx.getResources().getString(R.string.ip), ctx.getResources().getInteger(R.integer.puerto));
             socket = (SSLSocket) sslSF.createSocket(sock, null, sock.getPort(), false);
-            socket.setUseClientMode(true);
+            socket.setUseClientMode(true);*/
         } catch (Exception e) {
             e.printStackTrace();
         }
         return socket;
     }
     private static SSLSocketFactory createSocketContext(Context ctx) throws Exception {
-        ((Activity)ctx).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ((LoginActivity)ctx).aShortToast("revisamos");
-            }
-        });
         SSLSocket socket = null;
-        String pass = "85dsRSG236";
+        String pass = ctx.getResources().getString(R.string.passCA);
+        Log.e("pass", pass);
         char [] fraseclave = pass.toCharArray();
 
         //mirar el codigo del visual studio
@@ -125,7 +123,7 @@ public class AuxiliarUtil {
         java.security.cert.Certificate chain;
         chain = certificateFactory.generateCertificate(certificateStream);
         certificateStream.close();
-
+Log.e("cer",chain.toString());
         keyStore.load(null, null);
         keyStore.setEntry("cliente", new KeyStore.TrustedCertificateEntry(chain), null);
 
@@ -136,25 +134,38 @@ public class AuxiliarUtil {
         ks = KeyStore.getInstance("PKCS12");
         ks.load(ctx.getResources().openRawResource(R.raw.almacen), fraseclave);
 
-        Key key = ks.getKey("cliente", fraseclave);
-        PrivateKey privateKey = (PrivateKey) key;
+        Enumeration<String> enumeration = ks.aliases();
+        X509Certificate certificate = null;
+        while (enumeration.hasMoreElements()) {
+            System.out.println("\n\n");
+            String alias = (String) enumeration.nextElement();
+            System.out.println("alias name " + ":  " + alias);
+
+
+            certificate = (X509Certificate) ks.getCertificate(alias);
+            System.out.println(certificate.toString());
+            System.out.println("\n\n");
+        }
+
+        //Key key = ks.getKey("cliente", fraseclave); //tenemos que meter la clave de la clave privada
+        //PrivateKey privateKey = (PrivateKey) key;
 
         kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         kmf.init(ks, fraseclave);
 
-
         //contexto y socket
         sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
 
-        SSLSocketFactory sslSF = sslContext.getSocketFactory();
+        return sslContext.getSocketFactory();
+    }
 
-
-        ((Activity)ctx).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ((LoginActivity)ctx).aShortToast("socket creado, volvemos");
-            }
-        });
-        return sslSF;
+    public static PrivateKey getCLPrivKey() {
+        return null;
+    }
+    public static PublicKey getCLPuKey() {
+        return null;
+    }
+    public static PublicKey getSRPuKey() {
+        return null;
     }
 }

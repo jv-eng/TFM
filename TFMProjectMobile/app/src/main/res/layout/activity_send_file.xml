@@ -41,56 +41,61 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <Button
-                    android:id="@+id/send_file_btn_seleccionar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="send_file_btn_seleccionar"
+                <LinearLayout
+                    android:layout_width="366dp"
+                    android:layout_height="468dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.499" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/send_file_tv_file"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.276" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayout2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.066">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/send_file_te_channel"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="canal" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginBottom="40sp">
 
-                <Button
-                    android:id="@+id/send_file_btn_enviar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="send_file_btn_enviar"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.647" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/send_file_te_channel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/send_file_hint" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/send_file_tv_file"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="40sp"
+                        android:text="@string/send_file_tv_file" />
+
+                    <LinearLayout
+                        android:layout_width="203dp"
+                        android:layout_height="300dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <Button
+                            android:id="@+id/send_file_btn_seleccionar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="40sp"
+                            android:text="@string/send_file_btn_select" />
+
+                        <Button
+                            android:id="@+id/send_file_btn_enviar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/send_file_btn_send" />
+                    </LinearLayout>
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>
 

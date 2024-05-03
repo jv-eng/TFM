@@ -97,9 +97,7 @@ public class Main {
 		            	Fichero fichEnviar = new Fichero(entityManagerFactoryApp, entityManagerFactoryCredenciales, socket_sr);
 		            	res = fichEnviar.enviarFichero();
 		            	break;
-		            case 7: //recibir fichero
-		            	Fichero fichRecibir = new Fichero(entityManagerFactoryApp, entityManagerFactoryCredenciales, socket_sr);
-		            	res = fichRecibir.recibirFichero();
+		            case 7:
 		            	break;
 		            case 8: //descargar fichero
 		            	Fichero fichDescargar = new Fichero(entityManagerFactoryApp, entityManagerFactoryCredenciales, socket_sr);

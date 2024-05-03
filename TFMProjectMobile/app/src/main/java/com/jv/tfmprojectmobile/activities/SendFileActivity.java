@@ -63,7 +63,7 @@ public class SendFileActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                 // Iniciar el selector de archivos
-                startActivityForResult(Intent.createChooser(intent, "Seleccionar archivo"), 1);
+                startActivityForResult(Intent.createChooser(intent, SendFileActivity.this.getString(R.string.send_file_btn_select)), 1);
             }
         });
 
@@ -78,7 +78,7 @@ public class SendFileActivity extends AppCompatActivity {
 
                     Log.e("nombre fich", AuxiliarUtil.getFileName(SendFileActivity.this,selectedFileUri));
                 } else {
-                    aShortToast("selecciona algun fichero");
+                    aShortToast(SendFileActivity.this.getString(R.string.send_file_msg_no_file_selected));
                 }
             }
         });
@@ -96,7 +96,7 @@ public class SendFileActivity extends AppCompatActivity {
 
     public void prepareUIForDownload() {
         progressDialog  = new ProgressDialog(this);
-        progressDialog.setMessage("Comprobando usuario");
+        progressDialog.setMessage(this.getString(R.string.send_file_msg_sending));
         progressDialog.setCancelable(false);
         progressDialog.show();
     }

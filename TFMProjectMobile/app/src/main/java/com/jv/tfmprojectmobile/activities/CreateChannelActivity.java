@@ -41,11 +41,14 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.jv.tfmprojectmobile.R;
+import com.jv.tfmprojectmobile.util.AuxiliarUtil;
 import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
 import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 import com.jv.tfmprojectmobile.util.threads.CreateChannelThread;
 
 import java.nio.charset.StandardCharsets;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,8 +57,6 @@ public class CreateChannelActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private String codeName = "creador";
-    private String channel;
     private String opponentEndpointId;
     private static final String TAG = "CrearCanal";
     private ConnectionsClient connectionsClient;
@@ -72,7 +73,7 @@ public class CreateChannelActivity extends AppCompatActivity {
 
     public void prepareUIForDownload() {
         progressDialog  = new ProgressDialog(this);
-        progressDialog.setMessage("Comprobando usuario");
+        progressDialog.setMessage(String.valueOf(R.string.create_channel_msg_create));
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
@@ -102,7 +103,7 @@ public class CreateChannelActivity extends AppCompatActivity {
 
         NavigationViewConfiguration.configurarNavView(drawerLayout, navigationView, this);
         TextView nameView = findViewById(R.id.create_channel_tv);
-        nameView.setText(getString(R.string.codename, codeName));
+        nameView.setText(PreferencesManage.userMail(this));
 
         connectionsClient = Nearby.getConnectionsClient(this);
     }
@@ -156,12 +157,11 @@ public class CreateChannelActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String str = ((TextInputEditText)findViewById(R.id.create_channel_txt_name)).getText().toString();
-                aShortToast("canal creado");
 
                 if (!str.isEmpty()) {
                     Thread th = new Thread(new CreateChannelThread(CreateChannelActivity.this, str));
                     th.start();
-                } else aShortToast("indique un nombre");
+                } else aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_name));
             }
         });
 
@@ -189,7 +189,7 @@ public class CreateChannelActivity extends AppCompatActivity {
 
     public void disconnect() {
         connectionsClient.disconnectFromEndpoint(opponentEndpointId);
-        aShortToast("desconectando del cliente");
+        aShortToast(this.getString(R.string.create_channel_msg_disconnect));
     }
 
     // Callbacks for receiving payloads
@@ -199,7 +199,6 @@ public class CreateChannelActivity extends AppCompatActivity {
                 public void onPayloadReceived(String endpointId, Payload payload) {
                     String payloadMessage = new String(payload.asBytes(), StandardCharsets.UTF_8);
                     //Toast.makeText(CreateChannelActivity.this, String.format("onPayloadReceived(endpointId=%s, payload=%s)", endpointId, payloadMessage), Toast.LENGTH_SHORT).show();
-                    aShortToast("Payload recibido");
                 }
 
                 @Override
@@ -226,7 +225,7 @@ public class CreateChannelActivity extends AppCompatActivity {
                                     new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(CreateChannelActivity.this, "Error al crear conexion", Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(CreateChannelActivity.this, "Error al crear conexion", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                 }
@@ -242,11 +241,11 @@ public class CreateChannelActivity extends AppCompatActivity {
                         opponentEndpointId = endpointId;
 
                         //conexion exitosa
-                        Toast.makeText(CreateChannelActivity.this, "conexion correcta", Toast.LENGTH_SHORT).show();
+                        aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_connection_correct));
                         sendMSG();
                     } else {
                         Log.i(TAG, "onConnectionResult: connection failed");
-                        Toast.makeText(CreateChannelActivity.this, "Error al conectar", Toast.LENGTH_SHORT).show();
+                        aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_connection_fail));
                     }
                 }
 
@@ -260,20 +259,20 @@ public class CreateChannelActivity extends AppCompatActivity {
         // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
         connectionsClient
                 .startAdvertising(
-                        codeName, "com.jv.tfmprojectmobile.CreateChannelActivity.SERVICE_ID", connectionLifecycleCallback,
+                        PreferencesManage.userMail(this), "com.jv.tfmprojectmobile.CreateChannelActivity.SERVICE_ID", connectionLifecycleCallback,
                         new AdvertisingOptions(STRATEGY))
                 .addOnSuccessListener(
                         new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unusedResult) {
-                                Toast.makeText(CreateChannelActivity.this, "Anunciando", Toast.LENGTH_LONG).show();
+                                aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_announcing));
                             }
                         })
                 .addOnFailureListener(
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(CreateChannelActivity.this, "Error al iniciar anuncio", Toast.LENGTH_LONG).show();
+                                aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_announcing_fail));
                             }
                         });
     }
@@ -281,13 +280,16 @@ public class CreateChannelActivity extends AppCompatActivity {
     //enviar datos
     private void sendMSG() {
         String str = ((TextInputEditText)findViewById(R.id.create_channel_txt_name)).getText().toString();
+        PrivateKey key = AuxiliarUtil.getCLPrivKey();
+        //cifrar
+        //@TODO
         connectionsClient.sendPayload(
                         opponentEndpointId, Payload.fromBytes(str.getBytes(UTF_8)))
                 .addOnFailureListener(
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(CreateChannelActivity.this, "Error al enviar datos", Toast.LENGTH_LONG).show();
+                                aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_send_data_fail));
                             }
                         });
 

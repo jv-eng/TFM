@@ -63,15 +63,12 @@ public class FicherosCanalActivity extends AppCompatActivity {
 
         NavigationViewConfiguration.configurarNavView(drawerLayout, navigationView, this);
 
-        aShortToast("empezamos");
-
-
         //comprobar si es un intent desde descubrir canales
         String msgIntent = getIntent().getStringExtra("canal");
         if (msgIntent != null) {
             canal = msgIntent;
 
-            aShortToast("iniciamos suscripcion a " + canal);
+            aShortToast(this.getString(R.string.ficheros_canal_msg_start_subscription) + canal);
 
             Thread th = new Thread(new SuscribirThread(this, canal));
             th.start();
@@ -91,7 +88,7 @@ public class FicherosCanalActivity extends AppCompatActivity {
                     th.start();
                     activarTV();
                 } else {
-                    aShortToast("indique algún canal");
+                    aShortToast(FicherosCanalActivity.this.getString(R.string.ficheros_canal_msg_write_channel));
                 }
             }
         });
@@ -101,12 +98,11 @@ public class FicherosCanalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 canal = ((TextView)findViewById(R.id.ficheros_canal_et_txt)).getText().toString();
-                Log.e("aqui", canal);
 
                 if (!canal.isEmpty()) {
                     activarTV();
                 } else {
-                    aShortToast("indique algún canal");
+                    aShortToast(FicherosCanalActivity.this.getString(R.string.ficheros_canal_msg_write_channel));
                 }
             }
         });
@@ -124,7 +120,6 @@ public class FicherosCanalActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                aShortToast("aqui tocaria hacer algo");
                 //obtener elemento
                 model = fileStoreDB.getFilesChannel(canal).get(position);
 
@@ -134,8 +129,10 @@ public class FicherosCanalActivity extends AppCompatActivity {
                 //preguntar si descargar fichero (alert dialog)
                 AlertDialog.Builder builder = new AlertDialog.Builder(FicherosCanalActivity.this);
                 if (descargado == 0) {
-                    builder.setTitle("Opciones")
-                            .setItems(new String[]{"Descargar", "Cancelar"}, new DialogInterface.OnClickListener() {
+                    builder.setTitle(FicherosCanalActivity.this.getString(R.string.ficheros_canal_msg_alertdialog_options))
+                            .setItems(new String[]{
+                                    FicherosCanalActivity.this.getString(R.string.ficheros_canal_msg_alertdialog_download),
+                                    FicherosCanalActivity.this.getString(R.string.ficheros_canal_msg_alertdialog_cancel)}, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     switch (which) {
@@ -144,7 +141,6 @@ public class FicherosCanalActivity extends AppCompatActivity {
                                             Thread th = new Thread(new DescargarFicheroThread(FicherosCanalActivity.this,
                                                     model.getCanal(), model.getName()));
                                             th.start();
-                                            Log.e("alertdialog","boton");
                                             break;
                                         case 1:
                                             break;
@@ -152,8 +148,10 @@ public class FicherosCanalActivity extends AppCompatActivity {
                                 }
                             }).show();
                 } else {
-                    builder.setTitle("Opciones")
-                            .setItems(new String[]{"Abrir", "Cancelar"}, new DialogInterface.OnClickListener() {
+                    builder.setTitle(FicherosCanalActivity.this.getString(R.string.ficheros_canal_msg_alertdialog_options))
+                            .setItems(new String[]{
+                                    FicherosCanalActivity.this.getString(R.string.ficheros_canal_msg_alertdialog_open),
+                                            FicherosCanalActivity.this.getString(R.string.ficheros_canal_msg_alertdialog_cancel)}, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     switch (which) {
@@ -176,8 +174,7 @@ public class FicherosCanalActivity extends AppCompatActivity {
                                             if (intent.resolveActivity(getPackageManager()) != null) {
                                                 startActivity(intent);
                                             } else {
-                                                aShortToast("Error, no hay app para manejar este fichero");
-                                                //aShortToast(obtenerTipoMIME(extension));
+                                                aShortToast(FicherosCanalActivity.this.getString(R.string.ficheros_canal_msg_no_app));
                                             }
 
                                             break;
@@ -192,33 +189,9 @@ public class FicherosCanalActivity extends AppCompatActivity {
 
     }
 
-    public String obtenerTipoMIME(String extension) {
-        switch (extension.toLowerCase()) {
-            case "pdf":
-                return "application/pdf";
-            case "jpg":
-            case "jpeg":
-            case "png":
-                return "image/*";
-            case "txt":
-                return "text/plain";
-            case "docx":
-                return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-            case "xlsx":
-                return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            case "pptx":
-                return "application/vnd.openxmlformats-officedocument.presentationml.presentation";
-            case "mp3":
-                return "audio/mpeg";
-            default:
-                return "application/*";
-        }
-    }
-
-
     public void prepareUIForDownload() {
         progressDialog  = new ProgressDialog(this);
-        progressDialog.setMessage("Comprobando usuario");
+        progressDialog.setMessage(this.getString(R.string.ficheros_canal_msg_download));
         progressDialog.setCancelable(false);
         progressDialog.show();
     }

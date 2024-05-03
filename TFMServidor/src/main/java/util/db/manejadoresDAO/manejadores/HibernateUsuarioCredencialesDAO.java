@@ -1,9 +1,14 @@
 package util.db.manejadoresDAO.manejadores;
 
+import java.util.Base64;
 import java.util.List;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
+import util.Configuration;
 import util.db.AuxiliarDB;
 import util.db.manejadoresDAO.interfaces.UsuarioCredencialesDAO;
 import util.db.modelos.UsuarioCredenciales;
@@ -11,9 +16,11 @@ import util.db.modelos.UsuarioCredenciales;
 public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 	
 	private EntityManagerFactory managerUsuario;
+	private String claveCifrado;
 
 	public HibernateUsuarioCredencialesDAO(EntityManagerFactory managerUsuario) {
 		this.managerUsuario = managerUsuario;
+		this.claveCifrado = Configuration.obtenerConfiguracion("claveContraseña");
 	}
 
 	@Override
@@ -33,7 +40,11 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 	@Override
 	public void crearUsuario(String usuario, String correo, String pass) {
 		AuxiliarDB.inTransaction(entityManager -> {
-			entityManager.persist(new UsuarioCredenciales(usuario, pass, pass, correo));
+			try {
+				entityManager.persist(new UsuarioCredenciales(usuario, cifrar(pass, claveCifrado), cifrar(pass, claveCifrado), correo));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}, this.managerUsuario);
 	}
 
@@ -44,7 +55,6 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 		    query.setParameter("mail", correo);
 
 		    List<UsuarioCredenciales> usuarios = query.getResultList();
-		    System.out.println(usuarios.size());
 
 		    if (!usuarios.isEmpty()) {
 		        // El usuario ya existe, actualiza la clave
@@ -88,9 +98,13 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 		    
 		    if (!usuarios.isEmpty()) {
 		    	//existe el usuario
-		    	String pass = usuarios.get(0).getPass();
-		    	//hay que descrifrar o algo
-		    	System.out.println(pass);
+		    	String pass = null;
+				try {
+					pass = descifrar(usuarios.get(0).getPass(), claveCifrado);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		    	
 		    	//comprobamos
 		    	test[0] = pass.compareToIgnoreCase(contraseña) == 0;
 			}
@@ -132,5 +146,21 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 		}, this.managerUsuario);
 		return res[0];
 	}
+	
+	private static String cifrar(String texto, String clave) throws Exception {
+        SecretKeySpec key = new SecretKeySpec(clave.getBytes(), "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        byte[] textoCifrado = cipher.doFinal(texto.getBytes());
+        return Base64.getEncoder().encodeToString(textoCifrado);
+    }
+
+	private static String descifrar(String textoCifrado, String clave) throws Exception {
+        SecretKeySpec key = new SecretKeySpec(clave.getBytes(), "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        byte[] textoDescifrado = cipher.doFinal(Base64.getDecoder().decode(textoCifrado));
+        return new String(textoDescifrado);
+    }
 
 }

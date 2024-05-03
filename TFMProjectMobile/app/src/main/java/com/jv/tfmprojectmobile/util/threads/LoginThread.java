@@ -105,12 +105,6 @@ public class LoginThread implements Runnable {
             if (sock != null) {
                 try {
                     sock.close();
-                    ((Activity)ctx).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ((LoginActivity)ctx).aShortToast("socket cerrado");
-                        }
-                    });
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

@@ -41,34 +41,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <Button
-                    android:id="@+id/descubrir_canales_btn_buscar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="descubrir_canales_btn_buscar"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.497"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.499" />
-
-                <Button
-                    android:id="@+id/descubrir_canales_btn_fin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="descubrir_canales_btn_fin"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.736" />
-
                 <TextView
                     android:id="@+id/descubrir_canales_tv_usuario"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="descubrir_canales_tv_usuario"
+                    android:text="@string/discover_channel_username"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
@@ -80,7 +57,7 @@
                     android:id="@+id/descubrir_canales_tv_msg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="descubrir_canales_tv_msg"
+                    android:text="@string/discover_channel_channel_name"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
@@ -88,16 +65,38 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.28" />
 
-                <Button
-                    android:id="@+id/descubrir_canales_btn_suscribir"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="descubrir_canales_btn_suscribir"
+                <LinearLayout
+                    android:layout_width="282dp"
+                    android:layout_height="300dp"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.496"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.617" />
+                    app:layout_constraintVertical_bias="0.743">
+
+                    <Button
+                        android:id="@+id/descubrir_canales_btn_buscar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="40sp"
+                        android:text="@string/discover_channel_btn_search" />
+
+                    <Button
+                        android:id="@+id/descubrir_canales_btn_fin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="40sp"
+                        android:text="@string/discover_channel_btn_end_search" />
+
+                    <Button
+                        android:id="@+id/descubrir_canales_btn_suscribir"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="40sp"
+                        android:text="@string/discover_channel_btn_subscribe" />
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>

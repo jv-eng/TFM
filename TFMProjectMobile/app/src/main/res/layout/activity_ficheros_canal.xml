@@ -41,59 +41,57 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <Button
-                    android:id="@+id/ficheros_canal_btn_lista"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ficheros_canal_btn_lista"
+                <LinearLayout
+                    android:layout_width="363dp"
+                    android:layout_height="591dp"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.076"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.185" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayout3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.026">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/ficheros_canal_et_txt"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="hint" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginBottom="20sp">
 
-                <ListView
-                    android:id="@+id/ficheros_canal_lv_lista_fich"
-                    android:layout_width="318dp"
-                    android:layout_height="420dp"
-                    android:enabled="false"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.494"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.777" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ficheros_canal_et_txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/ficheros_canal_hint" />
 
-                <Button
-                    android:id="@+id/ficheros_canal_btn_sub"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="sub"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.903"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.185" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="20sp">
+
+                        <Button
+                            android:id="@+id/ficheros_canal_btn_lista"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ficheros_canal_btn_list"
+                            android:layout_weight="1"/>
+
+                        <Button
+                            android:id="@+id/ficheros_canal_btn_sub"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ficheros_canal_btn_sub"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <ListView
+                        android:id="@+id/ficheros_canal_lv_lista_fich"
+                        android:layout_width="match_parent"
+                        android:layout_height="426dp"
+                        android:enabled="false" />
+
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>

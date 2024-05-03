@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(MainActivity.this, MenuActivity.class);
             startActivity(i);
         } else {
+            AuxiliarUtil.createSocket(this);
             PreferencesManage.removeUser(this);
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);

@@ -35,17 +35,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.jv.tfmprojectmobile.R;
+import com.jv.tfmprojectmobile.util.AuxiliarUtil;
 import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
 import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 
 import java.nio.charset.StandardCharsets;
+import java.security.PublicKey;
 
 public class DescubrirCanalesActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private String codeName = "buscador";
     private String opponentEndpointId;
     private static final String TAG = "DescubrirCanal";
     private String canal = null;
@@ -82,7 +83,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
 
         NavigationViewConfiguration.configurarNavView(drawerLayout, navigationView, this);
         TextView nameView = findViewById(R.id.descubrir_canales_tv_usuario);
-        nameView.setText(getString(R.string.codename, codeName));
+        nameView.setText(PreferencesManage.userMail(this));
 
         connectionsClient = Nearby.getConnectionsClient(this);
     }
@@ -144,7 +145,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
                     i.putExtra("canal", canal);
                     startActivity(i);
                 } else {
-                    aShortToast("ningun canal encontrado");
+                    aShortToast(DescubrirCanalesActivity.this.getString(R.string.discover_channel_msg_no_channel_found));
                 }
             }
         });
@@ -187,14 +188,14 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
                         new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unusedResult) {
-                                Toast.makeText(DescubrirCanalesActivity.this, "Dispositivo encontrado", Toast.LENGTH_LONG).show();
+                                aShortToast(DescubrirCanalesActivity.this.getString(R.string.discover_channel_msg_start_searching));
                             }
                         })
                 .addOnFailureListener(
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(DescubrirCanalesActivity.this, "Error buscando", Toast.LENGTH_LONG).show();
+                                aShortToast(DescubrirCanalesActivity.this.getString(R.string.discover_channel_msg_error_searching));
                             }
                         });
     }
@@ -204,7 +205,10 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
                 @Override
                 public void onPayloadReceived(String endpointId, Payload payload) {
                     String payloadMessage = new String(payload.asBytes(), StandardCharsets.UTF_8);
-                    Toast.makeText(DescubrirCanalesActivity.this, String.format("onPayloadReceived(endpointId=%s, payload=%s)", endpointId, payloadMessage), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(DescubrirCanalesActivity.this, String.format("onPayloadReceived(endpointId=%s, payload=%s)", endpointId, payloadMessage), Toast.LENGTH_SHORT).show();
+                    PublicKey key = AuxiliarUtil.getCLPuKey();
+                    //descifrar
+                    //@TODO
                     ((TextView)findViewById(R.id.descubrir_canales_tv_msg)).setText(payloadMessage);
                     canal = payloadMessage;
                 }
@@ -221,8 +225,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
                 @Override
                 public void onEndpointFound(String endpointId, DiscoveredEndpointInfo info) {
                     Log.i(TAG, "onEndpointFound: endpoint found, connecting");
-                    connectionsClient.requestConnection(codeName, endpointId, connectionLifecycleCallback);
-                    Toast.makeText(DescubrirCanalesActivity.this, "Endpoint descubierto", Toast.LENGTH_SHORT).show();
+                    connectionsClient.requestConnection(PreferencesManage.userMail(DescubrirCanalesActivity.this), endpointId, connectionLifecycleCallback);
                 }
 
                 @Override
@@ -237,10 +240,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
                     Log.i(TAG, "onConnectionInitiated: accepting connection");
                     connectionsClient.stopDiscovery();
                     connectionsClient.stopAdvertising();
-                    Toast.makeText(DescubrirCanalesActivity.this,
-                            String.format("onConnectionInitiated(endpointId=%s, endpointName=%s)",
-                                    endpointId, connectionInfo.getEndpointName())
-                            , Toast.LENGTH_SHORT).show();
+                    aShortToast(DescubrirCanalesActivity.this.getString(R.string.discover_channel_msg_device_found));
                     connectionsClient.acceptConnection(endpointId, payloadCallback)
                             .addOnFailureListener(
                                     new OnFailureListener() {
@@ -263,7 +263,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
                         //conexion exitosa
                     } else {
                         Log.i(TAG, "onConnectionResult: connection failed");
-                        Toast.makeText(DescubrirCanalesActivity.this, "Error al conectar", Toast.LENGTH_SHORT).show();
+                        aShortToast(DescubrirCanalesActivity.this.getString(R.string.discover_channel_msg_connect_fail));
                     }
                 }
 

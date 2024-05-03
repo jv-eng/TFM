@@ -46,14 +46,6 @@ public class SuscribirThread implements Runnable {
             FileStoreDB fileStoreDB = new FileStoreDB(helper);
             fileStoreDB.eliminarPorNombre(channel);
 
-            ((Activity)ctx).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ((FicherosCanalActivity)ctx).aShortToast("iniciamos proceso");
-                }
-            });
-            Thread.sleep(3000);
-
             if (suscribirCanal(flujo_in, flujo_out)) {
                 //temporizador para parar el thread
                 Timer timer = new Timer();
@@ -72,12 +64,10 @@ public class SuscribirThread implements Runnable {
                 ((Activity)ctx).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ((FicherosCanalActivity)ctx).aShortToast("Error al suscribir");
+                        ((FicherosCanalActivity)ctx).aShortToast(ctx.getString(R.string.discover_channel_msg_error_subscribe));
                     }
                 });
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -85,12 +75,6 @@ public class SuscribirThread implements Runnable {
 
     private boolean suscribirCanal(DataInputStream flujo_in, DataOutputStream flujo_out) {
         try {
-            ((Activity)ctx).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ((FicherosCanalActivity)ctx).aShortToast("inicio suscripcion");
-                }
-            });
 
             //data
             int op = 4;
@@ -110,7 +94,7 @@ public class SuscribirThread implements Runnable {
             int res = flujo_in.readInt();
             if (res > 0) {
                 recibirFicherosEnviados(res, flujo_in); //recibir ficheros ya enviados a ese canal
-                msgRes = "canal suscrito correctamente";
+                msgRes = ctx.getString(R.string.discover_channel_msg_subscription_success);
             }
             else if (res == -1) msgRes = this.ctx.getResources().getString(R.string.login_msg_1);
 
@@ -143,13 +127,6 @@ public class SuscribirThread implements Runnable {
             flujo_e.read(buff);
             String fich = new String(buff, 0, tam, "UTF-8");
 
-            ((Activity)ctx).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ((FicherosCanalActivity)ctx).aShortToast("fichero recibido ");
-                }
-            });
-
             //guardar fichero
             FileStoreHelper helper = new FileStoreHelper(ctx);
             FileStoreDB fileStoreDB = new FileStoreDB(helper);
@@ -167,7 +144,7 @@ public class SuscribirThread implements Runnable {
         ((Activity)ctx).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((FicherosCanalActivity)ctx).aShortToast("esperando para el canal " + channel);
+                ((FicherosCanalActivity)ctx).aShortToast(ctx.getString(R.string.discover_channel_msg_waiting) + channel);
             }
         });
 

@@ -1,8 +1,8 @@
 <resources>
     <!--App info-->
-    <string name="app_name">TFMProjectMobile</string>
+    <string name="app_name">Mobile app</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="name_app">TFMProjectMovile</string>
+    <string name="name_app">Mobile App</string>
 
     <!--Login-->
     <string name="password">Password</string>
@@ -40,40 +40,57 @@
     <string name="menu_btn_enviar_fichero">Send file</string>
     <string name="menu_btn_ficheros_canal">Files received</string>
 
-    <!--Register-->
-    <!--Register-->
-    <!--Register-->
+    <!--Create Channel-->
+    <string name="create_channel_codename">User: </string>
+    <string name="create_channel_hint">Introduce channel name</string>
+    <string name="create_channel_btn_announce">Start announcement</string>
+    <string name="create_channel_btn_create">Create channel</string>
+    <string name="create_channel_btn_disconnect">Disconnect from client</string>
+    <string name="create_channel_msg_create">Creating channel</string>
+    <string name="create_channel_msg_name">Introduce a name</string>
+    <string name="create_channel_msg_disconnect">Disconnected from client</string>
+    <string name="create_channel_msg_connection_correct">Connexion successful</string>
+    <string name="create_channel_msg_connection_fail">There was an error when connecting</string>
+    <string name="create_channel_msg_announcing">Announcing</string>
+    <string name="create_channel_msg_announcing_fail">There was an error when announcing</string>
+    <string name="create_channel_msg_send_data_fail">There was an error when sending the data</string>
+    <string name="create_channel_msg_channel_created">The channel was created successfully</string>
 
+    <!--Discover channels-->
+    <string name="discover_channel_username">User: </string>
+    <string name="discover_channel_channel_name">Channel: </string>
+    <string name="discover_channel_btn_search">Search channels</string>
+    <string name="discover_channel_btn_end_search">End search</string>
+    <string name="discover_channel_btn_subscribe">Subscribe channel</string>
+    <string name="discover_channel_msg_no_channel_found">There was no channel found</string>
+    <string name="discover_channel_msg_device_found">Device found</string>
+    <string name="discover_channel_msg_error_searching">There was an error when searching</string>
+    <string name="discover_channel_msg_start_searching">Discovery initiated</string>
+    <string name="discover_channel_msg_connect_fail">There was an error when connecting to peer</string>
+    <string name="discover_channel_msg_error_subscribe">There was an error when subscribing</string>
+    <string name="discover_channel_msg_subscription_success">Subscription successful</string>
+    <string name="discover_channel_msg_waiting">Waiting for channel: </string>
 
-    <!--test nearby-->
-    <string name="error_missing_permissions">Cannot start without required permissions</string>
+    <!--Ficheros canal-->
+    <string name="ficheros_canal_hint">Channel to subscribe</string>
+    <string name="ficheros_canal_btn_list">Files list</string>
+    <string name="ficheros_canal_btn_sub">Subscribe</string>
+    <string name="ficheros_canal_msg_start_subscription">Start subscription to channel: </string>
+    <string name="ficheros_canal_msg_write_channel">Indicate a channel</string>
+    <string name="ficheros_canal_msg_alertdialog_options">Options</string>
+    <string name="ficheros_canal_msg_alertdialog_download">Download</string>
+    <string name="ficheros_canal_msg_alertdialog_open">Open</string>
+    <string name="ficheros_canal_msg_alertdialog_cancel">Cancel</string>
+    <string name="ficheros_canal_msg_no_app">There is no app to open this file</string>
+    <string name="ficheros_canal_msg_download">Downloading</string>
+    <string name="ficheros_canal_msg_firma_correcta">The sign is correct</string>
+    <string name="ficheros_canal_msg_firma_incorrecta">There was an error with the sign</string>
 
-    <string name="toast_connected">Connected to %s</string>
-    <string name="toast_disconnected">Disconnected from %s</string>
-
-    <string name="status_unknown">Please wait</string>
-    <string name="status_connected">Connected\nHold any of the volume keys to talk</string>
-
-
-    <string name="codename">Your codename: %s</string>
-    <string name="opponent_name">Opponent: %s</string>
-    <string name="no_opponent">none (yet)</string>
-
-    <string name="status_disconnected">Disconnected</string>
-    <string name="status_searching">Searching</string>
-
-    <string name="game_choice">You chose %s</string>
-
-    <string name="win_message">%1$s beats %2$s!</string>
-    <string name="tie_message">You both chose %s</string>
-    <string name="loss_message">%1$s loses to %2$s…</string>
-
-    <string name="action_find_opponents">Find opponent</string>
-    <string name="action_disconnect">Disconnect</string>
-
-    <string name="choice_rock">Rock</string>
-    <string name="choice_paper">Paper</string>
-    <string name="choice_scissors">Scissors</string>
-
-    <string name="game_score">%1$d : %2$d</string>
+    <!--Send file-->
+    <string name="send_file_hint">Channel to send file</string>
+    <string name="send_file_tv_file">Selected file: </string>
+    <string name="send_file_btn_select">Select file</string>
+    <string name="send_file_btn_send">Send file</string>
+    <string name="send_file_msg_no_file_selected">There was no file selected</string>
+    <string name="send_file_msg_sending">Sending file</string>
 </resources>

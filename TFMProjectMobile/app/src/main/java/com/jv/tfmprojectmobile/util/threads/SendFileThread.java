@@ -105,13 +105,6 @@ public class SendFileThread implements Runnable {
                 sig.update(buffer, 0, bytes_leidos); //actualizar firma
             } while (num_total < longitud_mensaje);
 
-            ((Activity)ctx).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ((SendFileActivity)ctx).aShortToast("enviamos la firma");
-                }
-            });
-
             //enviar firma
             byte[] firma = sig.sign();
             flujo_out.writeInt(firma.length);
@@ -123,7 +116,6 @@ public class SendFileThread implements Runnable {
             ((Activity)ctx).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ((SendFileActivity)ctx).aShortToast(String.valueOf(longitud_mensaje));
                     ((SendFileActivity)ctx).prepareUIAfterDownload();
                 }
             });

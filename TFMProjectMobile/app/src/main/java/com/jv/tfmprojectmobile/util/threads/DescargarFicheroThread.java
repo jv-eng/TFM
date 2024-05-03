@@ -39,7 +39,6 @@ public class DescargarFicheroThread implements Runnable {
             @Override
             public void run() {
                 ((FicherosCanalActivity)ctx).prepareUIForDownload();
-                ((FicherosCanalActivity)ctx).aShortToast("empezamos descarga");
             }
         });
 
@@ -108,9 +107,9 @@ public class DescargarFicheroThread implements Runnable {
             boolean verificado = verifier.verify(firma);
 
             if (verificado) {
-                msg = "Firma verificada correctamente";
+                msg = ctx.getString(R.string.ficheros_canal_msg_firma_correcta);
             } else {
-                msg = "Firma no válida";
+                msg = ctx.getString(R.string.ficheros_canal_msg_firma_incorrecta);
             }
 
             ((Activity)ctx).runOnUiThread(new Runnable() {

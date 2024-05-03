@@ -8,11 +8,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.List;
 
 import javax.net.ssl.SSLSocket;
@@ -23,6 +26,7 @@ import org.apache.logging.log4j.core.Logger;
 import jakarta.persistence.EntityManagerFactory;
 import main.Main;
 import util.Configuration;
+import util.FirmaDigitalUtil;
 import util.Serializar;
 import util.db.manejadoresDAO.interfaces.ArchivoDAO;
 import util.db.manejadoresDAO.interfaces.CanalDAO;
@@ -125,10 +129,6 @@ public class Fichero {
 		return res;	
 	}
 
-	public int recibirFichero() {
-		return 0;
-	}
-
 	public int descargarFichero() {
 		int res = 0;
 		System.out.println("Envío de fichero: envío de fichero al cliente");
@@ -174,6 +174,7 @@ public class Fichero {
 					//enviar fichero
 					File f = new File(a.getRutaSistemaArchivos());
 					loggSig.info("Envío de fichero \"" + nombreFich + "\" a usuario \"" + usuario + "\" por canal \"" + canal + "\".");
+					System.out.println("Envío de fichero \"" + nombreFich + "\" a usuario \"" + usuario + "\" por canal \"" + canal + "\".");
 					
 					this.enviarFicheroCompleto(socket, a.getRutaSistemaArchivos(), f.length());
 				} else {
@@ -223,26 +224,19 @@ public class Fichero {
 			int bytes_leidos = 0;
 			long bytes_acumulados = 0;
 			
-			System.out.println("empezamos a recibir " + num_recibido);
-			
 			do {
-				System.out.println("leer del buffer");
 				bytes_leidos = flujo_e.read(buff, 0, (int) Math.min(buff.length, num_recibido - bytes_acumulados));
 				bytes_acumulados += bytes_leidos;
 				fich.write(buff,0,bytes_leidos);
 				verifier.update(buff, 0, bytes_leidos);
-				System.out.println("despues");
 			} while (bytes_acumulados < num_recibido);
 			
 			fich.close();
 			
-			System.out.println(bytes_acumulados + "\t" + num_recibido);
 			System.out.println("recibir firma y comprobar");
 			//recibir firma
 			tam = flujo_e.readInt();
-			System.out.println("tam firma: " + tam);
 			buff = new byte[tam];
-			System.out.println("leemos la firma");
 			flujo_e.read(buff);
 			
 			//comprobamos firma
@@ -254,9 +248,6 @@ public class Fichero {
             	loggSig.error("Se ha producido un error en la firma.");
                 System.out.println("Firma no válida");
             }
-			
-			System.out.println("Fichero enviado");
-			
 			
 			return nombre;
 		} catch (IOException e) {
@@ -288,8 +279,7 @@ public class Fichero {
 			else buff = new byte[(int) size];
 			
 			//obtener clave y firma
-			//PrivateKey key = FirmaDigitalUtil.getFirmaCertServidor();
-			PrivateKey key = Serializar.stringClavePriv("MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCHQwjGWFRL5DEC/OiWNAUYhRq2iu+YxXMSjt+g9t231VJVNuaWz1hEIbXHe9TVVnAOxK67vja4sdQUN9stVmkK/b5NW8db2royJO384AJs3QPqcPHhE8eF71+4NvEe54qDPWE5nscaINyn6Yeev3xiMprsss6ZF30S1/Bd3pI87p0NZlOpiHioUHAye1aRs5T5dofxom+5YcVOpJVe3PqjP+kjf31cIgk+tja2H5nd6m95QpLaonj5CcyJmqInckT8KmrDA6zP2YXlyiz7OxxyL33l0xO0WIVieZXYbpKgW+D6/nZ9/mlazhyee1GpgxREdm60dgrELgrjPU2l20q/AgMBAAECggEAJEVfhwCMqkUot2pmXFDaxPZ8cVLUaR0ZfHJ/mURZtEAp8dvk/a/gNXTsr++O5R5msi8fxAx/1AsrmbhYt9GiHWZpr4ja7tC6eVPZ1aOkQtkJgcaDth19tXa5LkbdZbIlPIgrGC5xqZoCUayXx4QFsLdtP+e66uaXjYQGWsWiZWAbQj+qNaVJAGltTSNl3mPKnpg5bCEp+gSBjfIEB4hU2GDvWKnI5Ma6FYF2Zu0Uo891PXik9Kt88KHYR4vlwsAKR9TwNJRkfLxGRPnpkdBkiFQzdhQaaAueQGvWjIeKRvpyLcY5HerbfBC0SiPXhp5hQVI7N30BObgbt1s90N6T0QKBgQC8ov93EZFq9Fq5z9sU1aCElgQDBRfPe5tpkGAt3DDG7qJJd/OVCOpNmPsOm6qjYiM5JJBq0Xcu2qWgOTHR0iNRwXNjLohBQIyocNJCg/yhQCeOMrvjLQAo6NThi4w8S3bk7GT3GCswC+gvoP4PZRa5dHMbE6Kq5Pkxltot2ya7rQKBgQC3kI3HKTv5mt6Gp9aMO7caQl42bpY/tA035uLdP09Jzs9yX2ctErEIwvWDZ0pnihTeN1wWpyB8jD514tz7Hx9Fnz0LlBDGPMCv34mqQjETFt4S6x8bYBJ+YvJcfDm6MftBVZfaaQBGDjBbmXh05TcDJyGH3pYf4hm0RuVk5VttmwKBgFA+qpwVPh4YeqvGrzTKt7EPO/+o3/skYvViNHftzlYh16mXPGhu1XVTGaGaONmt+rvpQQIfvyqQWpqxGe9fDCVQPOy5M79GXU+eRuOC0CosZ2dHT8QRNZsxiLW1rl9L3vT9VuoCPwT+W7Q/MTSNVUBpODoRfUZjh1pACOou6ug1AoGBAIj3LxKfzcRcrhVDPm68T88kHi/3K9y0d/hyKmxzRLIJwffQ/6c9/yJOdepqM7Y17YQxQmEUqsTD0AceE0y82BSW0HHHNQz1X8Daxllnsj5QHbt3/GnssV/kbHpdpqUrjhIdz4SEPFQJWkO+q4ZtUTLlC7vZdaKsjglZrOgvypxpAoGAc9ecOGYe8ooeyLSiye+ybZxrmzsnP0o6PBMG0RYZd+Gq6fBskZovL2Fti0wewBNDa575bXWJa79qC5+ejnHaFdLYMIfRGk2oJW1rXGPGUKUyv7i3ROasdjBREPoXEMvsaDf6L2lrEsMFMXfGPK8CIaVtIu7hxgOwfGQtCAqyPIc=");
+			PrivateKey key = FirmaDigitalUtil.getFirmaCertServidor();
 			Signature sig = Signature.getInstance("SHA512withRSA");
             sig.initSign(key);
 			
@@ -322,6 +312,15 @@ public class Fichero {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SignatureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnrecoverableKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (KeyStoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CertificateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
