@@ -214,7 +214,6 @@ public class Fichero {
 							.getClave(correo)));
 			Signature verifier = Signature.getInstance("SHA512withRSA");
             verifier.initVerify(key);
-            System.out.println(key);
 			
 			//recibir mensaje
             if (num_recibido < 64000) buff = new byte[64000];

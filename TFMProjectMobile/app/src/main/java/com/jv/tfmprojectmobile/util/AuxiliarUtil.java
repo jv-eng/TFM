@@ -93,9 +93,9 @@ public class AuxiliarUtil {
         SSLSocket socket = null;
         try {
             if (sslSF == null) sslSF = createSocketContext(ctx);
-            /*Socket sock = new Socket(ctx.getResources().getString(R.string.ip), ctx.getResources().getInteger(R.integer.puerto));
+            Socket sock = new Socket(ctx.getResources().getString(R.string.ip), ctx.getResources().getInteger(R.integer.puerto));
             socket = (SSLSocket) sslSF.createSocket(sock, null, sock.getPort(), false);
-            socket.setUseClientMode(true);*/
+            socket.setUseClientMode(true);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -39,6 +39,7 @@ public class Main {
 		
 		//configurar seguridad
 		System.setProperty("javax.net.ssl.trustStore", "AlmacenSRTrust");
+		System.setProperty("javax.net.ssl.trustStorePassword", "N45i2on[!%");
 		System.setProperty("javax.net.ssl.keyStore", "AlmacenSR");
 		System.setProperty("javax.net.ssl.keyStorePassword", "dW716*h??Y");
 		System.setProperty("javax.net.debug","ssl");
@@ -51,7 +52,7 @@ public class Main {
 		try {
 			//socket_servidor = new ServerSocket(Integer.parseInt(Configuration.obtenerConfiguracion("puerto")));
 			socket_servidor = (SSLServerSocket) factory.createServerSocket(Integer.parseInt(Configuration.obtenerConfiguracion("puerto")));
-			//socket_servidor.setNeedClientAuth(true);
+			socket_servidor.setNeedClientAuth(true);
 			
 			while (true) {
 				System.out.println(); System.out.println();

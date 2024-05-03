@@ -1,5 +1,6 @@
 package util.db.manejadoresDAO.manejadores;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 
@@ -16,11 +17,12 @@ import util.db.modelos.UsuarioCredenciales;
 public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 	
 	private EntityManagerFactory managerUsuario;
-	private String claveCifrado;
+	static byte[] claveBytes;// = clave.getBytes(StandardCharsets.UTF_8);
 
 	public HibernateUsuarioCredencialesDAO(EntityManagerFactory managerUsuario) {
 		this.managerUsuario = managerUsuario;
-		this.claveCifrado = Configuration.obtenerConfiguracion("claveContraseña");
+		String claveCifrado = Configuration.obtenerConfiguracion("claveContraseña");
+		claveBytes = claveCifrado.getBytes(StandardCharsets.UTF_8);
 	}
 
 	@Override
@@ -41,7 +43,7 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 	public void crearUsuario(String usuario, String correo, String pass) {
 		AuxiliarDB.inTransaction(entityManager -> {
 			try {
-				entityManager.persist(new UsuarioCredenciales(usuario, cifrar(pass, claveCifrado), cifrar(pass, claveCifrado), correo));
+				entityManager.persist(new UsuarioCredenciales(usuario, cifrar(pass), cifrar(pass), correo));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -100,7 +102,7 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 		    	//existe el usuario
 		    	String pass = null;
 				try {
-					pass = descifrar(usuarios.get(0).getPass(), claveCifrado);
+					pass = descifrar(usuarios.get(0).getPass());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -147,16 +149,16 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 		return res[0];
 	}
 	
-	private static String cifrar(String texto, String clave) throws Exception {
-        SecretKeySpec key = new SecretKeySpec(clave.getBytes(), "AES");
+	private static String cifrar(String texto) throws Exception {
+        SecretKeySpec key = new SecretKeySpec(claveBytes, "AES");
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.ENCRYPT_MODE, key);
         byte[] textoCifrado = cipher.doFinal(texto.getBytes());
         return Base64.getEncoder().encodeToString(textoCifrado);
     }
 
-	private static String descifrar(String textoCifrado, String clave) throws Exception {
-        SecretKeySpec key = new SecretKeySpec(clave.getBytes(), "AES");
+	private static String descifrar(String textoCifrado) throws Exception {
+        SecretKeySpec key = new SecretKeySpec(claveBytes, "AES");
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] textoDescifrado = cipher.doFinal(Base64.getDecoder().decode(textoCifrado));
