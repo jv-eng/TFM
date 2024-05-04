@@ -38,10 +38,14 @@ public class Main {
 		EntityManagerFactory entityManagerFactoryApp = createEntityManagerFactory("org.hibernate.tfm.servidor");
 		
 		//configurar seguridad
-		System.setProperty("javax.net.ssl.trustStore", "AlmacenSRTrust");
+		/*System.setProperty("javax.net.ssl.trustStore", "AlmacenSRTrust");
 		System.setProperty("javax.net.ssl.trustStorePassword", "N45i2on[!%");
 		System.setProperty("javax.net.ssl.keyStore", "AlmacenSR");
-		System.setProperty("javax.net.ssl.keyStorePassword", "dW716*h??Y");
+		System.setProperty("javax.net.ssl.keyStorePassword", "dW716*h??Y");*/
+		System.setProperty("javax.net.ssl.trustStore", Configuration.obtenerConfiguracion("almacenTrust"));
+		System.setProperty("javax.net.ssl.trustStorePassword", Configuration.obtenerConfiguracion("claveAlmacenTrust"));
+		System.setProperty("javax.net.ssl.keyStore", Configuration.obtenerConfiguracion("almacenSR"));
+		System.setProperty("javax.net.ssl.keyStorePassword", Configuration.obtenerConfiguracion("claveAlmacenSR"));
 		System.setProperty("javax.net.debug","ssl");
 		SSLServerSocketFactory factory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 		SSLServerSocket socket_servidor = null;

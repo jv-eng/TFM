@@ -2,6 +2,7 @@ package util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -10,6 +11,12 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.Base64;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import jakarta.persistence.EntityManagerFactory;
 
@@ -21,9 +28,9 @@ public class FirmaDigitalUtil {
         // Contraseña del almacén de claves
         char[] keystorePassword = Configuration.obtenerConfiguracion("claveAlmacenSR").toCharArray();
         // Alias del certificado
-        String alias = "alias_del_certificado";
+        String alias = "CertificadoSR";
         // Contraseña del certificado
-        char[] keyPassword = "contraseña_del_certificado".toCharArray();
+        char[] keyPassword = Configuration.obtenerConfiguracion("claveAlmacenSR").toCharArray();
 
         // Cargar el almacén de claves
         FileInputStream fis = new FileInputStream(keystoreFile);
@@ -35,8 +42,11 @@ public class FirmaDigitalUtil {
 		return (PrivateKey) key;
 	}
 	
-	public static PublicKey obtenerClaveCliente(String correo, EntityManagerFactory entityManagerFactoryCredenciales) {
-		return null;
+	public static String decryptClavePubCL(String str) throws Exception {
+		Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.DECRYPT_MODE, getFirmaCertServidor());
+        byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(str));
+        return new String(decryptedBytes);
 	}
-	
+		
 }

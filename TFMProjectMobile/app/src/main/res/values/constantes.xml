@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--this.ctx.getResources().getString(R.string.ip)-->
-<resources>
+<resources translatable="false">
     <string name="ip">192.168.1.40</string>
     <integer name="puerto">12345</integer>
 
     <string name="passCA">85dsRSG236</string>
+
+    <string name="aliasCL">cliente</string>
 </resources>

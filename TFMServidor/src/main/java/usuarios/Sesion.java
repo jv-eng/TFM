@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import jakarta.persistence.EntityManagerFactory;
+import util.FirmaDigitalUtil;
 import util.Serializar;
 import util.db.manejadoresDAO.interfaces.UsuarioCredencialesDAO;
 import util.db.manejadoresDAO.manejadores.HibernateUsuarioCredencialesDAO;
@@ -55,7 +56,8 @@ public class Sesion {
 	        tam = flujo_e.readInt();
 			buff = new byte[tam];
 			flujo_e.read(buff);
-			PublicKey key = Serializar.stringClave(new String(buff, 0, tam, "UTF-8"));
+			String tmp = new String(buff, 0, tam, "UTF-8");
+			PublicKey key = Serializar.stringClave(FirmaDigitalUtil.decryptClavePubCL(tmp));
 	        
 	        String clave = Serializar.claveString(key);
 	        
@@ -77,7 +79,7 @@ public class Sesion {
 				output.write(nombreByte);
 	        }
 	        
-		} catch (IOException e) {
+		} catch (Exception e) {
 			res = -1;
 			logg.error("Error al recibir los datos.");
 		}

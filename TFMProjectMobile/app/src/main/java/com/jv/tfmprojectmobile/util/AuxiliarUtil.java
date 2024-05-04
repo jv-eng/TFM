@@ -15,8 +15,10 @@ import java.io.InputStream;
 import java.net.Socket;
 import java.security.Key;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
@@ -59,11 +61,6 @@ public class AuxiliarUtil {
         }
         return result;
     }
-
-
-
-
-
 
     public static String generateUUID() {
         return UUID.randomUUID().toString();
@@ -120,12 +117,12 @@ public class AuxiliarUtil {
         InputStream certificateStream = ctx.getResources().openRawResource(R.raw.ca); //el pem o cer
 
         CertificateFactory certificateFactory = CertificateFactory.getInstance("X509");
-        java.security.cert.Certificate chain;
+        Certificate chain;
         chain = certificateFactory.generateCertificate(certificateStream);
         certificateStream.close();
-Log.e("cer",chain.toString());
+
         keyStore.load(null, null);
-        keyStore.setEntry("cliente", new KeyStore.TrustedCertificateEntry(chain), null);
+        keyStore.setEntry(ctx.getResources().getString(R.string.aliasCL), new KeyStore.TrustedCertificateEntry(chain), null);
 
         TrustManagerFactory tmf = TrustManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         tmf.init(keyStore);
@@ -134,22 +131,6 @@ Log.e("cer",chain.toString());
         ks = KeyStore.getInstance("PKCS12");
         ks.load(ctx.getResources().openRawResource(R.raw.almacen), fraseclave);
 
-        Enumeration<String> enumeration = ks.aliases();
-        X509Certificate certificate = null;
-        while (enumeration.hasMoreElements()) {
-            System.out.println("\n\n");
-            String alias = (String) enumeration.nextElement();
-            System.out.println("alias name " + ":  " + alias);
-
-
-            certificate = (X509Certificate) ks.getCertificate(alias);
-            System.out.println(certificate.toString());
-            System.out.println("\n\n");
-        }
-
-        //Key key = ks.getKey("cliente", fraseclave); //tenemos que meter la clave de la clave privada
-        //PrivateKey privateKey = (PrivateKey) key;
-
         kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         kmf.init(ks, fraseclave);
 
@@ -157,15 +138,5 @@ Log.e("cer",chain.toString());
         sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
 
         return sslContext.getSocketFactory();
-    }
-
-    public static PrivateKey getCLPrivKey() {
-        return null;
-    }
-    public static PublicKey getCLPuKey() {
-        return null;
-    }
-    public static PublicKey getSRPuKey() {
-        return null;
     }
 }

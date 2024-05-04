@@ -55,7 +55,7 @@ public class LoginThread implements Runnable {
             int op = 1;
             byte [] pass = password.getBytes();
             byte [] mail = email.getBytes();
-            byte [] clave = ClavesUtil.claveString(claves.getPublic()).getBytes();
+            byte [] clave = ClavesUtil.encryptPubKey(ctx, claves.getPublic());
 
             //crear flujos
             DataInputStream flujo_in = new DataInputStream(sock.getInputStream());
@@ -97,8 +97,6 @@ public class LoginThread implements Runnable {
 
 
 
-        } catch (IOException e) {
-            Log.e("Login", "There was an error when login in an user");
         } catch (Exception e) {
             Log.e("Login", "Error al generar la clave");
         } finally {

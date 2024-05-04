@@ -42,6 +42,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.util.AuxiliarUtil;
+import com.jv.tfmprojectmobile.util.ClavesUtil;
 import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
 import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 import com.jv.tfmprojectmobile.util.threads.CreateChannelThread;
@@ -51,6 +52,8 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.crypto.Cipher;
 
 public class CreateChannelActivity extends AppCompatActivity {
 
@@ -280,9 +283,8 @@ public class CreateChannelActivity extends AppCompatActivity {
     //enviar datos
     private void sendMSG() {
         String str = ((TextInputEditText)findViewById(R.id.create_channel_txt_name)).getText().toString();
-        PrivateKey key = AuxiliarUtil.getCLPrivKey();
+        str = ClavesUtil.encryptPubKey(this, str);
         //cifrar
-        //@TODO
         connectionsClient.sendPayload(
                         opponentEndpointId, Payload.fromBytes(str.getBytes(UTF_8)))
                 .addOnFailureListener(

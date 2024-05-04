@@ -40,25 +40,5 @@ public class Serializar {
             return null;
         }
 	}
-	
-	/*public static String socketString(Socket socket) {
-		try {
-            // Convierte el objeto Socket a JSON
-            return new ObjectMapper().writeValueAsString(socket);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
-	}*/
-	
-	public static Socket stringSocket(String str) {
-		try {
-            // Convierte la cadena JSON a un objeto Socket
-            return new ObjectMapper().readValue(str, Socket.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
-	}
 
 }
