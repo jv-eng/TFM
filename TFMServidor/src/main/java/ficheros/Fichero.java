@@ -25,7 +25,6 @@ import org.apache.logging.log4j.core.Logger;
 
 import jakarta.persistence.EntityManagerFactory;
 import main.Main;
-import util.Configuration;
 import util.FirmaDigitalUtil;
 import util.Serializar;
 import util.db.manejadoresDAO.interfaces.ArchivoDAO;

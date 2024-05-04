@@ -3,7 +3,6 @@ package usuarios;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 import java.security.PublicKey;
 
 import javax.net.ssl.SSLSocket;
@@ -12,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import jakarta.persistence.EntityManagerFactory;
-import util.FirmaDigitalUtil;
 import util.Serializar;
 import util.db.manejadoresDAO.interfaces.UsuarioCredencialesDAO;
 import util.db.manejadoresDAO.manejadores.HibernateUsuarioCredencialesDAO;
@@ -56,9 +54,8 @@ public class Sesion {
 	        tam = flujo_e.readInt();
 			buff = new byte[tam];
 			flujo_e.read(buff);
-			String tmp = new String(buff, 0, tam, "UTF-8");
-			PublicKey key = Serializar.stringClave(FirmaDigitalUtil.decryptClavePubCL(tmp));
-	        
+        
+	        PublicKey key = Serializar.stringClave(new String(buff, 0, tam, "UTF-8"));
 	        String clave = Serializar.claveString(key);
 	        
 	        //comprobar si el usuario existe y las credenciales son correctas

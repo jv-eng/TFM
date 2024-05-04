@@ -1,10 +1,12 @@
 package com.jv.tfmprojectmobile.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
 import com.jv.tfmprojectmobile.R;
+import com.jv.tfmprojectmobile.activities.LoginActivity;
 
 import java.io.InputStream;
 import java.security.Key;
@@ -16,7 +18,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
@@ -141,16 +145,18 @@ public class ClavesUtil {
     public static PublicKey getSRPuKey(Context ctx) {
         PublicKey key = null;
         try {
-            InputStream certificateStream = ctx.getResources().openRawResource(R.raw.CertificadoClaveSR);
-
+            InputStream certificateStream = ctx.getResources().openRawResource(R.raw.certsr);
             CertificateFactory certificateFactory = CertificateFactory.getInstance("X509");
-            Certificate cert = certificateFactory.generateCertificate(certificateStream);
+            X509Certificate cert = (X509Certificate) certificateFactory.generateCertificate(certificateStream);
             certificateStream.close();
 
-            key = cert.getPublicKey();
-        } catch (Exception e) {
+            key = (PublicKey) cert.getPublicKey();
+        } catch (CertificateException e) {
+            e.printStackTrace();
+        }catch (Exception e) {
             Log.e("getSRPuKey","");
         }
+        Log.e("cert",key.toString());
         return key;
     }
 
@@ -158,6 +164,7 @@ public class ClavesUtil {
     public static byte [] encryptPubKey(Context ctx, PublicKey key) {
         byte [] res = null;
         PublicKey srKey = getSRPuKey(ctx);
+        Log.e("aqui", srKey.toString());
         String str = claveString(key);
 
         try {
@@ -167,10 +174,11 @@ public class ClavesUtil {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 res = Base64.getEncoder().encodeToString(encryptedBytes).getBytes();
             }
+
         } catch (Exception e) {
             Log.e("encryptPubKey", "");
         }
-
+Log.e("aqui","clave cifrada");
         return res;
     }
 

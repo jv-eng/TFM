@@ -5,8 +5,11 @@ import static jakarta.persistence.Persistence.createEntityManagerFactory;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,17 +34,13 @@ public class Main {
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
 	public static Map<String, List<Socket>> mapa = new HashMap<String, List<Socket>>();
 	
-	public static void main (String [] args) {		
+	public static void main (String [] args) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException, CertificateException {		
 		
 		//configurar manejador base de datos hibernate
 		EntityManagerFactory entityManagerFactoryCredenciales = createEntityManagerFactory("org.hibernate.tfm.credenciales");
 		EntityManagerFactory entityManagerFactoryApp = createEntityManagerFactory("org.hibernate.tfm.servidor");
 		
 		//configurar seguridad
-		/*System.setProperty("javax.net.ssl.trustStore", "AlmacenSRTrust");
-		System.setProperty("javax.net.ssl.trustStorePassword", "N45i2on[!%");
-		System.setProperty("javax.net.ssl.keyStore", "AlmacenSR");
-		System.setProperty("javax.net.ssl.keyStorePassword", "dW716*h??Y");*/
 		System.setProperty("javax.net.ssl.trustStore", Configuration.obtenerConfiguracion("almacenTrust"));
 		System.setProperty("javax.net.ssl.trustStorePassword", Configuration.obtenerConfiguracion("claveAlmacenTrust"));
 		System.setProperty("javax.net.ssl.keyStore", Configuration.obtenerConfiguracion("almacenSR"));

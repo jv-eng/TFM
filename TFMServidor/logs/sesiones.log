@@ -1,5 +1,0 @@
-2024-05-03 13:44:47.197 [main] ERROR com.tfm.sesiones - Error cuando el usuario "pepe@mail.com" ha intentado iniciar sesión.
-2024-05-03 13:44:50.842 [main] ERROR com.tfm.sesiones - Error cuando el usuario "pepe@mail.com" ha intentado iniciar sesión.
-2024-05-03 14:00:49.704 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
-2024-05-03 14:00:58.101 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
-2024-05-03 15:49:46.727 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente

@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.models.FileStoreModel;
 import com.jv.tfmprojectmobile.util.AuxiliarUtil;
+import com.jv.tfmprojectmobile.util.ClavesUtil;
 import com.jv.tfmprojectmobile.util.storage.FileStoreDB;
 import com.jv.tfmprojectmobile.util.storage.FileStoreHelper;
 import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
@@ -33,25 +34,13 @@ public class MainActivity extends AppCompatActivity {
         //Intent i = new Intent(MainActivity.this, LoginActivity.class);
         //Intent i = new Intent(MainActivity.this, MenuActivity.class);
         //startActivity(i);
+
+        ClavesUtil.encryptPubKey(this, ClavesUtil.getSRPuKey(this));
         if (PreferencesManage.userExists(this) && PreferencesManage.dateValid(this)) {
             Intent i = new Intent(MainActivity.this, MenuActivity.class);
             startActivity(i);
         } else {
-            AuxiliarUtil.createSocket(this);
-            PreferencesManage.removeUser(this);
-            Intent i = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(i);
-        }
-    }
-
-    private void test() {
-        //revisar permisos
-
-        //activar actividad
-        if (PreferencesManage.userExists(this) && PreferencesManage.dateValid(this)) {
-            Intent i = new Intent(MainActivity.this, MenuActivity.class);
-            startActivity(i);
-        } else {
+            //AuxiliarUtil.createSocket(this);
             PreferencesManage.removeUser(this);
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);

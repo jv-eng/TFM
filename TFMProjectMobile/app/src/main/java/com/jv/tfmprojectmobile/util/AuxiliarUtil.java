@@ -117,8 +117,7 @@ public class AuxiliarUtil {
         InputStream certificateStream = ctx.getResources().openRawResource(R.raw.ca); //el pem o cer
 
         CertificateFactory certificateFactory = CertificateFactory.getInstance("X509");
-        Certificate chain;
-        chain = certificateFactory.generateCertificate(certificateStream);
+        Certificate chain = certificateFactory.generateCertificate(certificateStream);
         certificateStream.close();
 
         keyStore.load(null, null);

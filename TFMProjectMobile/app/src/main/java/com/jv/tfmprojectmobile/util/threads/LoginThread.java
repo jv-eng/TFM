@@ -55,7 +55,7 @@ public class LoginThread implements Runnable {
             int op = 1;
             byte [] pass = password.getBytes();
             byte [] mail = email.getBytes();
-            byte [] clave = ClavesUtil.encryptPubKey(ctx, claves.getPublic());
+            byte [] clave = ClavesUtil.claveString(claves.getPublic()).getBytes();//ClavesUtil.encryptPubKey(ctx, claves.getPublic());
 
             //crear flujos
             DataInputStream flujo_in = new DataInputStream(sock.getInputStream());

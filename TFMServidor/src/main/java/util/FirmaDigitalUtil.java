@@ -2,35 +2,27 @@ package util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.util.Base64;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 
-import jakarta.persistence.EntityManagerFactory;
 
 public class FirmaDigitalUtil {
 	
 	public static PrivateKey getFirmaCertServidor() throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
 		// Ruta al archivo del almacén de claves
-        String keystoreFile = Configuration.obtenerConfiguracion("almacenSR");
+        String keystoreFile = "almacenSR".toString();
         // Contraseña del almacén de claves
-        char[] keystorePassword = Configuration.obtenerConfiguracion("claveAlmacenSR").toCharArray();
+        char[] keystorePassword = "dW716*h??Y".toCharArray();
         // Alias del certificado
         String alias = "CertificadoSR";
-        // Contraseña del certificado
-        char[] keyPassword = Configuration.obtenerConfiguracion("claveAlmacenSR").toCharArray();
 
         // Cargar el almacén de claves
         FileInputStream fis = new FileInputStream(keystoreFile);
@@ -38,7 +30,8 @@ public class FirmaDigitalUtil {
         keyStore.load(fis, keystorePassword);
 
         // Obtener la clave privada y el certificado
-        Key key = keyStore.getKey(alias, keyPassword);
+        Key key = keyStore.getKey(alias, keystorePassword);
+        
 		return (PrivateKey) key;
 	}
 	
