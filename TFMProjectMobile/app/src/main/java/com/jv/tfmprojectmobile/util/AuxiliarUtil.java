@@ -82,10 +82,16 @@ public class AuxiliarUtil {
         return res;
     }
 
-    /*public static Socket createSocket(Context ctx) throws IOException {
-        return new Socket(ctx.getResources().getString(R.string.ip), ctx.getResources().getInteger(R.integer.puerto));
-    }*/
-    private static SSLSocketFactory sslSF = null;
+    public static Socket createSocket(Context ctx) {
+        Socket sock = null;
+        try {
+            sock = new Socket(ctx.getResources().getString(R.string.ip), ctx.getResources().getInteger(R.integer.puerto));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sock;
+    }
+    /*private static SSLSocketFactory sslSF = null;
     public static SSLSocket createSocket(Context ctx) {
         SSLSocket socket = null;
         try {
@@ -97,7 +103,7 @@ public class AuxiliarUtil {
             e.printStackTrace();
         }
         return socket;
-    }
+    }*/
     private static SSLSocketFactory createSocketContext(Context ctx) throws Exception {
         SSLSocket socket = null;
         String pass = ctx.getResources().getString(R.string.passCA);

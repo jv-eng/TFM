@@ -26,7 +26,7 @@ public class LoginThread implements Runnable {
     private UserModel userModel;
     private String msgRes;
     private KeyPair claves;
-    private SSLSocket sock;
+    private Socket sock;
 
     public LoginThread(Context ctx, UserModel user) {this.ctx = ctx; this.userModel = user;}
 
@@ -40,7 +40,6 @@ public class LoginThread implements Runnable {
         });
 
         //preparar datos
-        String nombreUsuario = this.userModel.getUserName();
         String password = this.userModel.getPassword();
         String email = this.userModel.getEmail();
 

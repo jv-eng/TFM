@@ -1,4 +1,4 @@
-package ficheros;
+package manejadores;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -53,10 +53,12 @@ public class Fichero {
 	
 	private EntityManagerFactory managerApp;
 	private EntityManagerFactory entityManagerFactoryCredenciales;
-	private SSLSocket socket;
+	//private SSLSocket socket;
+	private Socket socket;
 	
 	public Fichero(EntityManagerFactory entityManagerFactoryApp, EntityManagerFactory entityManagerFactoryCredenciales, 
-			SSLSocket socket_sr) {
+			//SSLSocket socket_sr) {
+			Socket socket_sr) {
 		this.managerApp = entityManagerFactoryApp;
 		this.entityManagerFactoryCredenciales = entityManagerFactoryCredenciales;
 		this.socket = socket_sr;

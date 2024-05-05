@@ -1,8 +1,9 @@
-package usuarios;
+package manejadores;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 import java.security.PublicKey;
 
 import javax.net.ssl.SSLSocket;
@@ -21,9 +22,11 @@ public class Sesion {
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.sesiones");
 	
 	private EntityManagerFactory managerUsuario;
-	private SSLSocket socket;
+	//private SSLSocket socket;
+	private Socket socket;
 
-	public Sesion(EntityManagerFactory entityManagerFactoryCredenciales, SSLSocket socket_sr) {
+	//public Sesion(EntityManagerFactory entityManagerFactoryCredenciales, SSLSocket socket_sr) {
+	public Sesion(EntityManagerFactory entityManagerFactoryCredenciales, Socket socket_sr) {
 		this.managerUsuario = entityManagerFactoryCredenciales;
 		this.socket = socket_sr;
 	}

@@ -263,7 +263,7 @@ public class CreateChannelActivity extends AppCompatActivity {
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_announcing_fail));
+                                //aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_announcing_fail));
                             }
                         });
     }
@@ -271,7 +271,7 @@ public class CreateChannelActivity extends AppCompatActivity {
     //enviar datos
     private void sendMSG() {
         String str = ((TextInputEditText)findViewById(R.id.create_channel_txt_name)).getText().toString();
-        str = ClavesUtil.encryptPrivKey(this, str);
+        //str = ClavesUtil.encryptPrivKey(this, str);
         //cifrar
         connectionsClient.sendPayload(
                         opponentEndpointId, Payload.fromBytes(str.getBytes(UTF_8)))

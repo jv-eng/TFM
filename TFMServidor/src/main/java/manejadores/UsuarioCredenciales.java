@@ -1,7 +1,8 @@
-package usuarios;
+package manejadores;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.net.Socket;
 
 import javax.net.ssl.SSLSocket;
 
@@ -22,10 +23,12 @@ public class UsuarioCredenciales {
 	
 	private EntityManagerFactory managerApp;
 	private EntityManagerFactory managerUsuario;
-	private SSLSocket socket;
+	//private SSLSocket socket;
+	private Socket socket;
 
 	public UsuarioCredenciales(EntityManagerFactory entityManagerFactoryCredenciales, EntityManagerFactory entityManagerFactoryApp, 
-			SSLSocket socket_sr) {
+			//SSLSocket socket_sr) {
+			Socket socket_sr) {
 		this.managerUsuario = entityManagerFactoryCredenciales;
 		this.managerApp = entityManagerFactoryApp;
 		this.socket = socket_sr;

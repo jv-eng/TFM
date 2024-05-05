@@ -1,4 +1,4 @@
-package canales;
+package manejadores;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -30,9 +30,11 @@ public class ManejadorCanal {
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
 	
 	private EntityManagerFactory managerApp;
-	private SSLSocket socket;
+	//private SSLSocket socket;
+	private Socket socket;
 
-	public ManejadorCanal(EntityManagerFactory entityManagerFactoryApp, SSLSocket socket_sr) {
+	//public ManejadorCanal(EntityManagerFactory entityManagerFactoryApp, SSLSocket socket_sr) {
+	public ManejadorCanal(EntityManagerFactory entityManagerFactoryApp, Socket socket_sr) {
 		this.managerApp = entityManagerFactoryApp;
 		this.socket = socket_sr;
 	}

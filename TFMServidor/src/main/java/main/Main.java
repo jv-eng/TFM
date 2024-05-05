@@ -5,6 +5,7 @@ import static jakarta.persistence.Persistence.createEntityManagerFactory;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -21,11 +22,11 @@ import javax.net.ssl.SSLSocket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import canales.ManejadorCanal;
-import ficheros.Fichero;
 import jakarta.persistence.EntityManagerFactory;
-import usuarios.Sesion;
-import usuarios.UsuarioCredenciales;
+import manejadores.Fichero;
+import manejadores.ManejadorCanal;
+import manejadores.Sesion;
+import manejadores.UsuarioCredenciales;
 import util.Configuration;
 
 public class Main {
@@ -45,17 +46,18 @@ public class Main {
 		System.setProperty("javax.net.ssl.trustStorePassword", Configuration.obtenerConfiguracion("claveAlmacenTrust"));
 		System.setProperty("javax.net.ssl.keyStore", Configuration.obtenerConfiguracion("almacenSR"));
 		System.setProperty("javax.net.ssl.keyStorePassword", Configuration.obtenerConfiguracion("claveAlmacenSR"));
-		System.setProperty("javax.net.debug","ssl");
-		SSLServerSocketFactory factory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+		/*SSLServerSocketFactory factory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 		SSLServerSocket socket_servidor = null;
-		SSLSocket socket_sr = null;
+		SSLSocket socket_sr = null;*/
+		ServerSocket socket_servidor = null;
+		Socket socket_sr = null;
 		
 		//bucle de servidor
 		//ServerSocket socket_servidor;
 		try {
-			//socket_servidor = new ServerSocket(Integer.parseInt(Configuration.obtenerConfiguracion("puerto")));
-			socket_servidor = (SSLServerSocket) factory.createServerSocket(Integer.parseInt(Configuration.obtenerConfiguracion("puerto")));
-			socket_servidor.setNeedClientAuth(true);
+			socket_servidor = new ServerSocket(Integer.parseInt(Configuration.obtenerConfiguracion("puerto")));
+			//socket_servidor = (SSLServerSocket) factory.createServerSocket(Integer.parseInt(Configuration.obtenerConfiguracion("puerto")));
+			//socket_servidor.setNeedClientAuth(true);
 			
 			while (true) {
 				System.out.println(); System.out.println();

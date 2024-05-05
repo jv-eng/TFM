@@ -207,7 +207,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
                 public void onPayloadReceived(String endpointId, Payload payload) {
                     String payloadMessage = new String(payload.asBytes(), StandardCharsets.UTF_8);
                     //Toast.makeText(DescubrirCanalesActivity.this, String.format("onPayloadReceived(endpointId=%s, payload=%s)", endpointId, payloadMessage), Toast.LENGTH_SHORT).show();
-                    payloadMessage = ClavesUtil.decryptPubKey(DescubrirCanalesActivity.this, payloadMessage);
+                    //payloadMessage = ClavesUtil.decryptPubKey(DescubrirCanalesActivity.this, payloadMessage);
 
                     ((TextView)findViewById(R.id.descubrir_canales_tv_msg)).setText(payloadMessage);
                     canal = payloadMessage;
