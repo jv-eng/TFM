@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.activities.FicherosCanalActivity;
+import com.jv.tfmprojectmobile.activities.SuscriptionesActivity;
 import com.jv.tfmprojectmobile.models.FileStoreModel;
 import com.jv.tfmprojectmobile.util.AuxiliarUtil;
 import com.jv.tfmprojectmobile.util.storage.FileStoreDB;
@@ -93,6 +94,11 @@ public class SuscribirThread implements Runnable {
             //ver resultado
             int res = flujo_in.readInt();
             if (res > 0) {
+                //registrar en base de datos local
+                FileStoreHelper helper = new FileStoreHelper(ctx);
+                FileStoreDB fileStoreDB = new FileStoreDB(helper);
+                fileStoreDB.insertChannel(this.channel);
+
                 recibirFicherosEnviados(res, flujo_in); //recibir ficheros ya enviados a ese canal
                 msgRes = ctx.getString(R.string.discover_channel_msg_subscription_success);
             }

@@ -34,12 +34,24 @@
     <string name="drawer_subscribed_channel">Canales suscritos</string>
     <string name="drawer_downloaded_files">Archivos descargados</string>
     <string name="drawer_logout">Cerrar sesión</string>
+    <string name="drawer_alert_dialog_info">Información de usuario</string>
+    <string name="drawer_alert_dialog_accept">Aceptar</string>
+    <string name="drawer_alert_dialog_username">Nombre de usuario: </string>
+    <string name="drawer_alert_dialog_usermail">Correo: </string>
 
     <!--Menú-->
     <string name="menu_btn_crear_canal">Crear canal</string>
     <string name="menu_btn_ver_canales_cercanos">Ver canales cercanos</string>
     <string name="menu_btn_enviar_fichero">Enviar archivo</string>
     <string name="menu_btn_ficheros_canal">Archivos recibidos</string>
+
+    <!--Suscripciones-->
+    <string name="suscripciones_tv_text">Suscripciones a canales</string>
+    <string name="suscripciones_alert_dialog_title">¿Que desea hacer con esta suscripción? </string>
+    <string name="suscripciones_alert_dialog_desubscribe">Eliminar suscripción</string>
+    <string name="suscripciones_alert_dialog_close">Cerrar</string>
+    <string name="suscripciones_msg_ok">Suscripción eliminada</string>
+    <string name="suscripciones_msg_not_ok">La suscripción no pudo eliminarse. Por favor, pruebe de nuevo.</string>
 
     <!--Crear Canal-->
     <string name="create_channel_codename">Usuario: </string>

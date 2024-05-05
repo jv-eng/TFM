@@ -104,4 +104,55 @@ public class FileStoreDB {
 
         return existe;
     }
+
+    public List<FileStoreModel> getChannels() {
+        List<FileStoreModel> lista = new LinkedList<>();
+        String query = "SELECT _id, name, descargado, ruta FROM file;";
+        SQLiteDatabase sqLiteDatabase = helper.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+
+        while (cursor.moveToNext()) {
+            lista.add(new FileStoreModel(
+                    cursor.getString(0), cursor.getString(1),
+                    cursor.getInt(2), cursor.getString(3),
+                    cursor.getString(1)
+            ));
+        }
+
+        cursor.close();
+
+        return lista;
+    }
+
+    public List<String> getChannelsStr() {
+        List<String> lista = new LinkedList<>();
+        String query = "SELECT name FROM sub;";
+        SQLiteDatabase sqLiteDatabase = helper.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+
+        while (cursor.moveToNext()) {
+            lista.add(cursor.getString(0));
+        }
+
+        cursor.close();
+
+        return lista;
+    }
+
+    public void deleteChannel(String channel) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.delete("sub", "name = ?", new String[]{channel});
+        db.close();
+    }
+
+    public void insertChannel(String channel) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("name", channel);
+
+        db.insert("sub", null, values);
+
+        db.close();
+    }
 }

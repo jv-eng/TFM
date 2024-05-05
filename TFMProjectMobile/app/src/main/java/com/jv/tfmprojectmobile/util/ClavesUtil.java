@@ -1,12 +1,10 @@
 package com.jv.tfmprojectmobile.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
 import com.jv.tfmprojectmobile.R;
-import com.jv.tfmprojectmobile.activities.LoginActivity;
 
 import java.io.InputStream;
 import java.security.Key;
@@ -100,7 +98,7 @@ public class ClavesUtil {
 
         return privateKey;
     }
-    public static String encryptPubKey(Context ctx, String str) {
+    public static String encryptPrivKey(Context ctx, String str) {
         byte[] decryptedBytes = null;
         try {
             Cipher cipher = Cipher.getInstance("RSA");
@@ -161,7 +159,7 @@ public class ClavesUtil {
     }
 
     //cifrar el string de la clave publica
-    public static byte [] encryptPubKey(Context ctx, PublicKey key) {
+    public static byte [] encryptPrivKey(Context ctx, PublicKey key) {
         byte [] res = null;
         PublicKey srKey = getSRPuKey(ctx);
         Log.e("aqui", srKey.toString());

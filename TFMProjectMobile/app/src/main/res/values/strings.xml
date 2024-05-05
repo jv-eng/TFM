@@ -29,16 +29,29 @@
     <string name="drawer_perfil_titulo">Profile</string>
     <string name="drawer_perfil">Profile</string>
     <string name="drawer_start_titulo">Start</string>
-    <string name="drawer_start">Start</string>
+    <string name="drawer_start">Main Menu</string>
     <string name="drawer_subscribed_channel">Subscribed channels</string>
     <string name="drawer_downloaded_files">Downloaded Files</string>
     <string name="drawer_logout">Logout</string>
+    <string name="drawer_alert_dialog_info">User Information</string>
+    <string name="drawer_alert_dialog_accept">Accept</string>
+    <string name="drawer_alert_dialog_username">User Name: </string>
+    <string name="drawer_alert_dialog_usermail">Mail: </string>
 
     <!--Menu-->
     <string name="menu_btn_crear_canal">Create channel</string>
     <string name="menu_btn_ver_canales_cercanos">See near channels</string>
     <string name="menu_btn_enviar_fichero">Send file</string>
     <string name="menu_btn_ficheros_canal">Files received</string>
+
+    <!--Subscriptions-->
+    <string name="suscripciones_tv_text">Subscriptions to channels</string>
+    <string name="suscripciones_alert_dialog_title">What do you want to do with this subscription? </string>
+    <string name="suscripciones_alert_dialog_desubscribe">Delete subscription</string>
+    <string name="suscripciones_alert_dialog_close">Close</string>
+    <string name="suscripciones_msg_ok">Subscription deleted</string>
+    <string name="suscripciones_msg_not_ok">Subscription could not be deleted. Please, try again.</string>
+
 
     <!--Create Channel-->
     <string name="create_channel_codename">User: </string>

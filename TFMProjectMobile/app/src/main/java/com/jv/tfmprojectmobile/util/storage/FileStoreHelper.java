@@ -21,6 +21,8 @@ public class FileStoreHelper extends SQLiteOpenHelper {
                 "descargado INT," +
                 "ruta TEXT" +
                 ");");
+        db.execSQL("CREATE TABLE sub(" +
+                "_id TEXT, name TEXT);");
     }
 
     @Override

@@ -11,10 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -75,7 +73,9 @@ public class FicherosCanalActivity extends AppCompatActivity {
 
             ((TextView)findViewById(R.id.ficheros_canal_et_txt)).setText(canal);
 
-            activarTV();
+            activarTV(true);
+        } else {
+            activarTV(false);
         }
 
         Button btn_2 = findViewById(R.id.ficheros_canal_btn_sub);
@@ -86,7 +86,7 @@ public class FicherosCanalActivity extends AppCompatActivity {
                 if (!canal.isEmpty()) {
                     Thread th = new Thread(new SuscribirThread(FicherosCanalActivity.this, canal));
                     th.start();
-                    activarTV();
+                    activarTV(true);
                 } else {
                     aShortToast(FicherosCanalActivity.this.getString(R.string.ficheros_canal_msg_write_channel));
                 }
@@ -100,7 +100,7 @@ public class FicherosCanalActivity extends AppCompatActivity {
                 canal = ((TextView)findViewById(R.id.ficheros_canal_et_txt)).getText().toString();
 
                 if (!canal.isEmpty()) {
-                    activarTV();
+                    activarTV(true);
                 } else {
                     aShortToast(FicherosCanalActivity.this.getString(R.string.ficheros_canal_msg_write_channel));
                 }
@@ -108,13 +108,14 @@ public class FicherosCanalActivity extends AppCompatActivity {
         });
     }
 
-    private void activarTV() {
+    private void activarTV(boolean channel) {
         FileStoreHelper helper = new FileStoreHelper(FicherosCanalActivity.this);
         FileStoreDB fileStoreDB = new FileStoreDB(helper);
 
         //activar list view
         ListView lv = findViewById(R.id.ficheros_canal_lv_lista_fich);
-        adapter = new FicherosAdapter(this, fileStoreDB.getFilesChannel(canal));
+        if (channel) adapter = new FicherosAdapter(this, fileStoreDB.getFilesChannel(canal));
+        else adapter = new FicherosAdapter(this, fileStoreDB.getChannels());
         lv.setEnabled(true);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
