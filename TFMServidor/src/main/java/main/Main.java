@@ -23,10 +23,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import jakarta.persistence.EntityManagerFactory;
-import manejadores.Fichero;
+import manejadores.ManejadorFichero;
 import manejadores.ManejadorCanal;
-import manejadores.Sesion;
-import manejadores.UsuarioCredenciales;
+import manejadores.ManejadorSesion;
+import manejadores.ManejadorUsuarioCredenciales;
 import util.Configuration;
 
 public class Main {
@@ -75,16 +75,16 @@ public class Main {
 				//revisar operador recibido
 				switch (op) {
 		            case 0: //crear usuario
-		            	UsuarioCredenciales u = new UsuarioCredenciales(entityManagerFactoryCredenciales, entityManagerFactoryApp, socket_sr);
+		            	ManejadorUsuarioCredenciales u = new ManejadorUsuarioCredenciales(entityManagerFactoryCredenciales, entityManagerFactoryApp, socket_sr);
 		            	res = u.crearUsuario();
 		            	break;
 		            case 1: //iniciar sesión
 		            	System.out.println("iniciamos sesion");
-		            	Sesion sesion = new Sesion(entityManagerFactoryCredenciales, socket_sr);
+		            	ManejadorSesion sesion = new ManejadorSesion(entityManagerFactoryCredenciales, socket_sr);
 		            	res = sesion.iniciarSesion();
 		            	break;
 		            case 2: //cerrar sesión
-		            	Sesion sesionCerrar = new Sesion(entityManagerFactoryCredenciales, socket_sr);
+		            	ManejadorSesion sesionCerrar = new ManejadorSesion(entityManagerFactoryCredenciales, socket_sr);
 		            	res = sesionCerrar.cerrarrSesion();
 		            	break;
 		            case 3: //crear canal
@@ -100,13 +100,13 @@ public class Main {
 		            	res = desubscribirse.desuscribirse();
 		            	break;
 		            case 6: //enviar fichero
-		            	Fichero fichEnviar = new Fichero(entityManagerFactoryApp, entityManagerFactoryCredenciales, socket_sr);
+		            	ManejadorFichero fichEnviar = new ManejadorFichero(entityManagerFactoryApp, entityManagerFactoryCredenciales, socket_sr);
 		            	res = fichEnviar.enviarFichero();
 		            	break;
 		            case 7:
 		            	break;
 		            case 8: //descargar fichero
-		            	Fichero fichDescargar = new Fichero(entityManagerFactoryApp, entityManagerFactoryCredenciales, socket_sr);
+		            	ManejadorFichero fichDescargar = new ManejadorFichero(entityManagerFactoryApp, entityManagerFactoryCredenciales, socket_sr);
 		            	res = fichDescargar.descargarFichero();
 		            	break;
 		            default:

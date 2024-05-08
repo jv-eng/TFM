@@ -16,7 +16,7 @@ import util.db.manejadoresDAO.manejadores.HibernateUsuarioCredencialesDAO;
 import util.db.manejadoresDAO.manejadores.HibernateUsuarioDAO;
 
 //se encarga del manejo de usuarios
-public class UsuarioCredenciales {
+public class ManejadorUsuarioCredenciales {
 	
 	//logger
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.creacion_usuarios");
@@ -26,7 +26,7 @@ public class UsuarioCredenciales {
 	//private SSLSocket socket;
 	private Socket socket;
 
-	public UsuarioCredenciales(EntityManagerFactory entityManagerFactoryCredenciales, EntityManagerFactory entityManagerFactoryApp, 
+	public ManejadorUsuarioCredenciales(EntityManagerFactory entityManagerFactoryCredenciales, EntityManagerFactory entityManagerFactoryApp, 
 			//SSLSocket socket_sr) {
 			Socket socket_sr) {
 		this.managerUsuario = entityManagerFactoryCredenciales;

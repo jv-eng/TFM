@@ -108,8 +108,14 @@ public class DescargarFicheroThread implements Runnable {
 
             if (verificado) {
                 msg = ctx.getString(R.string.ficheros_canal_msg_firma_correcta);
+                //ruta del fichero
+                ruta = file.getAbsolutePath();
             } else {
+                File f = new File(ctx.getFilesDir(), this.fich);
+                if (f.exists()) f.delete();
                 msg = ctx.getString(R.string.ficheros_canal_msg_firma_incorrecta);
+                Log.e("Error Signature", msg);
+                ruta = null;
             }
 
             ((Activity)ctx).runOnUiThread(new Runnable() {
@@ -118,9 +124,6 @@ public class DescargarFicheroThread implements Runnable {
                     ((FicherosCanalActivity)ctx).aShortToast(msg);
                 }
             });
-
-            //ruta del fichero
-            ruta = file.getAbsolutePath();
 
         } catch (IOException e) {
             Log.e("error al recibir", "error al recibir fichero");

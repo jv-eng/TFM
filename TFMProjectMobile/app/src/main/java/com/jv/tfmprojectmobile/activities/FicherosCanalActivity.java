@@ -199,13 +199,15 @@ public class FicherosCanalActivity extends AppCompatActivity {
 
     public void prepareUIAfterDownload(String ruta) {
         //almacenar ruta del fichero
-        FileStoreHelper helper = new FileStoreHelper(this);
-        FileStoreDB fileStoreDB = new FileStoreDB(helper);
-        model.setRuta(ruta);
-        fileStoreDB.descargaFichero(model);
+        if (ruta != null) {
+            FileStoreHelper helper = new FileStoreHelper(this);
+            FileStoreDB fileStoreDB = new FileStoreDB(helper);
+            model.setRuta(ruta);
+            fileStoreDB.descargaFichero(model);
 
-        adapter.setDatos(fileStoreDB.getFilesChannel(canal));
-        adapter.notifyDataSetChanged();
+            adapter.setDatos(fileStoreDB.getFilesChannel(canal));
+            adapter.notifyDataSetChanged();
+        }
 
         //quitar barra de progreso
         progressDialog.dismiss();

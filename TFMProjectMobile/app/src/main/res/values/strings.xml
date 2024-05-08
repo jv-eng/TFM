@@ -106,4 +106,9 @@
     <string name="send_file_btn_send">Send file</string>
     <string name="send_file_msg_no_file_selected">There was no file selected</string>
     <string name="send_file_msg_sending">Sending file</string>
+    <string name="send_file_msg_err_sign">There was an error with the signature. Please, try again.</string>
+    <string name="send_file_msg_err_send">There was an error with the file. Please, try again.</string>
+    <string name="send_file_msg_err_user_1">The user does not exist.</string>
+    <string name="send_file_msg_err_user_2">The user did not create the channel.</string>
+    <string name="send_file_msg_err_channel">The channel does not exist.</string>
 </resources>

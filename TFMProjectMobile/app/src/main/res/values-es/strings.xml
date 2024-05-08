@@ -106,5 +106,11 @@
     <string name="send_file_btn_send">Enviar archivo</string>
     <string name="send_file_msg_no_file_selected">No se ha seleccionado ningún archivo</string>
     <string name="send_file_msg_sending">Enviando archivo</string>
+    <string name="send_file_msg_err_sign">Hubo un error con la firma. Por favor, inténtalo de nuevo.</string>
+    <string name="send_file_msg_err_send">Hubo un error con el archivo. Por favor, inténtalo de nuevo.</string>
+    <string name="send_file_msg_err_user_1">El usuario no existe.</string>
+    <string name="send_file_msg_err_user_2">El usuario no creó el canal.</string>
+    <string name="send_file_msg_err_channel">El canal no existe.</string>
+
 
 </resources>

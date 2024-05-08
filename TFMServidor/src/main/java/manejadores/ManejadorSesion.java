@@ -16,7 +16,7 @@ import util.Serializar;
 import util.db.manejadoresDAO.interfaces.UsuarioCredencialesDAO;
 import util.db.manejadoresDAO.manejadores.HibernateUsuarioCredencialesDAO;
 
-public class Sesion {
+public class ManejadorSesion {
 	
 	//logger
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.sesiones");
@@ -26,7 +26,7 @@ public class Sesion {
 	private Socket socket;
 
 	//public Sesion(EntityManagerFactory entityManagerFactoryCredenciales, SSLSocket socket_sr) {
-	public Sesion(EntityManagerFactory entityManagerFactoryCredenciales, Socket socket_sr) {
+	public ManejadorSesion(EntityManagerFactory entityManagerFactoryCredenciales, Socket socket_sr) {
 		this.managerUsuario = entityManagerFactoryCredenciales;
 		this.socket = socket_sr;
 	}

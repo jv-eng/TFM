@@ -7,7 +7,9 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.util.Base64;
 
@@ -37,9 +39,18 @@ public class FirmaDigitalUtil {
 	
 	public static String decryptClavePubCL(String str) throws Exception {
 		Cipher cipher = Cipher.getInstance("RSA");
-        cipher.init(Cipher.DECRYPT_MODE, getFirmaCertServidor());
+        cipher.init(Cipher.DECRYPT_MODE, clientKey());
         byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(str));
         return new String(decryptedBytes);
 	}
-		
+	private static PublicKey clientKey() throws Exception {
+		String keystoreFile = Configuration.obtenerConfiguracion("almacenCL"), claveKeystore = Configuration.obtenerConfiguracion("claveAlmacenCL");
+		FileInputStream fis = new FileInputStream(keystoreFile);
+		KeyStore keystore = KeyStore.getInstance("JKS");
+		keystore.load(fis, claveKeystore.toCharArray());
+		Certificate cert = keystore.getCertificate("ClienteCert");
+		PublicKey publicKey = cert.getPublicKey();
+		fis.close();
+		return publicKey;
+	}
 }

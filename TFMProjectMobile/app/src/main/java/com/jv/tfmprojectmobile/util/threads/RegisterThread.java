@@ -8,6 +8,7 @@ import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.activities.RegisterActivity;
 import com.jv.tfmprojectmobile.models.UserModel;
 import com.jv.tfmprojectmobile.util.AuxiliarUtil;
+import com.jv.tfmprojectmobile.util.ClavesUtil;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -39,6 +40,7 @@ public class RegisterThread implements Runnable {
         //preparar datos
         String nombreUsuario = this.userModel.getUserName();
         String password = this.userModel.getPassword();
+        password = ClavesUtil.encryptPrivKey(ctx, password);
         String email = this.userModel.getEmail();
 
         //envio de datos

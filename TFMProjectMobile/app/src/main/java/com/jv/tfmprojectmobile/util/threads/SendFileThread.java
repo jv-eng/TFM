@@ -29,6 +29,7 @@ public class SendFileThread implements Runnable {
     private Context ctx;
     private Uri selectedFileUri;
     private String channel;
+    private String msg = "";
 
     public SendFileThread(Context ctx, Uri selectedFileUri, String channel) {
         this.ctx = ctx;
@@ -112,6 +113,24 @@ public class SendFileThread implements Runnable {
 
             // Cerrar el flujo de entrada del archivo
             bufferedInputStream.close();
+
+            int res = flujo_in.readInt();
+            if (res != 0) {
+
+                switch (res) {
+                    case 1: msg = ctx.getString(R.string.send_file_msg_err_send); break;
+                    case 2: msg = ctx.getString(R.string.send_file_msg_err_user_1); break;
+                    case 3: msg = ctx.getString(R.string.send_file_msg_err_user_2); break;
+                    case 4: msg = ctx.getString(R.string.send_file_msg_err_channel); break;
+                    case 5: msg = ctx.getString(R.string.send_file_msg_err_sign); break;
+                }
+                ((Activity)ctx).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((SendFileActivity)ctx).aShortToast(msg);
+                    }
+                });
+            }
 
             ((Activity)ctx).runOnUiThread(new Runnable() {
                 @Override

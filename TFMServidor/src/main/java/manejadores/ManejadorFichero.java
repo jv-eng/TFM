@@ -42,7 +42,7 @@ import util.db.modelos.Suscripcion;
 import util.db.modelos.Usuario;
 
 //gestionar el tema de almacenamiento en esta clase o en otras
-public class Fichero {
+public class ManejadorFichero {
 	
 	//logger
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
@@ -56,7 +56,7 @@ public class Fichero {
 	//private SSLSocket socket;
 	private Socket socket;
 	
-	public Fichero(EntityManagerFactory entityManagerFactoryApp, EntityManagerFactory entityManagerFactoryCredenciales, 
+	public ManejadorFichero(EntityManagerFactory entityManagerFactoryApp, EntityManagerFactory entityManagerFactoryCredenciales, 
 			//SSLSocket socket_sr) {
 			Socket socket_sr) {
 		this.managerApp = entityManagerFactoryApp;
@@ -98,17 +98,21 @@ public class Fichero {
 					if (c.getCreador().getCorreoElectronico().compareToIgnoreCase(usuario) == 0) {
 						//recibir fichero
 						String fileName = this.recibirFicheroCompleto(socket, usuario, flujo_e);
-						System.out.println("Nombre recibido");
 						
-						//guardar datos
-						archivoDAO.guardarFichero(fileName, ruta + fileName, u, c);
-						System.out.println(">>>>>>>" + fileName + "\t" +  ruta + fileName + "\t" + u.getCorreoElectronico() + "\t" + c.getNombreCanal());
-						
-						loggSig.info("Recepción de fichero \"" + fileName + "\" de usuario \"" + usuario + "\" por canal \"" + canal + "\".");
+						if (fileName == null) {
+							res = 5; //error de firma
+						} else {
+							System.out.println("Nombre recibido");
+							
+							//guardar datos
+							archivoDAO.guardarFichero(fileName, ruta + fileName, u, c);
+							System.out.println(">>>>>>>" + fileName + "\t" +  ruta + fileName + "\t" + u.getCorreoElectronico() + "\t" + c.getNombreCanal());
+							
+							loggSig.info("Recepción de fichero \"" + fileName + "\" de usuario \"" + usuario + "\" por canal \"" + canal + "\".");
 
-						
-						//notificar usuarios
-						this.notificarUsuarios(c, fileName, canalDAO);
+							//notificar usuarios
+							this.notificarUsuarios(c, fileName, canalDAO);
+						}
 					} else {
 						logg.error("Error, el usuario \"" + usuario + "\" no es el creador del canal \"" + canal + "\".");
 						res = 4;
@@ -245,8 +249,11 @@ public class Fichero {
             	loggSig.info("Firma correcta.");
                 System.out.println("Firma verificada correctamente");
             } else {
-            	loggSig.error("Se ha producido un error en la firma.");
+            	loggSig.error("Se ha producido un error en la firma. Fichero: \"" + nombre + "\". Usuario: \"" + correo + "\".");
+            	File f = new File(ruta + nombre);
+            	if (f.exists()) f.delete();
                 System.out.println("Firma no válida");
+                return null;
             }
 			
 			return nombre;

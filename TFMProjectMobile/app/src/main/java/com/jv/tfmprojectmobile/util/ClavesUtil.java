@@ -162,7 +162,7 @@ public class ClavesUtil {
     public static byte [] encryptPrivKey(Context ctx, PublicKey key) {
         byte [] res = null;
         PublicKey srKey = getSRPuKey(ctx);
-        Log.e("aqui", srKey.toString());
+
         String str = claveString(key);
 
         try {
@@ -176,7 +176,7 @@ public class ClavesUtil {
         } catch (Exception e) {
             Log.e("encryptPubKey", "");
         }
-Log.e("aqui","clave cifrada");
+
         return res;
     }
 
