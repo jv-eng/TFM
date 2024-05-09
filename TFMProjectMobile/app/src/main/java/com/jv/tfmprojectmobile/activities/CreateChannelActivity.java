@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -94,7 +95,7 @@ public class CreateChannelActivity extends AppCompatActivity {
 
         NavigationViewConfiguration.configurarNavView(drawerLayout, navigationView, this);
         TextView nameView = findViewById(R.id.create_channel_tv);
-        nameView.setText(PreferencesManage.userMail(this));
+        nameView.append(PreferencesManage.userMail(this));
 
         connectionsClient = Nearby.getConnectionsClient(this);
     }
@@ -171,6 +172,21 @@ public class CreateChannelActivity extends AppCompatActivity {
                 disconnect();
             }
         });
+
+        Button create_channel_btn_send = findViewById(R.id.create_channel_btn_send);
+        create_channel_btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String canal = ((TextView)findViewById(R.id.create_channel_tv)).getText().toString();
+                if (!canal.isEmpty()) {
+                    Intent i = new Intent(CreateChannelActivity.this, SendFileActivity.class);
+                    i.putExtra("canal", canal);
+                    startActivity(i);
+                } else {
+                    aShortToast(CreateChannelActivity.this.getString(R.string.discover_channel_msg_no_channel_found));
+                }
+            }
+        });
     }
 
 
@@ -189,13 +205,13 @@ public class CreateChannelActivity extends AppCompatActivity {
                 @Override
                 public void onPayloadReceived(String endpointId, Payload payload) {
                     String payloadMessage = new String(payload.asBytes(), StandardCharsets.UTF_8);
-                    //Toast.makeText(CreateChannelActivity.this, String.format("onPayloadReceived(endpointId=%s, payload=%s)", endpointId, payloadMessage), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateChannelActivity.this, String.format("onPayloadReceived(endpointId=%s, payload=%s)", endpointId, payloadMessage), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onPayloadTransferUpdate(String endpointId, PayloadTransferUpdate update) {
                     //lo que queramos hacer
-                    //Toast.makeText(CreateChannelActivity.this, "payloadCallback", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateChannelActivity.this, "payloadCallback", Toast.LENGTH_SHORT).show();
                 }
             };
 
@@ -207,16 +223,16 @@ public class CreateChannelActivity extends AppCompatActivity {
                     Log.i(TAG, "onConnectionInitiated: accepting connection");
                     connectionsClient.stopDiscovery();
                     connectionsClient.stopAdvertising();
-                    /*Toast.makeText(CreateChannelActivity.this,
+                    Toast.makeText(CreateChannelActivity.this,
                             String.format("onConnectionInitiated(endpointId=%s, endpointName=%s)",
                                     endpointId, connectionInfo.getEndpointName())
-                            , Toast.LENGTH_SHORT).show();*/
+                            , Toast.LENGTH_SHORT).show();
                     connectionsClient.acceptConnection(endpointId, payloadCallback)
                             .addOnFailureListener(
                                     new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            //Toast.makeText(CreateChannelActivity.this, "Error al crear conexion", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(CreateChannelActivity.this, "Error al crear conexion", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                 }
@@ -250,8 +266,8 @@ public class CreateChannelActivity extends AppCompatActivity {
         // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
         connectionsClient
                 .startAdvertising(
-                        PreferencesManage.userMail(this), "com.jv.tfmprojectmobile.CreateChannelActivity.SERVICE_ID", connectionLifecycleCallback,
-                        new AdvertisingOptions(STRATEGY))
+                        PreferencesManage.userMail(this), getPackageName(), connectionLifecycleCallback,
+                        new AdvertisingOptions.Builder().setStrategy(STRATEGY).build())
                 .addOnSuccessListener(
                         new OnSuccessListener<Void>() {
                             @Override
@@ -263,7 +279,7 @@ public class CreateChannelActivity extends AppCompatActivity {
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                //aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_announcing_fail));
+                                aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_announcing_fail));
                             }
                         });
     }

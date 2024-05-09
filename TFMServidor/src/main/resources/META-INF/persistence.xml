@@ -18,8 +18,8 @@
             <!-- Database connection settings -->
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
 		      <property name="jakarta.persistence.jdbc.url"    value="jdbc:mysql://localhost:3306/tfmtest" />
-		      <property name="jakarta.persistence.jdbc.user"   value="usuario_test" />
-		      <property name="jakarta.persistence.jdbc.password" value="123" />
+		      <property name="jakarta.persistence.jdbc.user"   value="ssluser" />
+		      <property name="jakarta.persistence.jdbc.password" value="sslpassword" />
 		      <property name="hibernate.dialect"    value="org.hibernate.dialect.MySQLDialect" />
 		      <property name="hibernate.show_sql"   value="false" />
 		      <property name="hibernate.format_sql" value="true" />
@@ -58,8 +58,8 @@
             <!-- Database connection settings -->
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
 		      <property name="jakarta.persistence.jdbc.url"    value="jdbc:mysql://localhost:3306/tfmtest" />
-		      <property name="jakarta.persistence.jdbc.user"   value="usuario_test" />
-		      <property name="jakarta.persistence.jdbc.password" value="123" />
+		      <property name="jakarta.persistence.jdbc.user"   value="ssluser" />
+		      <property name="jakarta.persistence.jdbc.password" value="sslpassword" />
 		      <property name="hibernate.dialect"    value="org.hibernate.dialect.MySQLDialect" />
 		      <property name="hibernate.show_sql"   value="false" />
 		      <property name="hibernate.format_sql" value="true" />

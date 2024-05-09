@@ -59,6 +59,7 @@
     <string name="create_channel_btn_announce">Iniciar anuncio</string>
     <string name="create_channel_btn_create">Crear canal</string>
     <string name="create_channel_btn_disconnect">Desconectar del cliente</string>
+    <string name="create_channel_btn_send">Enviar fichero</string>
     <string name="create_channel_msg_create">Creando canal</string>
     <string name="create_channel_msg_name">Introduce un nombre</string>
     <string name="create_channel_msg_disconnect">Desconectado del cliente</string>

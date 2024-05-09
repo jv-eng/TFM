@@ -41,7 +41,7 @@ public class LoginThread implements Runnable {
 
         //preparar datos
         String password = this.userModel.getPassword();
-        password = ClavesUtil.encryptPrivKey(ctx, password);
+        //password = ClavesUtil.encryptPrivKey(ctx, password);
         String email = this.userModel.getEmail();
 
         //envio de datos
@@ -55,7 +55,8 @@ public class LoginThread implements Runnable {
             int op = 1;
             byte [] pass = password.getBytes();
             byte [] mail = email.getBytes();
-            byte [] clave = ClavesUtil.encryptPrivKey(ctx, ClavesUtil.claveString(claves.getPublic())).getBytes();
+            //byte [] clave = ClavesUtil.encryptPrivKey(ctx, ClavesUtil.claveString(claves.getPublic())).getBytes();
+            byte [] clave = ClavesUtil.claveString(claves.getPublic()).getBytes();
 
             //crear flujos
             DataInputStream flujo_in = new DataInputStream(sock.getInputStream());

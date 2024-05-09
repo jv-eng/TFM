@@ -48,7 +48,7 @@ public class FirmaDigitalUtil {
 		FileInputStream fis = new FileInputStream(keystoreFile);
 		KeyStore keystore = KeyStore.getInstance("JKS");
 		keystore.load(fis, claveKeystore.toCharArray());
-		Certificate cert = keystore.getCertificate("ClienteCert");
+		Certificate cert = keystore.getCertificate("CertificadoCL");
 		PublicKey publicKey = cert.getPublicKey();
 		fis.close();
 		return publicKey;

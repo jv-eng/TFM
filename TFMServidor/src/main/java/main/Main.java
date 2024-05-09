@@ -66,7 +66,8 @@ public class Main {
 				System.out.println(); System.out.println();
 				//aceptar conexión
 				//Socket socket_sr = socket_servidor.accept();
-				socket_sr = (SSLSocket) socket_servidor.accept();
+				//socket_sr = (SSLSocket) socket_servidor.accept();
+				socket_sr = socket_servidor.accept();
 				
 				//recibir operador
 				int op = (new DataInputStream(socket_sr.getInputStream())).readInt();

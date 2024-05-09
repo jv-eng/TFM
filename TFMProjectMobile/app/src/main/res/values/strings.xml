@@ -59,6 +59,7 @@
     <string name="create_channel_btn_announce">Start announcement</string>
     <string name="create_channel_btn_create">Create channel</string>
     <string name="create_channel_btn_disconnect">Disconnect from client</string>
+    <string name="create_channel_btn_send">Send file</string>
     <string name="create_channel_msg_create">Creating channel</string>
     <string name="create_channel_msg_name">Introduce a name</string>
     <string name="create_channel_msg_disconnect">Disconnected from client</string>

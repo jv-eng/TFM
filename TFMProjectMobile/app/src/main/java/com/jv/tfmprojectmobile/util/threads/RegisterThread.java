@@ -40,7 +40,7 @@ public class RegisterThread implements Runnable {
         //preparar datos
         String nombreUsuario = this.userModel.getUserName();
         String password = this.userModel.getPassword();
-        password = ClavesUtil.encryptPrivKey(ctx, password);
+        //password = ClavesUtil.encryptPrivKey(ctx, password);
         String email = this.userModel.getEmail();
 
         //envio de datos

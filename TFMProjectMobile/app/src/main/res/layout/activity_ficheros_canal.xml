@@ -54,7 +54,8 @@
                         android:id="@+id/textInputLayout3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20sp">
+                        android:layout_marginBottom="20sp"
+                        android:layout_marginTop="40sp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ficheros_canal_et_txt"
@@ -88,7 +89,7 @@
                     <ListView
                         android:id="@+id/ficheros_canal_lv_lista_fich"
                         android:layout_width="match_parent"
-                        android:layout_height="426dp"
+                        android:layout_height="338dp"
                         android:enabled="false" />
 
                 </LinearLayout>

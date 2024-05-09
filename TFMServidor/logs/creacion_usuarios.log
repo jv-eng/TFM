@@ -1,0 +1,10 @@
+2024-05-09 10:28:12.719 [main] INFO  com.tfm.creacion_usuarios - Usuario "Pepe2" creado correctamente.
+2024-05-09 10:28:55.449 [main] INFO  com.tfm.creacion_usuarios - Usuario "Pepe2" creado correctamente.
+2024-05-09 10:34:20.262 [main] INFO  com.tfm.creacion_usuarios - Usuario "Pepe2" creado correctamente.
+2024-05-09 10:34:37.637 [main] ERROR com.tfm.creacion_usuarios - Usuario Pepe2 ya existe.
+2024-05-09 10:37:17.450 [main] INFO  com.tfm.creacion_usuarios - Usuario "Pepe2" creado correctamente.
+2024-05-09 10:41:02.338 [main] INFO  com.tfm.creacion_usuarios - Usuario "Pepe" creado correctamente.
+2024-05-09 15:23:19.060 [main] INFO  com.tfm.creacion_usuarios - Usuario "Pepe2" creado correctamente.
+2024-05-09 15:24:09.179 [main] INFO  com.tfm.creacion_usuarios - Usuario "Pepe" creado correctamente.
+2024-05-09 15:27:25.221 [main] INFO  com.tfm.creacion_usuarios - Usuario "Pepe" creado correctamente.
+2024-05-09 15:27:25.259 [main] INFO  com.tfm.creacion_usuarios - Usuario "Pepe2" creado correctamente.

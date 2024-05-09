@@ -23,6 +23,7 @@ import com.jv.tfmprojectmobile.util.NavigationViewConfiguration;
 import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 import com.jv.tfmprojectmobile.util.threads.LoginThread;
 import com.jv.tfmprojectmobile.util.threads.SendFileThread;
+import com.jv.tfmprojectmobile.util.threads.SuscribirThread;
 
 public class SendFileActivity extends AppCompatActivity {
 
@@ -50,6 +51,11 @@ public class SendFileActivity extends AppCompatActivity {
         });
 
         NavigationViewConfiguration.configurarNavView(drawerLayout, navigationView, this);
+
+        String msgIntent = getIntent().getStringExtra("canal");
+        if (msgIntent != null) {
+           ((TextView)findViewById(R.id.send_file_tv_file)).setText(msgIntent);
+        }
 
 
         Button buscarFich = findViewById(R.id.send_file_btn_seleccionar);
@@ -90,7 +96,7 @@ public class SendFileActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             // Obtener la URI del archivo seleccionado
             selectedFileUri = data.getData();
-            ((TextView)findViewById(R.id.send_file_tv_file)).setText(AuxiliarUtil.getFileName(this, selectedFileUri));
+            ((TextView)findViewById(R.id.send_file_tv_file)).append(AuxiliarUtil.getFileName(this, selectedFileUri));
         }
     }
 

@@ -84,7 +84,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
 
         NavigationViewConfiguration.configurarNavView(drawerLayout, navigationView, this);
         TextView nameView = findViewById(R.id.descubrir_canales_tv_usuario);
-        nameView.setText(PreferencesManage.userMail(this));
+        nameView.append(PreferencesManage.userMail(this));
 
         connectionsClient = Nearby.getConnectionsClient(this);
     }
@@ -206,10 +206,10 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
                 @Override
                 public void onPayloadReceived(String endpointId, Payload payload) {
                     String payloadMessage = new String(payload.asBytes(), StandardCharsets.UTF_8);
-                    //Toast.makeText(DescubrirCanalesActivity.this, String.format("onPayloadReceived(endpointId=%s, payload=%s)", endpointId, payloadMessage), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DescubrirCanalesActivity.this, String.format("onPayloadReceived(endpointId=%s, payload=%s)", endpointId, payloadMessage), Toast.LENGTH_SHORT).show();
                     //payloadMessage = ClavesUtil.decryptPubKey(DescubrirCanalesActivity.this, payloadMessage);
 
-                    ((TextView)findViewById(R.id.descubrir_canales_tv_msg)).setText(payloadMessage);
+                    ((TextView)findViewById(R.id.descubrir_canales_tv_msg)).append(payloadMessage);
                     canal = payloadMessage;
                 }
 
@@ -226,10 +226,13 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
                 public void onEndpointFound(String endpointId, DiscoveredEndpointInfo info) {
                     Log.i(TAG, "onEndpointFound: endpoint found, connecting");
                     connectionsClient.requestConnection(PreferencesManage.userMail(DescubrirCanalesActivity.this), endpointId, connectionLifecycleCallback);
+                    aShortToast("onEndpointFound: endpoint found, connecting");
                 }
 
                 @Override
-                public void onEndpointLost(String endpointId) {}
+                public void onEndpointLost(String endpointId) {
+                    aShortToast("endpoint lost");
+                }
             };
 
     // Callbacks for connections to other devices

@@ -107,7 +107,7 @@ public class FileStoreDB {
 
     public List<FileStoreModel> getChannels() {
         List<FileStoreModel> lista = new LinkedList<>();
-        String query = "SELECT _id, name, descargado, ruta FROM file;";
+        String query = "SELECT _id, name, descargado, ruta, canal FROM file;";
         SQLiteDatabase sqLiteDatabase = helper.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
@@ -115,7 +115,7 @@ public class FileStoreDB {
             lista.add(new FileStoreModel(
                     cursor.getString(0), cursor.getString(1),
                     cursor.getInt(2), cursor.getString(3),
-                    cursor.getString(1)
+                    cursor.getString(4)
             ));
         }
 
