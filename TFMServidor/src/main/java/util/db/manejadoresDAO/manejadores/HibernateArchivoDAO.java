@@ -1,11 +1,15 @@
 package util.db.manejadoresDAO.manejadores;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
 import util.db.AuxiliarDB;
 import util.db.manejadoresDAO.interfaces.ArchivoDAO;
 import util.db.modelos.Archivo;
 import util.db.modelos.Canal;
+import util.db.modelos.Suscripcion;
 import util.db.modelos.Usuario;
 
 public class HibernateArchivoDAO implements ArchivoDAO {
@@ -44,6 +48,22 @@ public class HibernateArchivoDAO implements ArchivoDAO {
 			c[0] = query.getResultList().isEmpty();
 		}, this.managerApp);
 		return c[0];
+	}
+	
+	@Override
+	public List<String> getFicherosCanal(String canal) {
+		List<String> lista = new LinkedList<String>();
+		
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<Archivo> query = entityManager.createQuery("SELECT a FROM Archivo a WHERE a.canal.nombreCanal = :canal", Archivo.class);
+			query.setParameter("canal", canal);
+
+			for (Archivo a: query.getResultList()) {
+				lista.add(a.getNombreArchivo());
+			}
+		}, this.managerApp);
+		
+		return lista;
 	}
 	
 }

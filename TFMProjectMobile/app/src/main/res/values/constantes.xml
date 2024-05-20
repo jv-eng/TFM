@@ -7,4 +7,6 @@
     <string name="passCA">85dsRSG236</string>
 
     <string name="aliasCL">cliente</string>
+
+    <string name="certSRName">certsr.cer</string>
 </resources>

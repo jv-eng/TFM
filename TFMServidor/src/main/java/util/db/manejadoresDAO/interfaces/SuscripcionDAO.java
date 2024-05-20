@@ -1,5 +1,7 @@
 package util.db.manejadoresDAO.interfaces;
 
+import java.util.List;
+
 import util.db.modelos.Canal;
 import util.db.modelos.Suscripcion;
 import util.db.modelos.Usuario;
@@ -13,5 +15,7 @@ public interface SuscripcionDAO {
 	void desuscribir(Suscripcion s);
 
 	Suscripcion getSuscripcion(Usuario u, Canal c);
+	
+	List<String> getSuscripcionesUsuario(String u);
 
 }

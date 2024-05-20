@@ -6,9 +6,12 @@ import android.util.Log;
 
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.activities.LoginActivity;
+import com.jv.tfmprojectmobile.models.FileStoreModel;
 import com.jv.tfmprojectmobile.models.UserModel;
 import com.jv.tfmprojectmobile.util.AuxiliarUtil;
 import com.jv.tfmprojectmobile.util.ClavesUtil;
+import com.jv.tfmprojectmobile.util.storage.FileStoreDB;
+import com.jv.tfmprojectmobile.util.storage.FileStoreHelper;
 import com.jv.tfmprojectmobile.util.storage.PreferencesManage;
 
 import java.io.DataInputStream;
@@ -85,6 +88,35 @@ public class LoginThread implements Runnable {
                 userModel.setUserName(usuario);
                 PreferencesManage.storeUserName(ctx, usuario);
                 flujo_in.readInt();
+
+                //recibimos datos de suscripciones
+                int numSuscripciones = flujo_in.readInt();
+                if (numSuscripciones > 0) {
+                    //hay suscripciones
+                    FileStoreHelper helper = new FileStoreHelper(ctx);
+                    FileStoreDB fileStoreDB = new FileStoreDB(helper);
+
+                    //iniciamos recepcion de canals y nombre de ficheros
+                    for (int i = 0; i < numSuscripciones; i++) {
+                        int tamCanal = flujo_in.readInt();
+                        flujo_in.read(buff);
+                        String canal= new String(buff, 0, tamCanal, "UTF-8");
+                        fileStoreDB.insertChannel(canal);
+
+                        //recibir ficheros
+                        int numFich = flujo_in.readInt();
+                        if (numFich > 0) {
+                            for (int j = 0; j < numFich; j++) {
+                                int tamFich = flujo_in.readInt();
+                                flujo_in.read(buff);
+                                String fich = new String(buff, 0, tamFich, "UTF-8");
+                                FileStoreModel model = new FileStoreModel(
+                                        AuxiliarUtil.generateUUID(), fich, 0, "", canal
+                                );
+                            }
+                        }
+                    }
+                }
 
                 msgRes = this.ctx.getResources().getString(R.string.login_msg_ok);
                 ((Activity)ctx).runOnUiThread(new Runnable() {

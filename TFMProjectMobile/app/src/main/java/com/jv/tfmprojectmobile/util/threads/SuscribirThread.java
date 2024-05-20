@@ -136,11 +136,13 @@ public class SuscribirThread implements Runnable {
             //guardar fichero
             FileStoreHelper helper = new FileStoreHelper(ctx);
             FileStoreDB fileStoreDB = new FileStoreDB(helper);
-            FileStoreModel model = new FileStoreModel(
-                    AuxiliarUtil.generateUUID(), fich, 0, "", channel
-            );
+            if (!fileStoreDB.checkFileExists(fich)) { //fichero no existe, guardamos
+                FileStoreModel model = new FileStoreModel(
+                        AuxiliarUtil.generateUUID(), fich, 0, "", channel
+                );
 
-            fileStoreDB.save(model);
+                fileStoreDB.save(model);
+            }
         } catch (IOException e) {
             Log.e("suscribir", "error");
         }

@@ -5,6 +5,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.security.PublicKey;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.net.ssl.SSLSocket;
 
@@ -14,6 +18,8 @@ import org.apache.logging.log4j.core.Logger;
 import jakarta.persistence.EntityManagerFactory;
 import util.Serializar;
 import util.db.manejadoresDAO.interfaces.UsuarioCredencialesDAO;
+import util.db.manejadoresDAO.manejadores.HibernateArchivoDAO;
+import util.db.manejadoresDAO.manejadores.HibernateSuscripcionDAO;
 import util.db.manejadoresDAO.manejadores.HibernateUsuarioCredencialesDAO;
 
 public class ManejadorSesion {
@@ -77,6 +83,8 @@ public class ManejadorSesion {
 				byte [] nombreByte = nombreUsuario.getBytes();
 				output.writeInt(nombreByte.length);
 				output.write(nombreByte);
+				//enviar datos
+				this.sendSubInfor(output, correo);
 	        }
 	        
 		} catch (Exception e) {
@@ -86,6 +94,53 @@ public class ManejadorSesion {
 	
 		return res;
 		
+	}
+	
+	private void sendSubInfor(DataOutputStream output, String correo) throws IOException {
+		HibernateSuscripcionDAO susDAO = new HibernateSuscripcionDAO(managerUsuario);
+		HibernateArchivoDAO archivoDAO = new HibernateArchivoDAO(managerUsuario);
+		Map<String, List<String>> mapa = new HashMap<String, List<String>>();
+		byte [] nombreCanal;
+		int numFich;
+		
+		//obtener canales
+		List<String> listaCanales = susDAO.getSuscripcionesUsuario(correo);
+		
+		//si no hay, terminamos
+		if (listaCanales.size() > 0) {
+			output.writeInt(0);
+			return;
+		}
+				
+		//obtener ficheros
+		List<String> listaFicheros;
+		for (String str: listaCanales) {
+			listaFicheros = archivoDAO.getFicherosCanal(str);
+			mapa.put(str, listaFicheros);
+		}
+		
+		//enivar datos
+		for (Entry<String, List<String>> entry: mapa.entrySet()) {
+			numFich = entry.getValue().size();
+			nombreCanal = entry.getKey().getBytes();
+			
+			//enviamos nombre
+			output.writeInt(nombreCanal.length);
+			output.write(nombreCanal);
+			
+			//enviar numero de ficheros
+			output.writeInt(numFich);
+			
+			//enviar ficheros
+			if (numFich > 0) {
+				for (String str: entry.getValue()) {
+					nombreCanal = str.getBytes();
+					output.writeInt(nombreCanal.length);
+					output.write(nombreCanal);
+				}
+				
+			}
+		}
 	}
 
 	public int cerrarrSesion() {

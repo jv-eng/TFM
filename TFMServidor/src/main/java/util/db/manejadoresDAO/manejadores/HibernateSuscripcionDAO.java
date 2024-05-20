@@ -1,5 +1,6 @@
 package util.db.manejadoresDAO.manejadores;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import jakarta.persistence.EntityManagerFactory;
@@ -62,6 +63,23 @@ public class HibernateSuscripcionDAO implements SuscripcionDAO {
 		    
 		}, this.managerApp);
 		return test[0];
+	}
+
+	@Override
+	public List<String> getSuscripcionesUsuario(String u) {
+		List<String> lista = new LinkedList<String>();
+		
+		AuxiliarDB.inTransaction(entityManager -> {
+			TypedQuery<Suscripcion> query = entityManager.createQuery("FROM Suscripcion as s WHERE s.usuario.correoElectronico = :nombre", Suscripcion.class);
+			query.setParameter("nombre", u);
+			
+			for (Suscripcion s: query.getResultList()) {
+				lista.add(s.getCanal().getNombreCanal());
+			}
+		    
+		}, this.managerApp);
+		
+		return lista;
 	}
 
 }

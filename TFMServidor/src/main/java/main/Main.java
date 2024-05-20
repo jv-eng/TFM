@@ -4,19 +4,24 @@ import static jakarta.persistence.Persistence.createEntityManagerFactory;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 
 import org.apache.logging.log4j.LogManager;
@@ -34,6 +39,7 @@ public class Main {
 	//logger
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
 	public static Map<String, List<Socket>> mapa = new HashMap<String, List<Socket>>();
+	private static boolean certCLDownloaded = false;
 	
 	public static void main (String [] args) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException, CertificateException {		
 		
@@ -58,6 +64,7 @@ public class Main {
 			socket_servidor = new ServerSocket(Integer.parseInt(Configuration.obtenerConfiguracion("puerto")));
 			//socket_servidor = (SSLServerSocket) factory.createServerSocket(Integer.parseInt(Configuration.obtenerConfiguracion("puerto")));
 			//socket_servidor.setNeedClientAuth(true);
+			//socket_servidor.setEnabledProtocols(new String[]{"TLSv1.3"});
 			
 			while (true) {
 				System.out.println(); System.out.println();
@@ -66,7 +73,11 @@ public class Main {
 				System.out.println(); System.out.println();
 				//aceptar conexión
 				//Socket socket_sr = socket_servidor.accept();
-				//socket_sr = (SSLSocket) socket_servidor.accept();
+				/*socket_sr = (SSLSocket) socket_servidor.accept();
+				if (!certCLDownloaded) {
+					almacenarCertificadoCliente(socket_sr.getSession(), Configuration.obtenerConfiguracion("almacenCL"), Configuration.obtenerConfiguracion("claveAlmacenCL"), "CertificadoCL");
+					certCLDownloaded = true;
+				}*/
 				socket_sr = socket_servidor.accept();
 				
 				//recibir operador
@@ -125,8 +136,41 @@ public class Main {
 		} catch (IOException e) {
 			logg.error("Error recibiendo el código de operación.");
 			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		System.out.println("fin");
 	}
-	
+
+	private static void almacenarCertificadoCliente(SSLSession sslSession, String keystorePath, String keystorePassword, String alias) throws Exception {
+        // Obtén el certificado del cliente de la sesión SSL
+        X509Certificate[] clientCertificates = (X509Certificate[]) sslSession.getPeerCertificates();
+
+        if (clientCertificates != null && clientCertificates.length > 0) {
+            // Obtén el primer certificado del cliente
+            X509Certificate clientCertificate = clientCertificates[0];
+
+            // Carga el KeyStore existente o crea uno nuevo si no existe
+            KeyStore keyStore = KeyStore.getInstance("JKS");
+            try (FileInputStream fis = new FileInputStream(keystorePath)) {
+                keyStore.load(fis, keystorePassword.toCharArray());
+            } catch (IOException e) {
+                // Si el archivo no existe, inicializa un KeyStore vacío
+                keyStore.load(null, keystorePassword.toCharArray());
+            }
+
+            // Almacena el certificado en el KeyStore con el alias proporcionado
+            keyStore.setCertificateEntry(alias, clientCertificate);
+
+            // Guarda el KeyStore en el archivo
+            try (FileOutputStream fos = new FileOutputStream(keystorePath)) {
+                keyStore.store(fos, keystorePassword.toCharArray());
+            }
+
+            System.out.println("Certificado del cliente almacenado en " + keystorePath + " con alias " + alias);
+        } else {
+            System.out.println("No se encontraron certificados del cliente en la sesión SSL.");
+        }
+    }
 }

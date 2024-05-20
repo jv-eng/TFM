@@ -145,6 +145,17 @@ public class FileStoreDB {
         db.close();
     }
 
+    public boolean checkFileExists(String file) {
+        boolean existe = false;
+
+        String query = "SELECT name FROM file WHERE name=?;";
+        SQLiteDatabase sqLiteDatabase = helper.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{file});
+        if (cursor.moveToNext()) existe = true;
+
+        return existe;
+    }
+
     public void insertChannel(String channel) {
         SQLiteDatabase db = helper.getWritableDatabase();
 

@@ -1,5 +1,7 @@
 package util.db.manejadoresDAO.interfaces;
 
+import java.util.List;
+
 import util.db.modelos.Archivo;
 import util.db.modelos.Canal;
 import util.db.modelos.Usuario;
@@ -11,5 +13,7 @@ public interface ArchivoDAO {
 	Archivo getFichero(String nombreFich);
 
 	boolean getAll();
+	
+	List<String> getFicherosCanal(String canal);
 
 }

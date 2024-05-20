@@ -11,6 +11,10 @@ import android.util.Log;
 import com.jv.tfmprojectmobile.R;
 import com.jv.tfmprojectmobile.activities.LoginActivity;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.security.Key;
@@ -28,6 +32,8 @@ import java.util.UUID;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLPeerUnverifiedException;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
@@ -91,7 +97,30 @@ public class AuxiliarUtil {
         }
         return sock;
     }
+
     /*private static SSLSocketFactory sslSF = null;
+    private static boolean certDownloaded = false;
+    private static void guardarCertServer(Context ctx, SSLSession sslSession, String fileName) throws SSLPeerUnverifiedException {
+        X509Certificate serverCert = (X509Certificate) sslSession.getPeerCertificates()[0];
+        File file = new File(ctx.getExternalFilesDir(null), fileName);
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            byte[] certificateData = serverCert.getEncoded();
+            fos.write(certificateData);
+            fos.flush();
+        } catch (Exception e) {
+            Log.e("guardar cert", "error");
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     public static SSLSocket createSocket(Context ctx) {
         SSLSocket socket = null;
         try {
@@ -99,6 +128,8 @@ public class AuxiliarUtil {
             Socket sock = new Socket(ctx.getResources().getString(R.string.ip), ctx.getResources().getInteger(R.integer.puerto));
             socket = (SSLSocket) sslSF.createSocket(sock, null, sock.getPort(), false);
             socket.setUseClientMode(true);
+            socket.setEnabledProtocols(new String[]{"TLSv1.3"});
+            if (!certDownloaded) guardarCertServer(ctx, socket.getSession(), ctx.getResources().getString(R.string.certSRName));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,7 +146,7 @@ public class AuxiliarUtil {
         KeyManagerFactory kmf;
         KeyStore ks, keyStore;
 
-        sslContext = SSLContext.getInstance("TLS");
+        sslContext = SSLContext.getInstance("TLSv1.3");
 
         //cargar el cer
         keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -139,7 +170,7 @@ public class AuxiliarUtil {
         kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         kmf.init(ks, fraseclave);
 
-        //contexto y socket
+        //contexto
         sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
 
         return sslContext.getSocketFactory();
