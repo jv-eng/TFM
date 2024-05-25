@@ -103,7 +103,7 @@ public class SendFileThread implements Runnable {
                 bytes_leidos = bufferedInputStream.read(buffer);
                 num_total += bytes_leidos;
                 flujo_out.write(buffer,0, bytes_leidos);
-                sig.update(buffer, 0, bytes_leidos); //actualizar firma
+                sig.update(buffer, 0, bytes_leidos);
             } while (num_total < longitud_mensaje);
 
             //enviar firma

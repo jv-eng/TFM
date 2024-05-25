@@ -90,8 +90,8 @@ public class LoginThread implements Runnable {
                 flujo_in.readInt();
 
                 //recibimos datos de suscripciones
-                int numSuscripciones = flujo_in.readInt();
-                if (numSuscripciones > 0) {
+                //int numSuscripciones = flujo_in.readInt();
+                /*if (numSuscripciones > 0) {
                     //hay suscripciones
                     FileStoreHelper helper = new FileStoreHelper(ctx);
                     FileStoreDB fileStoreDB = new FileStoreDB(helper);
@@ -116,7 +116,7 @@ public class LoginThread implements Runnable {
                             }
                         }
                     }
-                }
+                }*/
 
                 msgRes = this.ctx.getResources().getString(R.string.login_msg_ok);
                 ((Activity)ctx).runOnUiThread(new Runnable() {

@@ -88,7 +88,7 @@ public class AuxiliarUtil {
         return res;
     }
 
-    public static Socket createSocket(Context ctx) {
+    /*public static Socket createSocket(Context ctx) {
         Socket sock = null;
         try {
             sock = new Socket(ctx.getResources().getString(R.string.ip), ctx.getResources().getInteger(R.integer.puerto));
@@ -96,9 +96,9 @@ public class AuxiliarUtil {
             e.printStackTrace();
         }
         return sock;
-    }
+    }*/
 
-    /*private static SSLSocketFactory sslSF = null;
+    private static SSLSocketFactory sslSF = null;
     private static boolean certDownloaded = false;
     private static void guardarCertServer(Context ctx, SSLSession sslSession, String fileName) throws SSLPeerUnverifiedException {
         X509Certificate serverCert = (X509Certificate) sslSession.getPeerCertificates()[0];
@@ -134,7 +134,7 @@ public class AuxiliarUtil {
             e.printStackTrace();
         }
         return socket;
-    }*/
+    }
     private static SSLSocketFactory createSocketContext(Context ctx) throws Exception {
         SSLSocket socket = null;
         String pass = ctx.getResources().getString(R.string.passCA);
@@ -172,6 +172,7 @@ public class AuxiliarUtil {
 
         //contexto
         sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+
 
         return sslContext.getSocketFactory();
     }

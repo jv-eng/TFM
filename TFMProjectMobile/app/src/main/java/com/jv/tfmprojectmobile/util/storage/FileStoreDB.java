@@ -17,6 +17,7 @@ public class FileStoreDB {
     }
 
     public void save(FileStoreModel model) {
+        if (model.getCanal().compareToIgnoreCase(model.getName()) == 0) return;
         String query = "INSERT INTO file(" +
                 "_id, name, descargado, ruta, canal" +
                 ") VALUES (?,?,?,?,?);";
@@ -33,6 +34,7 @@ public class FileStoreDB {
     }
 
     public void descargaFichero(FileStoreModel model) {
+        if (model.getCanal().compareToIgnoreCase(model.getName()) == 0) return;
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put("descargado", String.valueOf(1));

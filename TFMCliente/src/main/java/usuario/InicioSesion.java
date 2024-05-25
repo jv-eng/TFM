@@ -32,9 +32,9 @@ public class InicioSesion {
 			
 			//generar claves
 			KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-	        keyPairGenerator.initialize(2048); // Tamaño de clave, ajusta según tus requisitos
+	        keyPairGenerator.initialize(2048); // Tamaï¿½o de clave, ajusta segï¿½n tus requisitos
 	        KeyPair claves = keyPairGenerator.generateKeyPair();
-	        //System.out.println("clave pública: " + claves.getPublic());
+	        //System.out.println("clave pï¿½blica: " + claves.getPublic());
 	        //System.out.println("clave privada: " + claves.getPrivate());
 			
 			//datos
@@ -49,7 +49,7 @@ public class InicioSesion {
 			//enviar nombre
 			flujo_out.writeInt(nombre.length);
 			flujo_out.write(nombre);
-			//enviar contraseña
+			//enviar contraseï¿½a
 			flujo_out.writeInt(pass.length);
 			flujo_out.write(pass);
 			//enviar correo
@@ -58,7 +58,7 @@ public class InicioSesion {
 			
 			//recibir y procesar respuesta
 			int tam = flujo_in.readInt();
-			System.out.println("tamaño nombre: " + tam);
+			System.out.println("tamaï¿½o nombre: " + tam);
 			if (tam > 0) {
 				byte [] buff = new byte[tam];
 				flujo_in.read(buff);
@@ -68,7 +68,7 @@ public class InicioSesion {
 			}
 			
 			System.out.println(tam == 0);
-			System.out.println("Resultado de la operación iniciar sesión: " + tam);
+			System.out.println("Resultado de la operaciï¿½n iniciar sesiï¿½n: " + tam);
 			
 			
 		} catch (NumberFormatException | IOException e) {

@@ -204,6 +204,7 @@ public class FicherosCanalActivity extends AppCompatActivity {
             FileStoreDB fileStoreDB = new FileStoreDB(helper);
             model.setRuta(ruta);
             fileStoreDB.descargaFichero(model);
+            fileStoreDB.insertChannel(canal);
 
             adapter.setDatos(fileStoreDB.getFilesChannel(canal));
             adapter.notifyDataSetChanged();

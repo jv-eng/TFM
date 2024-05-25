@@ -84,7 +84,7 @@ public class ManejadorSesion {
 				output.writeInt(nombreByte.length);
 				output.write(nombreByte);
 				//enviar datos
-				this.sendSubInfor(output, correo);
+				//this.sendSubInfor(output, correo);
 	        }
 	        
 		} catch (Exception e) {
@@ -107,7 +107,7 @@ public class ManejadorSesion {
 		List<String> listaCanales = susDAO.getSuscripcionesUsuario(correo);
 		
 		//si no hay, terminamos
-		if (listaCanales.size() > 0) {
+		if (listaCanales.size() == 0) {
 			output.writeInt(0);
 			return;
 		}

@@ -37,7 +37,7 @@ public class Registro {
 			//enviar nombre
 			flujo_out.writeInt(nombre.length);
 			flujo_out.write(nombre);
-			//enviar contraseña
+			//enviar contraseï¿½a
 			flujo_out.writeInt(pass.length);
 			flujo_out.write(pass);
 			//enviar correo
@@ -45,7 +45,8 @@ public class Registro {
 			flujo_out.write(mail);
 			//recibir y procesar respuesta
 			int res = flujo_in.readInt();
-			System.out.println("Resultado de la operación crear usuario: " + res);
+			System.out.println("Resultado de la operaciÃ³n crear usuario: " + res);
+			System.out.println("Resultado esperado: 0" + "\n");
 			
 			//cerrar
 			flujo_in.close();
@@ -86,7 +87,7 @@ public class Registro {
 			//enviar nombre
 			flujo_out.writeInt(nombre.length);
 			flujo_out.write(nombre);
-			//enviar contraseña
+			//enviar contraseï¿½a
 			flujo_out.writeInt(pass.length);
 			flujo_out.write(pass);
 			//enviar correo
@@ -94,7 +95,8 @@ public class Registro {
 			flujo_out.write(mail);
 			//recibir y procesar respuesta
 			int res = flujo_in.readInt();
-			System.out.println("Resultado de la operación crear usuario: " + res);
+			System.out.println("Resultado de la operaciÃ³n crear usuario: " + res);
+			System.out.println("Resultado esperado: 3" + "\n");
 			
 			//cerrar
 			flujo_in.close();
@@ -134,7 +136,7 @@ public class Registro {
 			//enviar nombre
 			flujo_out.writeInt(nombre.length);
 			flujo_out.write(nombre);
-			//enviar contraseña
+			//enviar contraseï¿½a
 			flujo_out.writeInt(pass.length);
 			flujo_out.write(pass);
 			//enviar correo
@@ -142,7 +144,8 @@ public class Registro {
 			flujo_out.write(mail);
 			//recibir y procesar respuesta
 			int res = flujo_in.readInt();
-			System.out.println("Resultado de la operación crear usuario: " + res);
+			System.out.println("Resultado de la operaciÃ³n crear usuario: " + res);
+			System.out.println("Resultado esperado: 2" + "\n");
 			
 			//cerrar
 			flujo_in.close();

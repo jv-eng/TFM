@@ -22,6 +22,8 @@ import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
 
+import javax.net.ssl.SSLSocket;
+
 public class DescargarFicheroThread implements Runnable {
 
     private Context ctx;
@@ -80,7 +82,8 @@ public class DescargarFicheroThread implements Runnable {
 
             //inicializar firma
             //PublicKey publicKey = ClavesUtil.getSRPuKey(ctx);
-            PublicKey publicKey = ClavesUtil.stringClave("MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh0MIxlhUS+QxAvzoljQFGIUatorvmMVzEo7foPbdt9VSVTbmls9YRCG1x3vU1VZwDsSuu742uLHUFDfbLVZpCv2+TVvHW9q6MiTt/OACbN0D6nDx4RPHhe9fuDbxHueKgz1hOZ7HGiDcp+mHnr98YjKa7LLOmRd9EtfwXd6SPO6dDWZTqYh4qFBwMntWkbOU+XaH8aJvuWHFTqSVXtz6oz/pI399XCIJPrY2th+Z3epveUKS2qJ4+QnMiZqiJ3JE/CpqwwOsz9mF5cos+zscci995dMTtFiFYnmV2G6SoFvg+v52ff5pWs4cnntRqYMURHZutHYKxC4K4z1NpdtKvwIDAQAB");
+            PublicKey publicKey = ((SSLSocket) sock).getSession().getPeerCertificateChain()[0].getPublicKey();
+            //PublicKey publicKey = ClavesUtil.stringClave("MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh0MIxlhUS+QxAvzoljQFGIUatorvmMVzEo7foPbdt9VSVTbmls9YRCG1x3vU1VZwDsSuu742uLHUFDfbLVZpCv2+TVvHW9q6MiTt/OACbN0D6nDx4RPHhe9fuDbxHueKgz1hOZ7HGiDcp+mHnr98YjKa7LLOmRd9EtfwXd6SPO6dDWZTqYh4qFBwMntWkbOU+XaH8aJvuWHFTqSVXtz6oz/pI399XCIJPrY2th+Z3epveUKS2qJ4+QnMiZqiJ3JE/CpqwwOsz9mF5cos+zscci995dMTtFiFYnmV2G6SoFvg+v52ff5pWs4cnntRqYMURHZutHYKxC4K4z1NpdtKvwIDAQAB");
             Signature verifier = Signature.getInstance("SHA512withRSA");
             verifier.initVerify(publicKey);
 
@@ -126,38 +129,6 @@ public class DescargarFicheroThread implements Runnable {
                 }
             });
 
-        } catch (IOException e) {
-            Log.e("error al recibir", "error al recibir fichero");
-            ((Activity)ctx).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ((FicherosCanalActivity)ctx).aShortToast("IOException");
-                }
-            });
-        } catch (NoSuchAlgorithmException e) {
-            ((Activity)ctx).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ((FicherosCanalActivity)ctx).aShortToast("IOException");
-                }
-            });
-            throw new RuntimeException(e);
-        } catch (InvalidKeyException e) {
-            ((Activity)ctx).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ((FicherosCanalActivity)ctx).aShortToast("InvalidKeyException");
-                }
-            });
-            throw new RuntimeException(e);
-        } catch (SignatureException e) {
-            ((Activity)ctx).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ((FicherosCanalActivity)ctx).aShortToast("SignatureException");
-                }
-            });
-            throw new RuntimeException(e);
         } catch (Exception e) {
             ((Activity)ctx).runOnUiThread(new Runnable() {
                 @Override

@@ -54,7 +54,7 @@ public class SendFileActivity extends AppCompatActivity {
 
         String msgIntent = getIntent().getStringExtra("canal");
         if (msgIntent != null) {
-           ((TextView)findViewById(R.id.send_file_tv_file)).setText(msgIntent);
+           ((TextView)findViewById(R.id.send_file_te_channel)).setText(msgIntent);
         }
 
 
@@ -96,7 +96,8 @@ public class SendFileActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             // Obtener la URI del archivo seleccionado
             selectedFileUri = data.getData();
-            ((TextView)findViewById(R.id.send_file_tv_file)).append(AuxiliarUtil.getFileName(this, selectedFileUri));
+            ((TextView)findViewById(R.id.send_file_tv_file)).setText(
+                    this.getString(R.string.send_file_tv_file) + " " + AuxiliarUtil.getFileName(this, selectedFileUri));
         }
     }
 

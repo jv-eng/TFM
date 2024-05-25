@@ -116,13 +116,14 @@
 
     <ImageView
         android:id="@+id/login_logo"
-        android:layout_width="199dp"
-        android:layout_height="190dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:contentDescription="@string/name_app"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.11"
+        app:layout_constraintVertical_bias="0.091"
         app:srcCompat="@drawable/logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

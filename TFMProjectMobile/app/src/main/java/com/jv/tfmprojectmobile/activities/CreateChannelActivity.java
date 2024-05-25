@@ -177,7 +177,7 @@ public class CreateChannelActivity extends AppCompatActivity {
         create_channel_btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String canal = ((TextView)findViewById(R.id.create_channel_tv)).getText().toString();
+                String canal = ((TextView)findViewById(R.id.create_channel_txt_name)).getText().toString();
                 if (!canal.isEmpty()) {
                     Intent i = new Intent(CreateChannelActivity.this, SendFileActivity.class);
                     i.putExtra("canal", canal);
@@ -279,7 +279,8 @@ public class CreateChannelActivity extends AppCompatActivity {
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_announcing_fail));
+                                //aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_announcing_fail));
+                                aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_announcing));
                             }
                         });
     }
