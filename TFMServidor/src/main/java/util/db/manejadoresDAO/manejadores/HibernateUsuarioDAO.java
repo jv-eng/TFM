@@ -17,7 +17,7 @@ public class HibernateUsuarioDAO implements UsuarioDAO {
 	}
 
 	@Override
-	public void crearUsuario(String usuario, String correo, String pass) {
+	public void crearUsuario(String usuario, String correo) {
 		AuxiliarDB.inTransaction(entityManager -> {
 			entityManager.persist(new Usuario(usuario, correo, null));
 		}, this.managerApp);

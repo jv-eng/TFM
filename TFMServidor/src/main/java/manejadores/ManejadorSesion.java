@@ -3,7 +3,6 @@ package manejadores;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.List;
@@ -28,11 +27,9 @@ public class ManejadorSesion {
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.sesiones");
 	
 	private EntityManagerFactory managerUsuario;
-	//private SSLSocket socket;
-	private Socket socket;
+	private SSLSocket socket;
 
-	//public Sesion(EntityManagerFactory entityManagerFactoryCredenciales, SSLSocket socket_sr) {
-	public ManejadorSesion(EntityManagerFactory entityManagerFactoryCredenciales, Socket socket_sr) {
+	public ManejadorSesion(EntityManagerFactory entityManagerFactoryCredenciales, SSLSocket socket_sr) {
 		this.managerUsuario = entityManagerFactoryCredenciales;
 		this.socket = socket_sr;
 	}
@@ -162,6 +159,9 @@ public class ManejadorSesion {
 	        	//borrar clave
 	        	usuarioCDAO.borrarClave(correo);
 	        	logg.info("Sesión de usuario \"" + correo + "\" cerrada.");
+	        } else {
+	        	logg.info("Error al cerrar la sesión del usuario \"" + correo + "\".");
+	        	res = -1;
 	        }
 			
 		} catch (IOException e) {

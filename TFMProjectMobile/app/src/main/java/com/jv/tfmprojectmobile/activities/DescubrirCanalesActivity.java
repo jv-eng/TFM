@@ -52,15 +52,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
     private static final String TAG = "DescubrirCanal";
     private String canal = null;
     private ConnectionsClient connectionsClient;
-    private static final String[] REQUIRED_PERMISSIONS =
-            new String[] {
-                    Manifest.permission.BLUETOOTH,
-                    Manifest.permission.BLUETOOTH_ADMIN,
-                    Manifest.permission.ACCESS_WIFI_STATE,
-                    Manifest.permission.CHANGE_WIFI_STATE,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-            };
-    private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
+
     private static final Strategy STRATEGY = Strategy.P2P_STAR;
 
     @Override
@@ -93,20 +85,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
-            //aShortToast("revisando permisos");
-            requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
-        }
-    }
 
-    private static boolean hasPermissions(Context context, String... permissions) {
-        for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(context, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public void prepareUIForDownload() {
@@ -179,7 +158,6 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
 
     private void startDiscovery() {
         // Note: Discovery may fail. To keep this demo simple, we don't handle failures.
-        //connectionsClient.startDiscovery(getPackageName(), endpointDiscoveryCallback,new DiscoveryOptions.Builder().setStrategy(STRATEGY).build());
         connectionsClient
                 .startDiscovery(
                         getPackageName(),
@@ -206,8 +184,9 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
                 @Override
                 public void onPayloadReceived(String endpointId, Payload payload) {
                     String payloadMessage = new String(payload.asBytes(), StandardCharsets.UTF_8);
-                    Toast.makeText(DescubrirCanalesActivity.this, String.format("onPayloadReceived(endpointId=%s, payload=%s)", endpointId, payloadMessage), Toast.LENGTH_SHORT).show();
-                    //payloadMessage = ClavesUtil.decryptPubKey(DescubrirCanalesActivity.this, payloadMessage);
+                    Toast.makeText(DescubrirCanalesActivity.this, String.format("onPayloadReceived(endpointId=%s)",
+                            endpointId), Toast.LENGTH_SHORT).show();
+                    payloadMessage = ClavesUtil.decryptPubKey(DescubrirCanalesActivity.this, payloadMessage);
 
                     ((TextView)findViewById(R.id.descubrir_canales_tv_msg)).append(payloadMessage);
                     canal = payloadMessage;

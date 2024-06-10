@@ -2,7 +2,6 @@ package manejadores;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.net.Socket;
 
 import javax.net.ssl.SSLSocket;
 
@@ -23,12 +22,10 @@ public class ManejadorUsuarioCredenciales {
 	
 	private EntityManagerFactory managerApp;
 	private EntityManagerFactory managerUsuario;
-	//private SSLSocket socket;
-	private Socket socket;
+	private SSLSocket socket;
 
 	public ManejadorUsuarioCredenciales(EntityManagerFactory entityManagerFactoryCredenciales, EntityManagerFactory entityManagerFactoryApp, 
-			//SSLSocket socket_sr) {
-			Socket socket_sr) {
+			SSLSocket socket_sr) {
 		this.managerUsuario = entityManagerFactoryCredenciales;
 		this.managerApp = entityManagerFactoryApp;
 		this.socket = socket_sr;
@@ -76,7 +73,7 @@ public class ManejadorUsuarioCredenciales {
 					usuarioCDAO.crearUsuario(usuario, correo, pass);
 					
 					//almacenar en base de datos app
-					usuarioDAO.crearUsuario(usuario, correo, pass);
+					usuarioDAO.crearUsuario(usuario, correo);
 					
 					//cambiar resultado
 					res = 0;

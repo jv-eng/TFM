@@ -20,9 +20,9 @@ public class FirmaDigitalUtil {
 	
 	public static PrivateKey getFirmaCertServidor() throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
 		// Ruta al archivo del almacén de claves
-        String keystoreFile = "almacenSR".toString();
+        String keystoreFile = Configuration.obtenerConfiguracion("almacenSR").toString();
         // Contraseña del almacén de claves
-        char[] keystorePassword = "dW716*h??Y".toCharArray();
+        char[] keystorePassword = Configuration.obtenerConfiguracion("claveAlmacenSR").toString().toCharArray();
         // Alias del certificado
         String alias = "CertificadoSR";
 

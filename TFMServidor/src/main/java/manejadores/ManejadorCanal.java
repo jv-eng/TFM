@@ -30,11 +30,9 @@ public class ManejadorCanal {
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
 	
 	private EntityManagerFactory managerApp;
-	//private SSLSocket socket;
-	private Socket socket;
+	private SSLSocket socket;
 
-	//public ManejadorCanal(EntityManagerFactory entityManagerFactoryApp, SSLSocket socket_sr) {
-	public ManejadorCanal(EntityManagerFactory entityManagerFactoryApp, Socket socket_sr) {
+	public ManejadorCanal(EntityManagerFactory entityManagerFactoryApp, SSLSocket socket_sr) {
 		this.managerApp = entityManagerFactoryApp;
 		this.socket = socket_sr;
 	}
@@ -120,7 +118,7 @@ public class ManejadorCanal {
 			if (canalDAO.existeCanal(canal)) {
 				//comprobar si el usuario esta suscrito al canal
 				Canal c = canalDAO.getCanal(canal);
-				if (usuarioDAO.existeUsuario(usuario)) {// && !suscripcionDAO.usuarioSuscrito(usuarioObj, c)) {
+				if (usuarioDAO.existeUsuario(usuario)) {
 					//obtener datos para la suscripcion
 					Usuario u = usuarioDAO.getUsuario(usuario);
 
@@ -203,7 +201,7 @@ public class ManejadorCanal {
 					//suscribir usuario
 					suscripcionDAO.desuscribir(s);
 				} else {
-					logg.error("Error, el usuario \"" + usuario + "\" ya está suscrito al canal \"" + canal + "\".");
+					logg.error("Error, el usuario \"" + usuario + "\" no está suscrito al canal \"" + canal + "\".");
 					res = 3;
 				}
 			} else {
