@@ -57,7 +57,7 @@ public class CreateChannelThread implements Runnable {
             //ver resultado
             int res = flujo_in.readInt();
             if (res == 0) msgRes = this.ctx.getResources().getString(R.string.create_channel_msg_channel_created);
-            else if (res == 1) msgRes = this.ctx.getResources().getString(R.string.login_msg_1);
+            else msgRes = this.ctx.getResources().getString(R.string.login_msg_1);
 
             ((Activity)ctx).runOnUiThread(new Runnable() {
                 @Override

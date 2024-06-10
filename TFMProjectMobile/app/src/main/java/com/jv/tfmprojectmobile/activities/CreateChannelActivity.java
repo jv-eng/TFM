@@ -52,15 +52,6 @@ public class CreateChannelActivity extends AppCompatActivity {
     private String opponentEndpointId;
     private static final String TAG = "CrearCanal";
     private ConnectionsClient connectionsClient;
-    private static final String[] REQUIRED_PERMISSIONS =
-            new String[] {
-                    Manifest.permission.BLUETOOTH,
-                    Manifest.permission.BLUETOOTH_ADMIN,
-                    Manifest.permission.ACCESS_WIFI_STATE,
-                    Manifest.permission.CHANGE_WIFI_STATE,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-            };
-    private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
     private static final Strategy STRATEGY = Strategy.P2P_STAR;
 
     public void prepareUIForDownload() {
@@ -103,23 +94,6 @@ public class CreateChannelActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (!hasPermissions(this, getRequiredPermissions())) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(getRequiredPermissions(), REQUEST_CODE_REQUIRED_PERMISSIONS);
-            }
-        }
-    }
-    protected String[] getRequiredPermissions() {
-        return REQUIRED_PERMISSIONS;
-    }
-    public static boolean hasPermissions(Context context, String... permissions) {
-        for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(context, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
     }
 
     @Override
@@ -263,7 +237,6 @@ public class CreateChannelActivity extends AppCompatActivity {
             };
 
     private void startAdvertising() {
-        // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
         connectionsClient
                 .startAdvertising(
                         PreferencesManage.userMail(this), getPackageName(), connectionLifecycleCallback,
@@ -279,8 +252,7 @@ public class CreateChannelActivity extends AppCompatActivity {
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                //aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_announcing_fail));
-                                aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_announcing));
+                                aShortToast(CreateChannelActivity.this.getString(R.string.create_channel_msg_announcing_fail));
                             }
                         });
     }
@@ -289,7 +261,6 @@ public class CreateChannelActivity extends AppCompatActivity {
     private void sendMSG() {
         String str = ((TextInputEditText)findViewById(R.id.create_channel_txt_name)).getText().toString();
         //str = ClavesUtil.encryptPrivKey(this, str);
-        //cifrar
         connectionsClient.sendPayload(
                         opponentEndpointId, Payload.fromBytes(str.getBytes(UTF_8)))
                 .addOnFailureListener(

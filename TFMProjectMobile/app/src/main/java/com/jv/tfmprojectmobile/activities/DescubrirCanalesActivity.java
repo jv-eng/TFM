@@ -157,7 +157,6 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
     ///////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void startDiscovery() {
-        // Note: Discovery may fail. To keep this demo simple, we don't handle failures.
         connectionsClient
                 .startDiscovery(
                         getPackageName(),
