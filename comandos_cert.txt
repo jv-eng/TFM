@@ -1,0 +1,57 @@
+// Generar clave privada CA
+openssl genrsa -out CAClavePrivada.pem 4096
+
+// Generar certificado de la CA
+openssl req -new -x509 -days 3650 -key CAClavePrivada.pem -out CACertificado.pem
+
+// Convertir certificado a formato CER
+openssl x509 -outform der -in CACertificado.pem -out CACertificado.cer
+
+
+
+
+
+// Crear almacén de confianza del servidor
+keytool -import -alias CertificadoCA -file CACertificado.pem -keystore AlmacenSRTrust
+
+// Craer certificado del servidor y almacenar la clave en un almacén
+keytool -genkey -keysize 2048 -alias CertificadoSR -keyalg RSA -validity "100" -keystore AlmacenSR -keypass abcdef -storepass abcdef
+
+// Generar solicitud de firma del certificado
+keytool -certreq -alias CertificadoSR -keystore AlmacenSR -file SR.csr
+
+// Firmar certificado
+openssl x509 -req -days 3650 -in SR.csr -CA CACertificado.pem -CAkey CAClavePrivada.pem -set_serial 02 -out CertificadoSR_firmado.crt
+
+// Incluir certificado de la CA en el almacén del servidor
+keytool -import -alias CertificadoCA -file CACertificado.pem -keystore AlmacenSR
+
+// Almacenar el certificado firmado del servidor en el almacén
+keytool -import -alias CertificadoSR -file CertificadoSR_firmado.crt -keystore AlmacenSR
+
+
+
+
+// Generar clave privada del cliente
+openssl genrsa -out ClienteClavePrivada.pem 2048
+
+// Generar solicitud de firma del certificado (CSR)
+openssl req -new -key ClienteClavePrivada.pem -out Cliente.csr
+
+// Firmar certificado del cliente
+openssl x509 -req -days 365 -in Cliente.csr -CA CACertificado.pem -CAkey CAClavePrivada.pem -set_serial 03 -out ClienteCertificado.crt
+
+// Convertir el certificado y la clave privada a un archivo P12
+openssl pkcs12 -export -out ClienteCertificado.p12 -inkey ClienteClavePrivada.pem -in ClienteCertificado.crt -certfile CACertificado.pem -name "ClienteCertificado"
+
+
+
+
+// Generar clave privada para "base de datos"
+openssl genrsa -out base_de_datos_clave_privada.pem 2048
+
+// Generar solicitud de firma de certificado (CSR) para "base de datos"
+openssl req -new -key base_de_datos_clave_privada.pem -out base_de_datos.csr
+
+// Firmar el certificado de "base de datos" con la CA
+openssl x509 -req -days 365 -in base_de_datos.csr -CA CACertificado.pem -CAkey CAClavePrivada.pem -set_serial 04 -out base_de_datos_certificado.pem
