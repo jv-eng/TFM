@@ -12,10 +12,10 @@ import java.util.Set;
 @Table(name = "Usuario")
 public class Usuario {
 
-	@Id
     @Column(name = "NombreUsuario")
     private String nombreUsuario;  // Clave primaria
 
+    @Id
     @Column(name = "CorreoElectronico")
     private String correoElectronico;
     

@@ -1,3 +1,35 @@
 2024-05-25 16:16:06.682 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
 2024-05-25 16:23:43.652 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
 2024-05-25 16:27:44.476 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 10:20:41.369 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 10:21:55.652 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 10:24:02.520 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 10:25:50.936 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 10:26:08.019 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 10:26:18.576 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 10:26:36.287 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 10:27:56.384 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 10:44:27.532 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 10:54:50.201 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 10:56:43.339 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 11:00:23.861 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 11:05:12.637 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 11:16:14.577 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 12:35:27.414 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 17:09:35.971 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 17:10:34.816 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 17:11:29.587 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 17:12:59.650 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 17:19:00.027 [main] INFO  com.tfm.sesiones - El usuario "pepe@mail.com" ha iniciado sesión correctamente
+2024-06-10 17:26:28.779 [main] ERROR com.tfm.sesiones - Error al recibir los datos.
+2024-06-10 17:27:09.150 [main] ERROR com.tfm.sesiones - Error al recibir los datos.
+2024-06-10 17:28:48.838 [main] ERROR com.tfm.sesiones - Error al recibir los datos.
+2024-06-10 17:29:36.339 [main] ERROR com.tfm.sesiones - Error al recibir los datos.
+2024-06-10 17:49:46.525 [main] ERROR com.tfm.sesiones - Error al recibir los datos.
+2024-06-10 17:52:58.796 [main] ERROR com.tfm.sesiones - Error al recibir los datos.
+2024-06-10 17:53:01.765 [main] ERROR com.tfm.sesiones - Error al recibir los datos.
+2024-06-10 17:53:03.214 [main] ERROR com.tfm.sesiones - Error al recibir los datos.
+2024-06-10 17:54:35.719 [main] ERROR com.tfm.sesiones - Error al recibir los datos.
+2024-06-10 17:56:34.696 [main] ERROR com.tfm.sesiones - Error al recibir los datos.
+2024-06-10 17:57:19.031 [main] ERROR com.tfm.sesiones - Error al recibir los datos.
+2024-06-10 17:57:42.560 [main] ERROR com.tfm.sesiones - Error al recibir los datos.

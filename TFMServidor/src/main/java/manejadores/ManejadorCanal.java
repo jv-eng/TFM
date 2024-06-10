@@ -125,11 +125,11 @@ public class ManejadorCanal {
 					//suscribir usuario
 					if (!suscripcionDAO.usuarioSuscrito(usuarioObj, c)) suscripcionDAO.suscribir(u, c, socket.getInetAddress().getHostAddress(), socket.getPort());
 					
-					if (Main.mapa.get(canal) != null) {
-						Main.mapa.get(canal).add(socket);
+					if (Main.getMapa().get(canal) != null) {
+						Main.getMapa().get(canal).add(socket);
 					} else {
-						Main.mapa.put(canal, new LinkedList<Socket>());
-						Main.mapa.get(canal).add(socket);
+						Main.getMapa().put(canal, new LinkedList<Socket>());
+						Main.getMapa().get(canal).add(socket);
 					}
 					
 					byte [] nombreFich;

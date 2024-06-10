@@ -4,25 +4,19 @@ import static jakarta.persistence.Persistence.createEntityManagerFactory;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 
 import org.apache.logging.log4j.LogManager;
@@ -39,7 +33,9 @@ public class Main {
 	
 	//logger
 	private static final Logger logg = (Logger) LogManager.getLogger("com.tfm.app");
-	public static Map<String, List<Socket>> mapa = new HashMap<String, List<Socket>>();
+	private static boolean certCLDownloaded = false;
+	private static Certificate certCL = null;
+	private static Map<String, List<Socket>> mapa = new HashMap<String, List<Socket>>();
 	
 	public static void main (String [] args) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException, CertificateException {		
 		
@@ -72,6 +68,10 @@ public class Main {
 				
 				//aceptar conexión
 				socket_sr = (SSLSocket) socket_servidor.accept();
+				if (!certCLDownloaded) {
+					certCLDownloaded = true;
+					certCL = socket_sr.getSession().getPeerCertificates()[0];
+				}
 
 				//recibir operador
 				int op = (new DataInputStream(socket_sr.getInputStream())).readInt();
@@ -134,6 +134,22 @@ public class Main {
 			e.printStackTrace();
 		}
 		System.out.println("fin");
+	}
+
+	public static Certificate getCertCL() {
+		return certCL;
+	}
+
+	public static void setCertCL(Certificate certCL) {
+		Main.certCL = certCL;
+	}
+
+	public static Map<String, List<Socket>> getMapa() {
+		return mapa;
+	}
+
+	public static void setMapa(Map<String, List<Socket>> mapa) {
+		Main.mapa = mapa;
 	}
     
 }

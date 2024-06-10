@@ -1,0 +1,4 @@
+2024-06-10 10:20:32.573 [main] INFO  com.tfm.creacion_usuarios - Usuario "Pepe" creado correctamente.
+2024-06-10 17:38:57.249 [main] ERROR com.tfm.creacion_usuarios - Error en el formato de los datos recibidos.
+2024-06-10 17:39:18.226 [main] ERROR com.tfm.creacion_usuarios - Error en el formato de los datos recibidos.
+2024-06-10 17:39:25.486 [main] ERROR com.tfm.creacion_usuarios - Error en el formato de los datos recibidos.

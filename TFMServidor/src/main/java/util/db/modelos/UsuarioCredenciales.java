@@ -9,10 +9,10 @@ import jakarta.persistence.Table;
 @Table(name = "UsuarioCredenciales")
 public class UsuarioCredenciales {
 	
-	@Id
     @Column(name = "NombreUsuario")
     private String nombreUsuario;  // Clave primaria
 	
+    @Id
 	@Column(name = "Correo")
 	private String correo;
 	

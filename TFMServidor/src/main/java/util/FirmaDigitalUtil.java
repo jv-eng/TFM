@@ -15,6 +15,8 @@ import java.util.Base64;
 
 import javax.crypto.Cipher;
 
+import main.Main;
+
 
 public class FirmaDigitalUtil {
 	
@@ -39,18 +41,8 @@ public class FirmaDigitalUtil {
 	
 	public static String decryptClavePubCL(String str) throws Exception {
 		Cipher cipher = Cipher.getInstance("RSA");
-        cipher.init(Cipher.DECRYPT_MODE, clientKey());
+        cipher.init(Cipher.DECRYPT_MODE, getFirmaCertServidor());
         byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(str));
         return new String(decryptedBytes);
-	}
-	private static PublicKey clientKey() throws Exception {
-		String keystoreFile = Configuration.obtenerConfiguracion("almacenCL"), claveKeystore = Configuration.obtenerConfiguracion("claveAlmacenCL");
-		FileInputStream fis = new FileInputStream(keystoreFile);
-		KeyStore keystore = KeyStore.getInstance("JKS");
-		keystore.load(fis, claveKeystore.toCharArray());
-		Certificate cert = keystore.getCertificate("CertificadoCL");
-		PublicKey publicKey = cert.getPublicKey();
-		fis.close();
-		return publicKey;
 	}
 }

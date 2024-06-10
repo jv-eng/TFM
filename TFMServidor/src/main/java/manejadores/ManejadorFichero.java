@@ -7,15 +7,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.security.InvalidKeyException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
-import java.security.SignatureException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
 import java.util.List;
 
 import javax.net.ssl.SSLSocket;
@@ -314,10 +308,10 @@ public class ManejadorFichero {
 			
 			//notificar canal y nombre del fichero
 			if (!usuariosSuscritos.isEmpty()) {
-				for (Socket sock: Main.mapa.get(c.getNombreCanal())) {
+				for (Socket sock: Main.getMapa().get(c.getNombreCanal())) {
 					//eliminar socket si ya no está activo
 					if (sock.isClosed() || !sock.isConnected() || sock.isInputShutdown() || sock.isOutputShutdown()) {
-						Main.mapa.get(c.getNombreCanal()).remove(sock);
+						Main.getMapa().get(c.getNombreCanal()).remove(sock);
 						continue;
 					}
 					
