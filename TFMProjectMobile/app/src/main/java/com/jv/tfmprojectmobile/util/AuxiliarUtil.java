@@ -88,16 +88,6 @@ public class AuxiliarUtil {
         return res;
     }
 
-    /*public static Socket createSocket(Context ctx) {
-        Socket sock = null;
-        try {
-            sock = new Socket(ctx.getResources().getString(R.string.ip), ctx.getResources().getInteger(R.integer.puerto));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return sock;
-    }*/
-
     private static SSLSocketFactory sslSF = null;
     private static boolean certDownloaded = false;
     private static void guardarCertServer(Context ctx, SSLSession sslSession, String fileName) throws SSLPeerUnverifiedException {
@@ -129,7 +119,10 @@ public class AuxiliarUtil {
             socket = (SSLSocket) sslSF.createSocket(sock, null, sock.getPort(), false);
             socket.setUseClientMode(true);
             socket.setEnabledProtocols(new String[]{"TLSv1.3"});
-            if (!certDownloaded) guardarCertServer(ctx, socket.getSession(), ctx.getResources().getString(R.string.certSRName));
+            if (!certDownloaded) {
+                guardarCertServer(ctx, socket.getSession(), ctx.getResources().getString(R.string.certSRName));
+                certDownloaded = true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,7 +131,6 @@ public class AuxiliarUtil {
     private static SSLSocketFactory createSocketContext(Context ctx) throws Exception {
         SSLSocket socket = null;
         String pass = ctx.getResources().getString(R.string.passCA);
-        Log.e("pass", pass);
         char [] fraseclave = pass.toCharArray();
 
         //mirar el codigo del visual studio

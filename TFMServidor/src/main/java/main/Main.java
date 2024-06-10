@@ -69,6 +69,7 @@ public class Main {
 				System.out.println("Esperando conexiones en puerto 12345");
 				logg.info("Esperando conexiones en puerto 12345");
 				System.out.println(); System.out.println();
+				
 				//aceptar conexión
 				socket_sr = (SSLSocket) socket_servidor.accept();
 
@@ -115,7 +116,7 @@ public class Main {
 		            	break;
 		            default:
 		            	logg.error("Error, código de operación no válido.");
-		                System.out.println("La opción está fuera del rango de 0 a 10.");
+		                System.out.println("La opción está fuera del rango de 0 a 8.");
 		                res = -1;
 				}
 				

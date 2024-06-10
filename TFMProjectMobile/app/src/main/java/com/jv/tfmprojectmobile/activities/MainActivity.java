@@ -1,8 +1,14 @@
 package com.jv.tfmprojectmobile.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.jv.tfmprojectmobile.R;
@@ -16,25 +22,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*PreferencesManage.storeUser(this, "pepe", "pepe@mail.com", "123456", "88", "888");
-        FileStoreHelper helper = new FileStoreHelper(this);
-        FileStoreDB fileStoreDB = new FileStoreDB(helper);
-        FileStoreModel model = new FileStoreModel(
-                AuxiliarUtil.generateUUID(), "fich", 0, "", "channel"
-        );
-        fileStoreDB.save(model);*/
-
-
-        //Intent i = new Intent(MainActivity.this, LoginActivity.class);
-        //Intent i = new Intent(MainActivity.this, MenuActivity.class);
-        //startActivity(i);
-
-        //ClavesUtil.encryptPrivKey(this, ClavesUtil.getSRPuKey(this));
-        if (PreferencesManage.userExists(this) && PreferencesManage.dateValid(this)) {
+        if (PreferencesManage.userExists(this) && PreferencesManage.userExists(this) && PreferencesManage.dateValid(this)) {
             Intent i = new Intent(MainActivity.this, MenuActivity.class);
             startActivity(i);
         } else {
-            //AuxiliarUtil.createSocket(this);
             PreferencesManage.removeUser(this);
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);

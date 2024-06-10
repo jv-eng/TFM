@@ -102,7 +102,7 @@ public class ClavesUtil {
         byte[] decryptedBytes = null;
         try {
             Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.DECRYPT_MODE, getCLPrivKey(ctx));
+            cipher.init(Cipher.DECRYPT_MODE, getSRPuKey(ctx)); //usar getSRPuKey
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(str));
             }
