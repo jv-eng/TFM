@@ -98,18 +98,19 @@ public class ClavesUtil {
 
         return privateKey;
     }
-    public static String encryptPrivKey(Context ctx, String str) {
-        byte[] decryptedBytes = null;
+    public static byte[] encryptPrivKey(Context ctx, String str) {
+        byte[] encryptedBytes = null;
         try {
             Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.DECRYPT_MODE, getSRPuKey(ctx)); //usar getSRPuKey
+            cipher.init(Cipher.ENCRYPT_MODE, getSRPuKey(ctx));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(str));
+                encryptedBytes = cipher.doFinal(str.getBytes());
+                encryptedBytes = Base64.getEncoder().encodeToString(encryptedBytes).getBytes();
             }
         } catch (Exception e) {
             Log.e("encryptPubKey","");
         }
-        return new String(decryptedBytes);
+        return encryptedBytes;
     }
 
     private static PublicKey getCLPubKey(Context ctx) {
@@ -147,6 +148,7 @@ public class ClavesUtil {
             CertificateFactory certificateFactory = CertificateFactory.getInstance("X509");
             X509Certificate cert = (X509Certificate) certificateFactory.generateCertificate(certificateStream);
             certificateStream.close();
+            Log.e("aqui", cert.toString());
 
             key = (PublicKey) cert.getPublicKey();
         } catch (CertificateException e) {

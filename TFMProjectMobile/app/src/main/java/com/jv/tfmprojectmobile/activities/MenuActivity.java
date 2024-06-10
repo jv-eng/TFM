@@ -1,14 +1,17 @@
 package com.jv.tfmprojectmobile.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,15 +30,13 @@ public class MenuActivity extends AppCompatActivity implements Serializable {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private static final String[] REQUIRED_PERMISSIONS =
-            new String[] {
-                    Manifest.permission.BLUETOOTH,
-                    Manifest.permission.BLUETOOTH_ADMIN,
-                    Manifest.permission.ACCESS_WIFI_STATE,
-                    Manifest.permission.CHANGE_WIFI_STATE,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.NEARBY_WIFI_DEVICES,
-            };
+    private static final String[] REQUIRED_PERMISSIONS = new String[] {
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.CHANGE_WIFI_STATE,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+    };
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
 
     @Override
@@ -48,8 +49,8 @@ public class MenuActivity extends AppCompatActivity implements Serializable {
         navigationView = findViewById(R.id.navigation_view);
 
         //meter aqui los permisos
-        if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
-            requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
+        if (!hasPermissions(this, getRequiredPermissions())) {
+            requestPermissions(getRequiredPermissions(), REQUEST_CODE_REQUIRED_PERMISSIONS);
         }
 
         setUsernameIntoNavDrawer();
@@ -101,6 +102,9 @@ public class MenuActivity extends AppCompatActivity implements Serializable {
         });
     }
 
+    protected String[] getRequiredPermissions() {
+        return REQUIRED_PERMISSIONS;
+    }
     private static boolean hasPermissions(Context context, String... permissions) {
         for (String permission : permissions) {
             if (ContextCompat.checkSelfPermission(context, permission)
@@ -109,6 +113,18 @@ public class MenuActivity extends AppCompatActivity implements Serializable {
             }
         }
         return true;
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_REQUIRED_PERMISSIONS) {
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    aShortToast("Permissions not granted. The app may not function correctly.");
+                    return;
+                }
+            }
+        }
     }
 
     private void setUsernameIntoNavDrawer(){

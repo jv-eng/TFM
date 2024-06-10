@@ -4,7 +4,9 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
+import com.jv.tfmprojectmobile.activities.MainActivity;
 import com.jv.tfmprojectmobile.util.AuxiliarUtil;
 
 import java.util.Calendar;
@@ -35,7 +37,7 @@ public class PreferencesManage {
         SharedPreferences pref = ctx.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
         String username = pref.getString(PREFERENCES_USR_EXISTS, "");
         //comprobar si hay algo
-        return username.equals("true");
+        return !username.equals("");
     }
 
     public static void storeUser(Context ctx, String name, String mail, String pass, String pubKey, String privKey) {
@@ -64,13 +66,13 @@ public class PreferencesManage {
         SharedPreferences pref = ctx.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
         String dateStr = pref.getString(PREFERENCES_ATTR_6_DATE, "");
         Date date = AuxiliarUtil.stringDate(dateStr);
-        return date == null || !date.after((Calendar.getInstance()).getTime()); //true si es valida, false si no
+        return date.after((Calendar.getInstance()).getTime()); //true si es valida, false si no
     }
 
     public static void removeUser(Context ctx) {
         SharedPreferences pref = ctx.getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
         SharedPreferences.Editor ed = pref.edit();
-        ed.remove(PREFERENCES_ATTR_1_NAME);
+        ed.remove(PREFERENCES_USR_EXISTS);
         ed.apply();
     }
 
