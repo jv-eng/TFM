@@ -49,7 +49,7 @@ public class RegisterThread implements Runnable {
             //data
             int op = 0;
             byte [] nombre = nombreUsuario.getBytes();
-            byte [] pass = ClavesUtil.encryptPrivKey(ctx, password);
+            byte [] pass = password.getBytes();
             byte [] mail = email.getBytes();
 
             //crear flujos

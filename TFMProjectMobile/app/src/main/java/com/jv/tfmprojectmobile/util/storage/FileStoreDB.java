@@ -44,7 +44,7 @@ public class FileStoreDB {
 
     public FileStoreModel getFile(String name) {
         FileStoreModel model = null;
-        String query = "";
+        String query = "select name from file where name=:name;";
 
         SQLiteDatabase sqLiteDatabase = helper.getReadableDatabase();
         Cursor c = sqLiteDatabase.rawQuery(query, new String[]{name});
@@ -161,11 +161,13 @@ public class FileStoreDB {
     public void insertChannel(String channel) {
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put("name", channel);
+        if (!existeCanal(channel)) {
+            ContentValues values = new ContentValues();
+            values.put("name", channel);
 
-        db.insert("sub", null, values);
+            db.insert("sub", null, values);
 
-        db.close();
+            db.close();
+        }
     }
 }

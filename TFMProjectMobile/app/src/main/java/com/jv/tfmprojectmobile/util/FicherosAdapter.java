@@ -49,7 +49,7 @@ public class FicherosAdapter extends BaseAdapter {
             view = LayoutInflater.from(ctx).inflate(R.layout.list_view_ficheros_layout, null);
         }
 
-        String msg = (datos.get(position).getDescargado() == 0)?"descargar":"descargado";
+        String msg = (datos.get(position).getDescargado() == 0)?"Descargar":"Descargado";
 
         ((TextView)view.findViewById(R.id.card_name)).setText(datos.get(position).getName());
         ((TextView)view.findViewById(R.id.card_canal)).setText(datos.get(position).getCanal());

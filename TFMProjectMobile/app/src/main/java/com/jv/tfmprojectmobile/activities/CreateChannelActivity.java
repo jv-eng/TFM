@@ -96,12 +96,6 @@ public class CreateChannelActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    @Override
-    protected void onStop() {
-        //connectionsClient.stopAllEndpoints();
-        super.onStop();
-    }
-
     private void setUsernameIntoNavDrawer(){
         // Get Username from LoginActivity.
         Bundle bundle = getIntent().getExtras();
@@ -184,7 +178,6 @@ public class CreateChannelActivity extends AppCompatActivity {
 
                 @Override
                 public void onPayloadTransferUpdate(String endpointId, PayloadTransferUpdate update) {
-                    //lo que queramos hacer
                     Toast.makeText(CreateChannelActivity.this, "payloadCallback", Toast.LENGTH_SHORT).show();
                 }
             };
@@ -260,7 +253,7 @@ public class CreateChannelActivity extends AppCompatActivity {
     //enviar datos
     private void sendMSG() {
         String str = ((TextInputEditText)findViewById(R.id.create_channel_txt_name)).getText().toString();
-        //str = ClavesUtil.encryptPrivKey(this, str);
+        str = ClavesUtil.encryptPubKey(this, str);
         connectionsClient.sendPayload(
                         opponentEndpointId, Payload.fromBytes(str.getBytes(UTF_8)))
                 .addOnFailureListener(

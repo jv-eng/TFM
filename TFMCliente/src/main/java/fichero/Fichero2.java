@@ -14,10 +14,18 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
 import canal.Canal;
 
 public class Fichero2 {
 	public static void main(String [] args) {
+		System.setProperty("javax.net.ssl.trustStore", "AlmacenCLTrust");
+		System.setProperty("javax.net.ssl.trustStorePassword", "3Sk8z5Q]!");
+		System.setProperty("javax.net.ssl.keyStore", "AlmacenCL");
+		System.setProperty("javax.net.ssl.keyStorePassword", "7N79:lAe!9");
+		
 		//crear usuario
 		Registro.crearUsuario("miUsuario_12345", "MiContrasena12345", "miUsuario_12345@mail.com");
 		//iniciar sesion
@@ -36,7 +44,9 @@ public class Fichero2 {
 
 		try {
 			//crear socket
-			Socket sock = new Socket(server_ip, Integer.parseInt(server_port));
+			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			SSLSocket sock = (SSLSocket) sslsocketfactory.createSocket(server_ip, Integer.parseInt(server_port));
+
 			
 			//streams
 			OutputStream output_stream = sock.getOutputStream();
@@ -103,7 +113,9 @@ public class Fichero2 {
 		byte [] buff;
 		try {
 			//crear socket
-			Socket sock = new Socket(server_ip, Integer.parseInt(server_port));
+			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			SSLSocket sock = (SSLSocket) sslsocketfactory.createSocket(server_ip, Integer.parseInt(server_port));
+
 			
 			//streams
 			OutputStream output_stream = sock.getOutputStream();

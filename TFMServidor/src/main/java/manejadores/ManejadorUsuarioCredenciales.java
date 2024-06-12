@@ -64,7 +64,7 @@ public class ManejadorUsuarioCredenciales {
 				UsuarioDAO usuarioDAO = new HibernateUsuarioDAO(managerApp);
 				
 				//comprobar si existe un usuario con ese nombre
-				if (usuarioCDAO.comprobarUsuario(usuario)) {
+				if (usuarioCDAO.comprobarUsuario(correo)) {
 					//usuario existe
 					logg.error("Usuario " + usuario + " ya existe.");
 					res = 3;

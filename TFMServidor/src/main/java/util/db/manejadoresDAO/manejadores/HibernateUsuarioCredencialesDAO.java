@@ -17,7 +17,7 @@ import util.db.modelos.UsuarioCredenciales;
 public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 	
 	private EntityManagerFactory managerUsuario;
-	static byte[] claveBytes;// = clave.getBytes(StandardCharsets.UTF_8);
+	static byte[] claveBytes;
 
 	public HibernateUsuarioCredencialesDAO(EntityManagerFactory managerUsuario) {
 		this.managerUsuario = managerUsuario;
@@ -29,7 +29,7 @@ public class HibernateUsuarioCredencialesDAO implements UsuarioCredencialesDAO {
 	public boolean comprobarUsuario(String usuario) {
 		boolean [] test = {false};
 		AuxiliarDB.inTransaction(entityManager -> {
-			TypedQuery<UsuarioCredenciales> query = entityManager.createQuery("SELECT u FROM UsuarioCredenciales u WHERE u.id = :id", UsuarioCredenciales.class);
+			TypedQuery<UsuarioCredenciales> query = entityManager.createQuery("SELECT u FROM UsuarioCredenciales u WHERE u.correo = :id", UsuarioCredenciales.class);
 		    query.setParameter("id", usuario);
 
 		    List<UsuarioCredenciales> usuarios = query.getResultList();

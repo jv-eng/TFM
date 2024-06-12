@@ -83,7 +83,6 @@ public class SendFileThread implements Runnable {
             InputStream fileInputStream = ctx.getContentResolver().openInputStream(selectedFileUri);
             BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
 
-            //File f = new File(selectedFileUri.getPath());
             long longitud_mensaje = fileInputStream.available();
             flujo_out.writeLong(longitud_mensaje);
 

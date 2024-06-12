@@ -13,6 +13,13 @@ CREATE TABLE Usuario (
     PRIMARY KEY (CorreoElectronico)
 );
 
+CREATE TABLE Canal (
+    NombreCanal VARCHAR(255) NOT NULL,
+    CreadorID VARCHAR(255),
+    PRIMARY KEY (NombreCanal),
+    FOREIGN KEY (CreadorID) REFERENCES Usuario(CorreoElectronico)
+);
+
 CREATE TABLE Suscripcion (
     SuscripcionID VARCHAR(255) NOT NULL,
     usuario_NombreUsuario VARCHAR(255),
@@ -23,13 +30,6 @@ CREATE TABLE Suscripcion (
     PRIMARY KEY (SuscripcionID),
     FOREIGN KEY (usuario_NombreUsuario) REFERENCES Usuario(CorreoElectronico),
     FOREIGN KEY (NombreCanal) REFERENCES Canal(NombreCanal)
-);
-
-CREATE TABLE Canal (
-    NombreCanal VARCHAR(255) NOT NULL,
-    CreadorID VARCHAR(255),
-    PRIMARY KEY (NombreCanal),
-    FOREIGN KEY (CreadorID) REFERENCES Usuario(CorreoElectronico)
 );
 
 CREATE TABLE Archivos (

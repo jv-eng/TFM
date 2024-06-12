@@ -10,18 +10,26 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
 import usuario.InicioSesion;
 import usuario.Registro;
 
 public class Canal {
 	public static void main(String [] args) {
-		Registro.crearUsuario("miUsuario_123", "MiContrasena123", "miUsuario_123@mail.com");
-		InicioSesion.iniciarSesion("miUsuario_123@mail.com", "MiContrasena123");
+		System.setProperty("javax.net.ssl.trustStore", "AlmacenCLTrust");
+		System.setProperty("javax.net.ssl.trustStorePassword", "3Sk8z5Q]!");
+		System.setProperty("javax.net.ssl.keyStore", "AlmacenCL");
+		System.setProperty("javax.net.ssl.keyStorePassword", "7N79:lAe!9");
+		
+		Registro.crearUsuario("miUsuarioCanal_123", "MiContrasena123", "miUsuarioCanal_123@mail.com");
+		InicioSesion.iniciarSesion("miUsuario_123Canal@mail.com", "MiContrasena123");
 		crearCanal("canal de prueba");
 		
-		Registro.crearUsuario("miUsuario_1234", "MiContrasena1234", "miUsuario_1234@mail.com");
-		InicioSesion.iniciarSesion("miUsuario_1234@mail.com", "MiContrasena1234");
-		subscribirse("miUsuario_1234", "canal de prueba");
+		Registro.crearUsuario("miUsuarioCanal_1234", "MiContrasena1234", "miUsuarioCanal_1234@mail.com");
+		InicioSesion.iniciarSesion("miUsuarioCanal_1234@mail.com", "MiContrasena1234");
+		subscribirse("miUsuarioCanal_1234", "canal de prueba");
 		//desubscribirse("canal de prueba");
 	}
 	
@@ -33,7 +41,8 @@ public class Canal {
 
 		try {
 			//crear socket
-			Socket sock = new Socket(server_ip, Integer.parseInt(server_port));
+			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			SSLSocket sock = (SSLSocket) sslsocketfactory.createSocket(server_ip, Integer.parseInt(server_port));
 			
 			//streams
 			OutputStream output_stream = sock.getOutputStream();
@@ -44,7 +53,7 @@ public class Canal {
 			
 			//datos
 			int op = 3;
-			byte [] nombre = "pepe@mail.com".getBytes();
+			byte [] nombre = "miUsuarioCanal_123@mail.com".getBytes();
 			byte [] pass = canal.getBytes();
 			
 			//enviar
@@ -59,7 +68,7 @@ public class Canal {
 
 			//recibir y procesar respuesta
 			int res = flujo_in.readInt();
-			System.out.println("Resultado de la operación 'crear canal': " + res);
+			System.out.println("Resultado de la operaciï¿½n 'crear canal': " + res);
 			
 			
 		} catch (NumberFormatException | IOException e) {
@@ -74,7 +83,8 @@ public class Canal {
 
 		try {
 			//crear socket
-			Socket sock = new Socket(server_ip, Integer.parseInt(server_port));
+			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			SSLSocket sock = (SSLSocket) sslsocketfactory.createSocket(server_ip, Integer.parseInt(server_port));
 			
 			//streams
 			OutputStream output_stream = sock.getOutputStream();
@@ -100,7 +110,7 @@ public class Canal {
 
 			//recibir y procesar respuesta
 			int res = flujo_in.readInt();
-			System.out.println("Resultado de la operación 'suscribir a canal': " + res);
+			System.out.println("Resultado de la operaciï¿½n 'suscribir a canal': " + res);
 			
 			System.out.println("Esperar por fichero");
 			
@@ -131,7 +141,8 @@ public class Canal {
 
 		try {
 			//crear socket
-			Socket sock = new Socket(server_ip, Integer.parseInt(server_port));
+			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			SSLSocket sock = (SSLSocket) sslsocketfactory.createSocket(server_ip, Integer.parseInt(server_port));
 			
 			//streams
 			OutputStream output_stream = sock.getOutputStream();
@@ -157,7 +168,7 @@ public class Canal {
 
 			//recibir y procesar respuesta
 			int res = flujo_in.readInt();
-			System.out.println("Resultado de la operación 'desuscribir a canal': " + res);
+			System.out.println("Resultado de la operaciï¿½n 'desuscribir a canal': " + res);
 			
 			
 		} catch (NumberFormatException | IOException e) {

@@ -84,62 +84,87 @@ public class ClavesUtil {
 
 
     /*Manejo de claves*/
-    private static PrivateKey getCLPrivKey(Context ctx) {
+    private static final String TAG = "CryptoUtils";
+
+    public static PrivateKey getCLPrivKey(Context ctx) {
         PrivateKey privateKey = null;
         try {
             KeyStore ks = KeyStore.getInstance("PKCS12");
             ks.load(ctx.getResources().openRawResource(R.raw.almacen), ctx.getResources().getString(R.string.passCA).toCharArray());
             Key key = ks.getKey(ctx.getResources().getString(R.string.aliasCL), ctx.getResources().getString(R.string.passCA).toCharArray());
 
-            privateKey = (PrivateKey) key;
+            if (key instanceof PrivateKey) {
+                privateKey = (PrivateKey) key;
+                Log.e(TAG, "Clave privada obtenida: " + privateKey.toString());
+            } else {
+                Log.e(TAG, "El alias no corresponde a una clave privada");
+            }
         } catch (Exception e) {
-            Log.e("getCLPrivKey","");
+            Log.e(TAG, "Error obteniendo la clave privada", e);
         }
 
         return privateKey;
     }
-    public static byte[] encryptPrivKey(Context ctx, String str) {
-        byte[] encryptedBytes = null;
-        try {
-            Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.ENCRYPT_MODE, getSRPuKey(ctx));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                encryptedBytes = cipher.doFinal(str.getBytes());
-                encryptedBytes = Base64.getEncoder().encodeToString(encryptedBytes).getBytes();
-            }
-        } catch (Exception e) {
-            Log.e("encryptPubKey","");
-        }
-        return encryptedBytes;
-    }
 
-    private static PublicKey getCLPubKey(Context ctx) {
+    public static PublicKey getCLPubKey(Context ctx) {
         PublicKey publicKey = null;
         try {
             KeyStore ks = KeyStore.getInstance("PKCS12");
             ks.load(ctx.getResources().openRawResource(R.raw.almacen), ctx.getResources().getString(R.string.passCA).toCharArray());
             Certificate cert = ks.getCertificate(ctx.getResources().getString(R.string.aliasCL));
-            publicKey = cert.getPublicKey();
 
+            if (cert != null) {
+                publicKey = cert.getPublicKey();
+                Log.e(TAG, "Clave pública obtenida: " + publicKey.toString());
+            } else {
+                Log.e(TAG, "No se encontró el certificado para el alias proporcionado");
+            }
         } catch (Exception e) {
-            Log.e("getCLPuKey","");
+            Log.e(TAG, "Error obteniendo la clave pública", e);
         }
 
         return publicKey;
     }
-    public static String decryptPubKey(Context ctx, String str) {
+
+    public static String encryptPubKey(Context ctx, String str) {
         byte[] encryptedBytes = null;
         try {
             Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.ENCRYPT_MODE, getCLPubKey(ctx));
-            encryptedBytes = cipher.doFinal(str.getBytes());
+            PublicKey publicKey = getCLPubKey(ctx);
+
+            if (publicKey != null) {
+                cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+                encryptedBytes = cipher.doFinal(str.getBytes());
+                return Base64.getEncoder().encodeToString(encryptedBytes);
+            } else {
+                Log.e(TAG, "Clave pública es nula");
+            }
         } catch (Exception e) {
-            Log.e("decryptPubKey","");
+            Log.e(TAG, "Error cifrando con clave pública", e);
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return Base64.getEncoder().encodeToString(encryptedBytes);
-        } else return null;
+        return null;
     }
+
+    public static String decryptPrivKey(Context ctx, String str) {
+        byte[] decryptedBytes = null;
+        try {
+            Cipher cipher = Cipher.getInstance("RSA");
+            PrivateKey privateKey = getCLPrivKey(ctx);
+
+            if (privateKey != null) {
+                cipher.init(Cipher.DECRYPT_MODE, privateKey);
+                byte[] encryptedBytes = Base64.getDecoder().decode(str);
+                decryptedBytes = cipher.doFinal(encryptedBytes);
+                return new String(decryptedBytes);
+            } else {
+                Log.e(TAG, "Clave privada es nula");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error descifrando con clave privada", e);
+        }
+        return null;
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
     public static PublicKey getSRPuKey(Context ctx) {
         PublicKey key = null;
@@ -160,26 +185,19 @@ public class ClavesUtil {
         return key;
     }
 
-    //cifrar el string de la clave publica
-    public static byte [] encryptPrivKey(Context ctx, PublicKey key) {
+    public static String encryptPrivKey(Context ctx, String str, PublicKey key) {
         byte [] res = null;
-        PublicKey srKey = getSRPuKey(ctx);
-
-        String str = claveString(key);
 
         try {
             Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.ENCRYPT_MODE, srKey);
+            cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] encryptedBytes = cipher.doFinal(str.getBytes());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                res = Base64.getEncoder().encodeToString(encryptedBytes).getBytes();
-            }
-
+            return Base64.getEncoder().encodeToString(encryptedBytes);
         } catch (Exception e) {
             Log.e("encryptPubKey", "");
         }
 
-        return res;
+        return null;
     }
 
 }

@@ -55,10 +55,9 @@ public class LoginThread implements Runnable {
 
             //data
             int op = 1;
-            byte [] pass = ClavesUtil.encryptPrivKey(ctx, password);
+            byte [] pass = password.getBytes();
             byte [] mail = email.getBytes();
-            byte [] clave = ClavesUtil.encryptPrivKey(ctx, ClavesUtil.claveString(claves.getPublic()));
-            //byte [] clave = ClavesUtil.claveString(claves.getPublic()).getBytes();
+            byte [] clave = ClavesUtil.claveString(claves.getPublic()).getBytes();
 
             //crear flujos
             DataInputStream flujo_in = new DataInputStream(sock.getInputStream());
@@ -86,11 +85,10 @@ public class LoginThread implements Runnable {
                 String usuario= new String(buff, 0, res, "UTF-8");
                 userModel.setUserName(usuario);
                 PreferencesManage.storeUserName(ctx, usuario);
-                flujo_in.readInt();
 
                 //recibimos datos de suscripciones
-                //int numSuscripciones = flujo_in.readInt();
-                /*if (numSuscripciones > 0) {
+                int numSuscripciones = flujo_in.readInt();
+                if (numSuscripciones > 0) {
                     //hay suscripciones
                     FileStoreHelper helper = new FileStoreHelper(ctx);
                     FileStoreDB fileStoreDB = new FileStoreDB(helper);
@@ -99,23 +97,26 @@ public class LoginThread implements Runnable {
                     for (int i = 0; i < numSuscripciones; i++) {
                         int tamCanal = flujo_in.readInt();
                         flujo_in.read(buff);
-                        String canal= new String(buff, 0, tamCanal, "UTF-8");
+                        String canal = new String(buff, 0, tamCanal, "UTF-8");
                         fileStoreDB.insertChannel(canal);
 
                         //recibir ficheros
                         int numFich = flujo_in.readInt();
-                        if (numFich > 0) {
+                        //if (numFich > 0) {
                             for (int j = 0; j < numFich; j++) {
                                 int tamFich = flujo_in.readInt();
                                 flujo_in.read(buff);
                                 String fich = new String(buff, 0, tamFich, "UTF-8");
-                                FileStoreModel model = new FileStoreModel(
-                                        AuxiliarUtil.generateUUID(), fich, 0, "", canal
-                                );
+                                if (!fileStoreDB.checkFileExists(fich)) { //fichero no existe, guardamos
+                                    FileStoreModel model = new FileStoreModel(
+                                            AuxiliarUtil.generateUUID(), fich, 0, "", canal
+                                    );
+                                    fileStoreDB.save(model);
+                                }
                             }
-                        }
+                        //}
                     }
-                }*/
+                }
 
                 msgRes = this.ctx.getResources().getString(R.string.login_msg_ok);
                 ((Activity)ctx).runOnUiThread(new Runnable() {

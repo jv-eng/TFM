@@ -81,13 +81,6 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
         connectionsClient = Nearby.getConnectionsClient(this);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-
-    }
-
     public void prepareUIForDownload() {
         progressDialog  = new ProgressDialog(this);
         progressDialog.setMessage("Comprobando usuario");
@@ -185,7 +178,7 @@ public class DescubrirCanalesActivity extends AppCompatActivity {
                     String payloadMessage = new String(payload.asBytes(), StandardCharsets.UTF_8);
                     Toast.makeText(DescubrirCanalesActivity.this, String.format("onPayloadReceived(endpointId=%s)",
                             endpointId), Toast.LENGTH_SHORT).show();
-                    payloadMessage = ClavesUtil.decryptPubKey(DescubrirCanalesActivity.this, payloadMessage);
+                    payloadMessage = ClavesUtil.decryptPrivKey(DescubrirCanalesActivity.this, payloadMessage);
 
                     ((TextView)findViewById(R.id.descubrir_canales_tv_msg)).append(payloadMessage);
                     canal = payloadMessage;

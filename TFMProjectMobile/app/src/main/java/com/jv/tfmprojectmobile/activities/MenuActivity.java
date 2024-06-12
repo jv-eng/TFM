@@ -33,9 +33,12 @@ public class MenuActivity extends AppCompatActivity implements Serializable {
     private static final String[] REQUIRED_PERMISSIONS = new String[] {
             Manifest.permission.BLUETOOTH,
             Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.BLUETOOTH_ADVERTISE,
+            Manifest.permission.BLUETOOTH_CONNECT,
             Manifest.permission.ACCESS_WIFI_STATE,
             Manifest.permission.CHANGE_WIFI_STATE,
             Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.NEARBY_WIFI_DEVICES,
     };
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
 
@@ -48,7 +51,6 @@ public class MenuActivity extends AppCompatActivity implements Serializable {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
-        //meter aqui los permisos
         if (!hasPermissions(this, getRequiredPermissions())) {
             requestPermissions(getRequiredPermissions(), REQUEST_CODE_REQUIRED_PERMISSIONS);
         }

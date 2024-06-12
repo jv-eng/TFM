@@ -160,8 +160,6 @@ public class SuscribirThread implements Runnable {
         while (isRunning) {
            //descargar fichero
             descargarFichero(flujo_e);
-
-            //lanzar notificacion
         }
 
     }

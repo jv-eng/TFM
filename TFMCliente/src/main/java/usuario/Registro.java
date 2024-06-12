@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
 public class Registro {
 	public static void crearUsuario(String nombreUsuario, String password, String email) {
 		try {
@@ -15,7 +18,8 @@ public class Registro {
 			String server_port = "12345";
 			
 			//crear socket
-			Socket sock = new Socket(server_ip, Integer.parseInt(server_port));
+			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			SSLSocket sock = (SSLSocket) sslsocketfactory.createSocket(server_ip, Integer.parseInt(server_port));
 			
 			//streams
 			OutputStream output_stream = sock.getOutputStream();
@@ -66,7 +70,8 @@ public class Registro {
 			String server_port = "12345";
 			
 			//crear socket
-			Socket sock = new Socket(server_ip, Integer.parseInt(server_port));
+			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			SSLSocket sock = (SSLSocket) sslsocketfactory.createSocket(server_ip, Integer.parseInt(server_port));
 			
 			//streams
 			OutputStream output_stream = sock.getOutputStream();
@@ -114,7 +119,8 @@ public class Registro {
 			String server_port = "12345";
 			
 			//crear socket
-			Socket sock = new Socket(server_ip, Integer.parseInt(server_port));
+			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			SSLSocket sock = (SSLSocket) sslsocketfactory.createSocket(server_ip, Integer.parseInt(server_port));
 			
 			//streams
 			OutputStream output_stream = sock.getOutputStream();
@@ -157,14 +163,19 @@ public class Registro {
 	}
 	
 	public static void main(String [] args) {
-		crearUsuario("miUsuario_123", "MiContrasena123", "pepe@mail.com");
+		System.setProperty("javax.net.ssl.trustStore", "AlmacenCLTrust");
+		System.setProperty("javax.net.ssl.trustStorePassword", "3Sk8z5Q]!");
+		System.setProperty("javax.net.ssl.keyStore", "AlmacenCL");
+		System.setProperty("javax.net.ssl.keyStorePassword", "7N79:lAe!9");
+		
+		crearUsuario("miUsuarioReg_123", "MiContrasena123", "pepeReg@mail.com");
 		
 		//crear 2 veces el mismo usuario
-		crearUsuarioExiste("miUsuario_123", "MiContrasena123", "pepe@mail.com", false);
+		crearUsuarioExiste("miUsuarioReg_123", "MiContrasena123", "pepeReg@mail.com", false);
 		
 		//error formato
-		crearUsuarioErrorFormato("miUsuario_123", "123", "pepe@mail.com");
-		crearUsuarioErrorFormato("miUsuario_123", "123", "pepe@mail");
-		crearUsuarioErrorFormato("miUsuario_123", "123", "mail.com");
+		crearUsuarioErrorFormato("miUsuario_123RegM1", "123", "pepeRegM1@mail.com");
+		crearUsuarioErrorFormato("miUsuario_123RegM2", "123", "pepeRegM2@mail");
+		crearUsuarioErrorFormato("miUsuario_123RegM3", "123", "mail.com");
 	}
 }

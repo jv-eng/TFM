@@ -9,7 +9,6 @@ import util.db.AuxiliarDB;
 import util.db.manejadoresDAO.interfaces.ArchivoDAO;
 import util.db.modelos.Archivo;
 import util.db.modelos.Canal;
-import util.db.modelos.Suscripcion;
 import util.db.modelos.Usuario;
 
 public class HibernateArchivoDAO implements ArchivoDAO {

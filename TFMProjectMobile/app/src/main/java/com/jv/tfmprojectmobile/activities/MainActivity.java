@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ClavesUtil.getSRPuKey(this);
 
         if (PreferencesManage.userExists(this) && PreferencesManage.dateValid(this)) {
             Intent i = new Intent(MainActivity.this, MenuActivity.class);

@@ -67,7 +67,7 @@ public class SuscriptionesActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(SuscriptionesActivity.this);
                 builder.setTitle(SuscriptionesActivity.this.getString(R.string.suscripciones_alert_dialog_title) + elementoSeleccionado)
                     .setItems(new String[]{
-                            SuscriptionesActivity.this.getString(R.string.suscripciones_alert_dialog_title),
+                            SuscriptionesActivity.this.getString(R.string.suscripciones_alert_dialog_desubscribe),
                             SuscriptionesActivity.this.getString(R.string.suscripciones_alert_dialog_close)},
                             new DialogInterface.OnClickListener() {
                         @Override

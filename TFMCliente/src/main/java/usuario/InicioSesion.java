@@ -12,6 +12,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.util.Base64;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
 public class InicioSesion {
 	
 	//formato correcto
@@ -21,7 +24,8 @@ public class InicioSesion {
 
 		try {
 			//crear socket
-			Socket sock = new Socket(server_ip, Integer.parseInt(server_port));
+			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			SSLSocket sock = (SSLSocket) sslsocketfactory.createSocket(server_ip, Integer.parseInt(server_port));
 			
 			//streams
 			OutputStream output_stream = sock.getOutputStream();
@@ -80,7 +84,7 @@ public class InicioSesion {
 	
 	//usuario no creado
 	public static void inicioSesionUsuarioNoCreado() {
-		iniciarSesion("miUsuario_123", "MiContrasena123");
+		iniciarSesion("miUsuarioInicio_123@mail.com", "MiContrasena123");
 	}
 	
 	public static String claveString(PublicKey key) {
@@ -89,9 +93,14 @@ public class InicioSesion {
 	}
 	
 	public static void main(String [] args) {
+		System.setProperty("javax.net.ssl.trustStore", "AlmacenCLTrust");
+		System.setProperty("javax.net.ssl.trustStorePassword", "3Sk8z5Q]!");
+		System.setProperty("javax.net.ssl.keyStore", "AlmacenCL");
+		System.setProperty("javax.net.ssl.keyStorePassword", "7N79:lAe!9");
+		
 		//registro e inicio de sesion correcto
-		Registro.crearUsuario("miUsuario_123", "MiContrasena123", "miUsuario_123@mail.com");
-		iniciarSesion("miUsuario_123@mail.com", "MiContrasena123");
+		Registro.crearUsuario("miUsuarioInicio_123", "MiContrasena123", "miUsuarioInicio_123@mail.com");
+		iniciarSesion("miUsuarioInicio_123@mail.com", "MiContrasena123");
 		
 		//inicio de sesion con usuario no creado
 		//iniciarSesion("miUsuario@mail.com", "MiContrasena123");

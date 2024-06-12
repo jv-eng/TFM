@@ -15,7 +15,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import jakarta.persistence.EntityManagerFactory;
-import util.FirmaDigitalUtil;
 import util.Serializar;
 import util.db.manejadoresDAO.interfaces.UsuarioCredencialesDAO;
 import util.db.manejadoresDAO.manejadores.HibernateArchivoDAO;
@@ -56,9 +55,6 @@ public class ManejadorSesion {
 			buff = new byte[tam];
 			flujo_e.read(buff);
 			String pass = new String(buff, 0, tam, "UTF-8");
-			System.out.println("Desciframos");
-			pass = FirmaDigitalUtil.decryptClavePubCL(pass);
-			System.out.println(pass);
 			
 			//obtener clave publica firma
 	        tam = flujo_e.readInt();
@@ -85,7 +81,7 @@ public class ManejadorSesion {
 				output.writeInt(nombreByte.length);
 				output.write(nombreByte);
 				//enviar datos
-				//this.sendSubInfor(output, correo);
+				this.sendSubInfor(output, correo);
 	        }
 	        
 		} catch (Exception e) {
