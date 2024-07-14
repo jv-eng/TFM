@@ -1,8 +1,0 @@
-2024-06-12 10:49:35.066 [main] INFO  com.tfm.sesiones - El usuario "miusuario_123@mail.com" ha iniciado sesión correctamente
-2024-06-12 10:49:35.191 [main] ERROR com.tfm.sesiones - Error al recibir los datos.
-2024-06-12 10:50:00.945 [main] ERROR com.tfm.sesiones - Error cuando el usuario "miusuario_123" ha intentado iniciar sesión.
-2024-06-12 10:50:00.995 [main] INFO  com.tfm.sesiones - Sesión de usuario "pepe@mail.com" cerrada.
-2024-06-12 10:59:19.931 [main] ERROR com.tfm.sesiones - Error cuando el usuario "miusuario_123canal@mail.com" ha intentado iniciar sesión.
-2024-06-12 11:01:57.054 [main] ERROR com.tfm.sesiones - Error cuando el usuario "miusuario_123canal@mail.com" ha intentado iniciar sesión.
-2024-06-12 11:01:57.453 [main] INFO  com.tfm.sesiones - El usuario "miusuariocanal_1234@mail.com" ha iniciado sesión correctamente
-2024-06-12 11:01:57.507 [main] ERROR com.tfm.sesiones - Error al recibir los datos.

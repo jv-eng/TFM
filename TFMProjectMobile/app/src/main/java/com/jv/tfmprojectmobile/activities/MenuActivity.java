@@ -35,9 +35,11 @@ public class MenuActivity extends AppCompatActivity implements Serializable {
             Manifest.permission.BLUETOOTH_ADMIN,
             Manifest.permission.BLUETOOTH_ADVERTISE,
             Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH_SCAN,
             Manifest.permission.ACCESS_WIFI_STATE,
             Manifest.permission.CHANGE_WIFI_STATE,
             Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.NEARBY_WIFI_DEVICES,
     };
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
